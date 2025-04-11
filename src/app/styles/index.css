@@ -17,6 +17,7 @@
     --instagram-url: url('/icons/instagram.svg');
     --moon-url: url('/icons/moon.svg');
     --sun-url: url('/icons/sun.svg');
+    --arrow-right-url: url('/icons/arrow-right.svg');
 }
 
 * {

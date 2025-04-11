@@ -52,7 +52,7 @@ import SwithCheck from './SwithCheck.vue';
     .theme {
         width: fit-content;
         position: relative;
-        margin-right: 35px;
+        padding: 0 35px;
     }
     .theme::before, 
     .theme::after {
@@ -64,11 +64,11 @@ import SwithCheck from './SwithCheck.vue';
         background-size: contain;
     }
     .theme::before {
-        left: -35px;
+        left: 0;
         background-image: var(--moon-url);
     }
     .theme::after {
-        right: -35px;
+        right: 0;
         background-image: var(--sun-url);
     }
 

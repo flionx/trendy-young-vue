@@ -7,9 +7,8 @@
 <style scoped>
 span {
     display: inline-block;
-    font-weight: 700;
-    font-size: clamp(30px, 3.3vw, 48px);
-    line-height: 150%;
+    font-weight: 600;
+    font-size: 24px;
     color: var(--black);
 }
 </style>
