@@ -18,6 +18,10 @@
     --moon-url: url('/icons/moon.svg');
     --sun-url: url('/icons/sun.svg');
     --arrow-right-url: url('/icons/arrow-right.svg');
+    
+    --men-url: url('/mainPage/men.jpg');
+    --women-url: url('/mainPage/women.jpg');
+    --children-url: url('/mainPage/children.jpg');
 }
 
 * {

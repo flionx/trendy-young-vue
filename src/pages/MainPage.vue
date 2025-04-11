@@ -1,7 +1,8 @@
 <script setup>
-import BigTitle from '@/components/BigTitle.vue';
+import BigTitle from '@/components/titles/BigTitle.vue';
 import Header from '@/components/Header.vue';
 import HeroSection from '@/components/HeroSection.vue';
+import CategoriesSection from '@/components/CategoriesSection.vue';
 
 </script>
 
@@ -10,6 +11,7 @@ import HeroSection from '@/components/HeroSection.vue';
     <main>
         <h2><BigTitle>Find Your Style, Express Yourself</BigTitle></h2>
         <HeroSection />
+        <CategoriesSection />
     </main>
 </template>
 

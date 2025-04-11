@@ -2,7 +2,7 @@
     <section>
         <div class="card">
             <div class="card__info">
-                <SmallTitle>{{ cards[0].description }}</SmallTitle>
+                <MiddleTitle>{{ cards[0].description }}</MiddleTitle>
                 <BigTitle>{{ cards[0].sale }}</BigTitle>
                 <router-link to='/'>Learn more</router-link>
             </div>
@@ -12,8 +12,8 @@
 </template>
 
 <script setup>
-import BigTitle from './BigTitle.vue';
-import SmallTitle from './SmallTitle.vue';
+import BigTitle from './titles/BigTitle.vue';
+import MiddleTitle from './titles/MiddleTitle.vue';
 import saleone from '/mainPage/sale-1.jpg'
 const cards = [
     {
