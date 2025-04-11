@@ -12,6 +12,11 @@
 
     --black: black;
     --white: white;
+
+    --github-url: url('/icons/github.svg');
+    --instagram-url: url('/icons/instagram.svg');
+    --moon-url: url('/icons/moon.svg');
+    --sun-url: url('/icons/sun.svg');
 }
 
 * {
