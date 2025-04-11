@@ -1,7 +1,6 @@
 <script setup>
-import MiddleTitle from './titles/MiddleTitle.vue';
-import SmallTitle from './titles/SmallTitle.vue';
-
+import MiddleTitle from './text/MiddleTitle.vue';
+import SmallTitle from './text/SmallTitle.vue';
 </script>
 
 <template>
@@ -33,7 +32,6 @@ import SmallTitle from './titles/SmallTitle.vue';
     height: 185px;
     background-position: center;
     background-size: cover;
-    text-decoration: none;
     transition: .5s all;
 }
 .row a:hover {
