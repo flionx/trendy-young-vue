@@ -6,7 +6,7 @@
 
 <script setup>
 import FullWidthCard from './FullWidthCard.vue';
-import saleone from '/mainPage/sale-1.jpg'
+import saleone from '/mainPage/sale-2.png'
 const cards = [
     {
         id: 1,
@@ -21,6 +21,6 @@ const cards = [
 section {
     overflow: hidden;
     border-radius: 16px;
-    margin-bottom: var(--margin-bottom);
+    margin-bottom: var(--m48px);
 }
 </style>

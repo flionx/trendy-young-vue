@@ -8,7 +8,7 @@ import SmallTitle from './text/SmallTitle.vue';
 <template>
     <section>
         <h3><MiddleTitle>Shop by Style</MiddleTitle></h3>
-        <RegularText>Your style for every day</RegularText>
+        <p><RegularText>Your style for every day</RegularText></p>
         <div class="row">
             <router-link to="/store/casual" class="card" id="casual">
                 <SmallTitle>Casual</SmallTitle>
@@ -29,6 +29,7 @@ import SmallTitle from './text/SmallTitle.vue';
 <style scoped>
 p {
     margin-bottom: 20px;
+    color: var(--gray-dark-text);
 }
 .row {
     width: 100%;

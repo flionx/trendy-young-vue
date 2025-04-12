@@ -33,6 +33,10 @@ const routes = [
                     }
                 ]
             },
+            {
+                path: '/product/:id',
+                component: SecondLayout //change
+            }
         ]
     }
 

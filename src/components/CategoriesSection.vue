@@ -16,16 +16,16 @@ import SmallTitle from './text/SmallTitle.vue';
 
 <style scoped>
 h3 {
-    margin-bottom: clamp(10px, 2.5vw, 20px);
+    margin-bottom: var(--m20px);
 }
 section {
-    margin-bottom: var(--margin-bottom);
+    margin-bottom: var(--m48px);
 }
 .row {
     width: 100%;
     display: flex;
-    align-items: center;
-    column-gap: var(--column-gap);
+    gap: var(--column-gap);
+    flex-wrap: wrap;
 }
 .row a {
     flex: 1 1;

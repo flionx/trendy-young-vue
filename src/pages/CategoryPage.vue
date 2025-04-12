@@ -1,3 +1,3 @@
 <template>
-    <h1>Категория</h1>
+    <h1>Category</h1>
 </template>

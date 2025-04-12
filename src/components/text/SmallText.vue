@@ -6,7 +6,8 @@
 
 <style scoped>
 span {
+    font-family: var(--font-family);
     font-weight: 400;
-    font-size: 16px;
+    font-size: 14px;
 }
 </style>

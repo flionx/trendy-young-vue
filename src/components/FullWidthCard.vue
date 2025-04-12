@@ -52,6 +52,8 @@ defineProps({
     width: fit-content;
     position: relative;
     padding-right: 20px;
+    color: black;
+
 }
 .card__info a::after {
     content: '';

@@ -9,18 +9,22 @@
     --gray-light-text: #A3A3A3;
     --gray-dark-text: #969696;
     --gray-main: #F2F2F2;
+    --red: #E34A4A;
 
     --black: black;
     --white: white;
 
     --column-gap: clamp(10px, 1.2vw, 16px);
-    --margin-bottom: clamp(20px, 2.5vw, 48px);
+
+    --m20px: clamp(10px, 2.5vw, 20px);
+    --m48px: clamp(20px, 2.5vw, 48px);
 
     --github-url: url('/icons/github.svg');
     --instagram-url: url('/icons/instagram.svg');
     --moon-url: url('/icons/moon.svg');
     --sun-url: url('/icons/sun.svg');
     --arrow-right-url: url('/icons/arrow-right.svg');
+    --plus-url: url('/icons/plus.svg');
     
     --men-url: url('/mainPage/men.jpg');
     --women-url: url('/mainPage/women.jpg');
@@ -44,7 +48,6 @@ body {
 button {
     cursor: pointer;
     border: none;
-
 }
 
 a {

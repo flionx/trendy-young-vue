@@ -4,7 +4,8 @@ import Header from '@/components/Header.vue';
 import HeroSection from '@/components/HeroSection.vue';
 import CategoriesSection from '@/components/CategoriesSection.vue';
 import FullWidthCard from '@/components/FullWidthCard.vue';
-import CategoriesTypeSection from '@/components/CategoriesTypeSection.vue';
+import ShopBySection from '@/components/ShopBySection.vue';
+import PopularCards from '@/components/PopularCards.vue';
 
 </script>
 
@@ -15,9 +16,10 @@ import CategoriesTypeSection from '@/components/CategoriesTypeSection.vue';
         <HeroSection />
         <CategoriesSection />
         <section id="fullCard">
-            <FullWidthCard :card="{img: '/mainPage/sale-1.jpg'}" :isSmallSale="true"/>
+            <FullWidthCard :card="{img: '/mainPage/sale-1.png'}" :isSmallSale="true"/>
         </section>
-        <CategoriesTypeSection />
+        <PopularCards />
+        <ShopBySection />
     </main>
 </template>
 
@@ -28,6 +30,6 @@ h2 {
 #fullCard {
     border-radius: 16px;
     overflow: hidden;
-    margin-bottom: var(--margin-bottom);
+    margin-bottom: var(--m48px);
 }
 </style>
