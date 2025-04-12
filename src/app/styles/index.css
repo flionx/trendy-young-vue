@@ -19,6 +19,9 @@
     --m20px: clamp(10px, 2.5vw, 20px);
     --m48px: clamp(20px, 2.5vw, 48px);
 
+    --like-url: url('/icons/like.svg');
+    --likeDone-url: url('/icons/likeDone.svg');
+    --basket-url: url('/icons/basket.svg');
     --github-url: url('/icons/github.svg');
     --instagram-url: url('/icons/instagram.svg');
     --moon-url: url('/icons/moon.svg');

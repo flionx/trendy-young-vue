@@ -1,5 +1,10 @@
 <template>
     <div class="card">
+        <button class="card__like" 
+            :class="isLike ? 'like-done' : ''" 
+            @click="addToWishList(card)" 
+            title="add to wishlist">
+        </button>
         <router-link :to="`/product/${card.id}`">
             <img :src="card.img" alt="product image">
         </router-link>
@@ -12,14 +17,17 @@
                     <div class="card__count-price" :class="card.sale ? 'red' : ''">{{ card.sale ? card.sale : card.price }}</div>
                 </div>
             </div>
-            <button class="card__add" @click="addToBasket(card)"></button>
+            <button class="card__add" 
+                @click="addToBasket(card)" 
+                title="add to basket">
+            </button>
         </div>
     </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import RegularText from './text/RegularText.vue';
-
 defineProps({
     card: {
         type: Object,
@@ -34,9 +42,19 @@ defineProps({
         })
     }
 })
+const isLike = ref(false);
 
 function addToBasket(card) {
     console.log('Added to basket: ' + card.id);
+}
+function addToWishList(card) {
+    if (isLike.value) {
+        isLike.value = false;
+        console.log('Deleted from WishList: ' + card.id);
+    } else {
+        isLike.value = true;
+        console.log('Added to WishList: ' + card.id);
+    }
 }
 </script>
 
@@ -44,8 +62,7 @@ function addToBasket(card) {
 .card {
     flex: 1 1;
     min-width: 220px;
-    border-radius: 16px;
-    overflow: hidden;
+    position: relative;
 }
 .card a {
     display: block;
@@ -56,6 +73,10 @@ function addToBasket(card) {
     position: relative;
     bottom: -15px;
     z-index: 1;
+    transition: .4s all;
+}
+.card a:hover {
+    transform: scale(1.02);
 }
 .card img {
     width: 100%;
@@ -72,6 +93,8 @@ function addToBasket(card) {
     align-items: center;
     color: black;
     background: var(--gray-main);
+    border-radius: 0 0 16px 16px;
+
 }
 .card__left {
     width: 60%;
@@ -122,5 +145,36 @@ function addToBasket(card) {
     background-image: var(--plus-url);
     background-position: center;
     background-repeat: no-repeat;
+}
+.card__like {
+    position: absolute;
+    z-index: 2;
+    top: 25px;
+    right: 10px;
+    width: 24px;
+    height: 20px;
+    background: transparent;
+    background-image: var(--like-url);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.like-done {
+    background-image: var(--likeDone-url);
+}
+.card__like::before {
+    content: '';
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    z-index: -1;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    transition: .3s all;
+}
+.card__like:hover::before {
+    background: rgba(0, 0, 0, 0.1);
 }
 </style>

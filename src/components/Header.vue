@@ -93,7 +93,7 @@ import BurgerNav from '../components/BurgerNav.vue'
         transform: translate(-50%, -50%);
         width: 22px;
         height: 18px;
-        background-image: url('/icons/like.svg');
+        background-image: var(--like-url);
         background-size: cover;
         background-position: center;
     }
@@ -112,7 +112,7 @@ import BurgerNav from '../components/BurgerNav.vue'
         transform: translateY(-50%);
         width: 22px;
         height: 18px;
-        background-image: url('/icons/basket.svg');
+        background-image: var(--basket-url);
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
