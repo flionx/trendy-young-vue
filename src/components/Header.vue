@@ -10,8 +10,8 @@ import BurgerNav from '../components/BurgerNav.vue'
                 <input type="text" placeholder="What are you looking for?">
             </div>
             <nav class="header__nav">
-                <button class="wishlist"></button>
-                <button class="cart">Cart</button>
+                <router-link to="/store/user/wishlist" class="wishlist"></router-link>
+                <router-link to="store/user/basket" class="cart">Cart</router-link>
                 <button class="login">Log in/Sign up</button>
             </nav>
         </div>
@@ -68,7 +68,8 @@ import BurgerNav from '../components/BurgerNav.vue'
         align-items: center;
         column-gap: 8px;
     }
-    .header__nav button {
+    .header__nav button, 
+    .header__nav a {
         min-width: 48px;
         height: 48px;
         padding: 14px;
@@ -82,6 +83,7 @@ import BurgerNav from '../components/BurgerNav.vue'
         border: none;
         cursor: pointer;
         transition: .3s all;
+        text-decoration: none;
     }
     .wishlist::after {
         content: '';
@@ -91,7 +93,7 @@ import BurgerNav from '../components/BurgerNav.vue'
         transform: translate(-50%, -50%);
         width: 22px;
         height: 18px;
-        background-image: url('/icons/like.svg');
+        background-image: var(--like-url);
         background-size: cover;
         background-position: center;
     }
@@ -110,8 +112,9 @@ import BurgerNav from '../components/BurgerNav.vue'
         transform: translateY(-50%);
         width: 22px;
         height: 18px;
-        background-image: url('/icons/basket.svg');
-        background-size: cover;
+        background-image: var(--basket-url);
+        background-size: contain;
+        background-repeat: no-repeat;
         background-position: center;
     }
     .login {

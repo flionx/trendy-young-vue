@@ -18,7 +18,6 @@ coverage
 /cypress/screenshots/
 
 src/app/store/test.js
-src/components/Counter.vue
 
 # Editor directories and files
 .vscode/*

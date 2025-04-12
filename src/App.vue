@@ -1,12 +1,10 @@
 <script setup>
 import Header from './components/Header.vue'
-// import Counter from './components/Counter.vue'
 </script>
 
 <template>
   <div class="container">
-    <Header />
-    <!-- <Counter /> -->
+    <router-view></router-view>
   </div>
 </template>
 

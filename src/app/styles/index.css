@@ -9,9 +9,34 @@
     --gray-light-text: #A3A3A3;
     --gray-dark-text: #969696;
     --gray-main: #F2F2F2;
+    --red: #E34A4A;
 
     --black: black;
     --white: white;
+
+    --column-gap: clamp(10px, 1.2vw, 16px);
+
+    --m20px: clamp(10px, 2.5vw, 20px);
+    --m48px: clamp(20px, 2.5vw, 48px);
+
+    --like-url: url('/icons/like.svg');
+    --likeDone-url: url('/icons/likeDone.svg');
+    --basket-url: url('/icons/basket.svg');
+    --github-url: url('/icons/github.svg');
+    --instagram-url: url('/icons/instagram.svg');
+    --moon-url: url('/icons/moon.svg');
+    --sun-url: url('/icons/sun.svg');
+    --arrow-right-url: url('/icons/arrow-right.svg');
+    --plus-url: url('/icons/plus.svg');
+    
+    --men-url: url('/mainPage/men.jpg');
+    --women-url: url('/mainPage/women.jpg');
+    --children-url: url('/mainPage/children.jpg');
+
+    --casual-url: url('/mainPage/casual.jpg');
+    --formal-url: url('/mainPage/formal.jpg');
+    --sport-url: url('/mainPage/sport.jpg');
+    --sleep-url: url('/mainPage/sleep.jpg');
 }
 
 * {
@@ -26,5 +51,8 @@ body {
 button {
     cursor: pointer;
     border: none;
+}
 
+a {
+    text-decoration: none;
 }
