@@ -113,7 +113,8 @@ import BurgerNav from '../components/BurgerNav.vue'
         width: 22px;
         height: 18px;
         background-image: url('/icons/basket.svg');
-        background-size: cover;
+        background-size: contain;
+        background-repeat: no-repeat;
         background-position: center;
     }
     .login {

@@ -22,9 +22,11 @@ import SwithCheck from './SwithCheck.vue';
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-wrap: wrap;
         padding: 48px 0;
         color: var(--black);
         white-space: nowrap;
+        row-gap: 20px;
     }
     .links {
         height: 24px;
@@ -39,9 +41,12 @@ import SwithCheck from './SwithCheck.vue';
         background-size: cover;
     }
     .copy {
+        flex: 1 1 ;
+        text-align: center;
         font-weight: 400;
         font-size: 16px;
         color: var(--gray-dark-text);
+        padding: 0 20px;
     }
     .github {
         background-image: var(--github-url);
@@ -62,6 +67,7 @@ import SwithCheck from './SwithCheck.vue';
         height: 25px;
         background-position: center;
         background-size: contain;
+        background-repeat: no-repeat;
     }
     .theme::before {
         left: 0;

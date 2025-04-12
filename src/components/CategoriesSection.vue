@@ -5,7 +5,7 @@ import SmallTitle from './text/SmallTitle.vue';
 
 <template>
     <section>
-        <MiddleTitle>Categories</MiddleTitle>
+        <h3><MiddleTitle>Clothing for Everyone</MiddleTitle></h3>
         <div class="row">
             <router-link to="/store/women" id="women"><SmallTitle>Women's clothing</SmallTitle></router-link>
             <router-link to="/store/men" id="men"><SmallTitle>Men's clothing</SmallTitle></router-link>
@@ -15,12 +15,17 @@ import SmallTitle from './text/SmallTitle.vue';
 </template>
 
 <style scoped>
+h3 {
+    margin-bottom: clamp(10px, 2.5vw, 20px);
+}
+section {
+    margin-bottom: var(--margin-bottom);
+}
 .row {
-    margin-top: clamp(10px, 2.5vw, 20px);
     width: 100%;
     display: flex;
     align-items: center;
-    column-gap: 16px;
+    column-gap: var(--column-gap);
 }
 .row a {
     flex: 1 1;
@@ -33,6 +38,7 @@ import SmallTitle from './text/SmallTitle.vue';
     background-position: center;
     background-size: cover;
     transition: .5s all;
+    color: white;
 }
 .row a:hover {
     transform: translateY(-2px);

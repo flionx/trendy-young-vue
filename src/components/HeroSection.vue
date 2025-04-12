@@ -1,6 +1,6 @@
 <template>
     <section>
-        <FullWidthCard :card="cards[0]" :isSmallSale="true"/>
+        <FullWidthCard :card="cards[0]" :isSmallSale="false"/>
     </section>
 </template>
 
@@ -21,6 +21,6 @@ const cards = [
 section {
     overflow: hidden;
     border-radius: 16px;
-    margin-bottom: clamp(20px, 2.5vw, 48px);
+    margin-bottom: var(--margin-bottom);
 }
 </style>

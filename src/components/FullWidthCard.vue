@@ -1,9 +1,9 @@
 <template>
-    <div class="card">
+    <div class="card" :class="{ 'small-card': isSmallSale }">
         <div class="card__info">
             <template v-if="isSmallSale">
                 <BigTitle>Sale</BigTitle>
-                <RegularText>All clothes up to </RegularText>
+                <RegularText>Modern clothing up to</RegularText>
                 <MiddleTitle>10% off</MiddleTitle>
             </template>
             <template v-else-if="!isSmallSale">
@@ -38,6 +38,9 @@ defineProps({
     display: flex;
     align-items: center;
     background: var(--gray-main);
+}
+.small-card {
+    max-height: 252px;
 }
 .card__info {
     flex: 1 1;
