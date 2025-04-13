@@ -6,7 +6,7 @@
         </nav>
         <span class="copy">&copy; Trendy Young 2025</span>
         <div class="theme">
-            <SwithCheck />
+            <SwithCheck v-model:theme="theme"/>
         </div>
     </footer>
 </template>
@@ -14,6 +14,16 @@
 <script setup>
 import ExternalLink from '@/components/ExternalLink.vue';
 import SwithCheck from './SwithCheck.vue';
+import { ref, watchEffect } from 'vue';
+
+const theme = ref('light');
+watchEffect(() => {
+    if (theme.value === 'light') {
+        document.documentElement.classList.remove('dark-theme');
+    } else {
+        document.documentElement.classList.add('dark-theme');
+    }
+})
 
 </script>
 

@@ -123,7 +123,7 @@ const isAuthForm = defineModel('isAuthForm');
         color: var(--white) !important;
     }
     .login:hover {
-        background: #222222 !important;
+        background: var(--black-hover) !important;
     }
     .desktop {
         width: 100%;

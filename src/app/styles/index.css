@@ -13,6 +13,7 @@
 
     --black: black;
     --white: white;
+    --black-hover: #222222;
 
     --column-gap: clamp(10px, 1.2vw, 16px);
 
@@ -48,6 +49,8 @@
 body {
     font-family: var(--main-font);
     overflow-x: hidden;
+    background: var(--white);
+    transition: background .5s, color .5s;
 }
 button {
     cursor: pointer;
@@ -59,4 +62,13 @@ a {
 }
 input {
     border: none;
+}
+
+.dark-theme {
+    --black: white;
+    --white: #393737;
+    --gray-main: #828282;
+    --black-hover: #dddddd;
+    /* --white: #3f3f3f;
+    --gray-main: #949494; */
 }

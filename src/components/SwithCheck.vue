@@ -1,11 +1,15 @@
 <template>
     <label className="switch">
-        <input type="checkbox" id='theme' name='theme' checked/>
+        <input type="checkbox" id='theme' name='theme' 
+          :checked="(theme === 'light')"
+          @change="theme = (theme === 'light') ? 'dark' : 'light'"
+        />
         <span className="slider round"></span>
     </label>
 </template>
 
 <script setup>
+const theme = defineModel('theme');
 </script>
 
 <style scoped>
