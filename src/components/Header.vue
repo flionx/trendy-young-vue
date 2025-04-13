@@ -1,5 +1,6 @@
 <script setup>
 import BurgerNav from '../components/BurgerNav.vue'
+const isAuthForm = defineModel('isAuthForm');
 </script>
 
 <template>
@@ -12,7 +13,7 @@ import BurgerNav from '../components/BurgerNav.vue'
             <nav class="header__nav">
                 <router-link to="/store/user/wishlist" class="wishlist"></router-link>
                 <router-link to="store/user/basket" class="cart">Cart</router-link>
-                <button class="login">Log in/Sign up</button>
+                <button class="login" @click="isAuthForm = true">Log in/Sign up</button>
             </nav>
         </div>
         <BurgerNav />

@@ -28,6 +28,7 @@
     --sun-url: url('/icons/sun.svg');
     --arrow-right-url: url('/icons/arrow-right.svg');
     --plus-url: url('/icons/plus.svg');
+    --google-url: url('/icons/google.png');
     
     --men-url: url('/mainPage/men.jpg');
     --women-url: url('/mainPage/women.jpg');
@@ -55,4 +56,7 @@ button {
 
 a {
     text-decoration: none;
+}
+input {
+    border: none;
 }

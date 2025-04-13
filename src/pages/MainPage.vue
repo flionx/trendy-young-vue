@@ -1,16 +1,22 @@
 <script setup>
 import BigTitle from '@/components/text/BigTitle.vue';
 import Header from '@/components/Header.vue';
+import AuthForm from '@/components/AuthForm.vue';
 import HeroSection from '@/components/HeroSection.vue';
 import CategoriesSection from '@/components/CategoriesSection.vue';
 import FullWidthCard from '@/components/FullWidthCard.vue';
 import ShopBySection from '@/components/ShopBySection.vue';
 import PopularCards from '@/components/PopularCards.vue';
+import { ref } from 'vue';
 
+const isAuthForm = ref(false);
 </script>
 
 <template>
-    <Header />
+    <Header v-model:isAuthForm="isAuthForm"/>
+    <AuthForm v-if="isAuthForm"
+        v-model:isAuthForm="isAuthForm" 
+    />
     <main>
         <h2><BigTitle>Find Your Style, Express Yourself</BigTitle></h2>
         <HeroSection />
