@@ -12,10 +12,7 @@
             <div class="card__left">
                 <div class="card__brand">{{ card.brand }}</div>
                 <div class="card__type"><RegularText>{{ card.type }}</RegularText></div>
-                <div class="card__price">
-                    <div class="card__sale" v-if="card.sale">{{ card.price }}</div>
-                    <div class="card__count-price" :class="card.sale ? 'red' : ''">{{ card.sale ? card.sale : card.price }}</div>
-                </div>
+                <ProductPrice :price="card.price" :sale="card.sale" />
             </div>
             <button class="card__add" 
                 @click="addToBasket(card)" 
@@ -28,6 +25,7 @@
 <script setup>
 import { ref } from 'vue';
 import RegularText from './text/RegularText.vue';
+import ProductPrice from './ProductPrice.vue';
 defineProps({
     card: {
         type: Object,
@@ -91,7 +89,7 @@ function addToWishList(card) {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: black;
+    color: var(--bg-color);
     background: var(--gray-main);
     border-radius: 0 0 16px 16px;
 
@@ -105,24 +103,6 @@ function addToWishList(card) {
     color: var(--gray-dark-text);
 }
 
-.card__price {
-    display: flex;
-    column-gap: 10px;
-}
-.card__sale {
-    color: var(--gray-dark-text);
-    font-weight: 400;
-    font-size: 16px;
-    text-decoration: line-through;
-}
-.card__count-price {
-    font-weight: 500;
-    font-size: 16px;
-}
-.red {
-    font-weight: 600;
-    color: var(--red);
-}
 .card__add {
     width: 48px;
     height: 48px;

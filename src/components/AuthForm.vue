@@ -79,6 +79,7 @@ dialog {
 h2 {
     text-align: center;
     margin-bottom: var(--m20px);
+    color: black;
 }
 .column {
     width: 100%;

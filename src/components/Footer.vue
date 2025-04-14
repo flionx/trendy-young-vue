@@ -34,7 +34,7 @@ watchEffect(() => {
         align-items: center;
         flex-wrap: wrap;
         padding: 48px 0;
-        color: var(--black);
+        color: var(--bg-color);
         white-space: nowrap;
         row-gap: 20px;
     }

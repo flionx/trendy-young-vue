@@ -46,13 +46,13 @@ defineProps({
     flex: 1 1;
     display: flex;
     flex-direction: column;
-
+    color: var(--bg-color);
 }
 .card__info a {
     width: fit-content;
     position: relative;
     padding-right: 20px;
-    color: black;
+    color: var(--bg-color);
 
 }
 .card__info a::after {
@@ -64,9 +64,10 @@ defineProps({
     transform: translateY(-50%);
     width: 16px;
     height: 16px;
-    background-position: center;
-    background-size: cover;
-    background-image: var(--arrow-right-url);
+    mask-image: var(--arrow-right-url);
+    mask-position: center;
+    mask-size: cover;
+    background: var(--bg-color);
 
 }
 .card__info a:hover {
