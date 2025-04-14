@@ -27,6 +27,9 @@ import SmallTitle from './text/SmallTitle.vue';
 </template>
 
 <style scoped>
+h3 {
+    color: var(--bg-color);
+}
 p {
     margin-bottom: 20px;
     color: var(--gray-dark-text);

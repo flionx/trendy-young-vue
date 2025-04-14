@@ -32,6 +32,7 @@ const isAuthForm = ref(false);
 <style scoped>
 h2 {
     margin-bottom: clamp(25px, 2.5vw, 50px);
+    color: var(--bg-color);
 }
 #fullCard {
     border-radius: 16px;

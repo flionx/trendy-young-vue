@@ -17,6 +17,7 @@ import SmallTitle from './text/SmallTitle.vue';
 <style scoped>
 h3 {
     margin-bottom: var(--m20px);
+    color: var(--bg-color)
 }
 section {
     margin-bottom: var(--m48px);

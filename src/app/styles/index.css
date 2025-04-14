@@ -11,9 +11,9 @@
     --gray-main: #F2F2F2;
     --red: #E34A4A;
 
-    --black: black;
-    --white: white;
-    --black-hover: #222222;
+    --bg-color: black;
+    --text-color: white;
+    --bg-color-hover: #222222;
 
     --column-gap: clamp(10px, 1.2vw, 16px);
 
@@ -30,6 +30,7 @@
     --arrow-right-url: url('/icons/arrow-right.svg');
     --plus-url: url('/icons/plus.svg');
     --google-url: url('/icons/google.png');
+    --close-url: url('/icons/close.svg');
     
     --men-url: url('/mainPage/men.jpg');
     --women-url: url('/mainPage/women.jpg');
@@ -49,7 +50,7 @@
 body {
     font-family: var(--main-font);
     overflow-x: hidden;
-    background: var(--white);
+    background: var(--text-color);
     transition: background .5s, color .5s;
 }
 button {
@@ -65,10 +66,11 @@ input {
 }
 
 .dark-theme {
-    --black: white;
-    --white: #393737;
-    --gray-main: #828282;
-    --black-hover: #dddddd;
-    /* --white: #3f3f3f;
+    --bg-color: white;
+    --text-color: #393737;
+    --gray-main: #555555;
+    /* --gray-main: #828282; */
+    --bg-color-hover: #dddddd;
+    /* --text-color: #3f3f3f;
     --gray-main: #949494; */
 }

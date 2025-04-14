@@ -17,6 +17,9 @@ defineProps({
 </script>
 
 <style scoped>
+h1 {
+    color: var(--bg-color);
+}
 header {
     margin: var(--m20px) 0;
     display: flex;

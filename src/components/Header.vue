@@ -32,7 +32,7 @@ const isAuthForm = defineModel('isAuthForm');
         font-weight: 600;
         font-size: 20px;
         text-align: center;
-        color: var(--black);
+        color: var(--bg-color);
         margin-right: 25px;
     }
 
@@ -119,11 +119,11 @@ const isAuthForm = defineModel('isAuthForm');
         background-position: center;
     }
     .login {
-        background: var(--black) !important;
-        color: var(--white) !important;
+        background: var(--bg-color) !important;
+        color: var(--text-color) !important;
     }
     .login:hover {
-        background: var(--black-hover) !important;
+        background: var(--bg-color-hover) !important;
     }
     .desktop {
         width: 100%;

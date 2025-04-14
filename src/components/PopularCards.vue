@@ -52,6 +52,9 @@ const testCards = [
 section {
     margin-bottom: var(--m48px);
 }
+h3 {
+    color: var(--bg-color);
+}
 .see-more {
     display: flex;
     align-items: center;
