@@ -1,26 +1,29 @@
-<script setup lang="ts">
+<script setup>
+import { useWishlistStore } from '@/app/store/wishlist';
 import ProductPrice from './ProductPrice.vue';
-import RegularText from './text/RegularText.vue';
+import ProductInfo from './productCard/ProductInfo.vue';
 const props = defineProps({
     card: Object,
-    deleteProduct: Function,
 })
+const wishlistStore = useWishlistStore();
 </script>
 
 <template>
     <section class="card">
-        <router-link to="/" class="img">
+        <router-link to="/" class="img" title="Visit product page">
             <img :src="card.img" alt="product image">
         </router-link>
         <div class="card__right">
             <div class="card__info">
-                <div class="card__top">
-                    <div class="card__type"><RegularText>{{ card.type }}</RegularText></div>
-                    <div class="card__art">Art: {{ card.id }}</div>
+                <ProductInfo :id="card.id" :type="card.type"/>
+                <div class="card__price-wrapper">
+                    <ProductPrice :price="card.price" :sale="card.sale" />
                 </div>
-                <ProductPrice :price="card.price" :sale="card.sale" />
             </div>
-            <button class="btn-delete" @click="deleteProduct(card.id)"></button>
+            <button class="btn-delete" 
+                @click="wishlistStore.deleteFromWishlist(card.id)" 
+                title="Delete product">
+            </button>
         </div>
     </section>
 </template>
@@ -32,47 +35,73 @@ const props = defineProps({
     column-gap: 26px;
     align-items: center;
     margin-bottom: 16px;
+    padding: 12px;
+    border-radius: 12px;
+    /* background: white; */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
 .card a {
     width: 175px;
     height: 175px;
     border-radius: 8px;
     overflow: hidden;
+    flex-shrink: 0;
 }
+
 .img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
+    transition: transform 0.3s ease;
 }
+
+.img:hover img {
+    transform: scale(1.03);
+}
+
 .card__right {
     padding: 20px 0;
     width: 100%;
     height: 100%;
     position: relative;
 }
+
 .card__info {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 16px;
     color: var(--bg-color);
 }
-.card__art {
+
+.card__price-wrapper {
     margin-top: auto;
-    font-weight: 400;
-    font-size: 14px;
-    color: var(--gray-dark-text);
+    padding-top: 12px;
 }
 
 .btn-delete {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 12px;
+    right: 12px;
     width: 32px;
     height: 32px;
     border-radius: 8px;
     background: var(--gray-main);
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.btn-delete:hover {
+    transform: scale(1.05);
 }
 
 .btn-delete::after {

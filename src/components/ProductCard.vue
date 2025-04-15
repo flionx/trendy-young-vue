@@ -2,7 +2,7 @@
     <div class="card">
         <button class="card__like" 
             :class="isLike ? 'like-done' : ''" 
-            @click="addToWishList(card)" 
+            @click="toggleWishlist(card)" 
             title="add to wishlist">
         </button>
         <router-link :to="`/product/${card.id}`">
@@ -23,10 +23,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import RegularText from './text/RegularText.vue';
 import ProductPrice from './ProductPrice.vue';
-defineProps({
+import { useWishlistStore } from '@/app/store/wishlist';
+const props = defineProps({
     card: {
         type: Object,
         required: true,
@@ -40,18 +41,20 @@ defineProps({
         })
     }
 })
-const isLike = ref(false);
+const wishlistStore = useWishlistStore();
+const isLike = computed(() => 
+    wishlistStore.products.some(product => product.id === props.card.id)
+);
 
 function addToBasket(card) {
     console.log('Added to basket: ' + card.id);
 }
-function addToWishList(card) {
-    if (isLike.value) {
-        isLike.value = false;
-        console.log('Deleted from WishList: ' + card.id);
+
+function toggleWishlist(card) {    
+    if (isLike.value) { 
+        wishlistStore.deleteFromWishlist(card.id);
     } else {
-        isLike.value = true;
-        console.log('Added to WishList: ' + card.id);
+        wishlistStore.addToWishlist(card);
     }
 }
 </script>
