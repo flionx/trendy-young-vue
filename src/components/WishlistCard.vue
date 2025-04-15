@@ -1,10 +1,11 @@
-<script setup lang="ts">
+<script setup>
+import { useWishlistStore } from '@/app/store/wishlist';
 import ProductPrice from './ProductPrice.vue';
 import ProductInfo from './productCard/ProductInfo.vue';
 const props = defineProps({
     card: Object,
-    deleteProduct: Function,
 })
+const wishlistStore = useWishlistStore();
 </script>
 
 <template>
@@ -20,7 +21,9 @@ const props = defineProps({
                 </div>
             </div>
             <button class="btn-delete" 
-                @click="deleteProduct(card.id)" title="Delete product"></button>
+                @click="wishlistStore.deleteFromWishlist(card.id)" 
+                title="Delete product">
+            </button>
         </div>
     </section>
 </template>

@@ -10,7 +10,7 @@ const props = defineProps({
     <section class="empty">
         <div class="empty__icon" :class="(title === 'WishList' ? 'like' : 'basket')"></div>
         <h2><MiddleTitle>{{ title }} is Empty</MiddleTitle></h2>
-        <p><RegularText>Looks like you haven’t added anything to your {{ title }} yet</RegularText></p>
+        <p><RegularText>Looks like you haven’t added <br>anything to your {{ title }} yet</RegularText></p>
         <router-link to="/">Back to Homepage</router-link>
     </section>
 </template>
@@ -37,7 +37,20 @@ const props = defineProps({
 .basket {
     mask-image: var(--basket-url);
 }
+h2 {
+    color: var(--bg-color);
+}
 p {
     color: var(--gray-dark-text);
+    margin-bottom: 16px;
+}
+a {
+    padding: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+    border-radius: 8px;
+    color: var(--bg-color);
+    background: rgba(0, 0, 0, 0.06);
 }
 </style>
