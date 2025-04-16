@@ -30,6 +30,21 @@ const useBasketStore = defineStore('basket', {
             }
             setStorage(this.products);
         },
+        minusBasket(id) {
+            const productIndex = this.products.findIndex(card => card.product.id === id);
+            if (productIndex !== -1) {
+                const currProduct = this.products[productIndex];
+                if (currProduct.count >= 2) {
+                    this.products[productIndex] = {
+                        ...currProduct,
+                        count: currProduct.count - 1,
+                    };
+                } else {
+                    this.products.splice(productIndex, 1);
+                }
+                setStorage(this.products);
+            }
+        },
         deleteFromBasket(id) {
             const deleteIndex = this.products.findIndex(card => card.product.id === id);
             if (deleteIndex !== -1) {

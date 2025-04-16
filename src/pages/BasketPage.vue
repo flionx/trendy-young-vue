@@ -1,5 +1,6 @@
 <script setup>
 import useBasketStore from '@/app/store/basket';
+import EmptyList from '@/components/EmptyList.vue';
 import MiddleTitle from '@/components/text/MiddleTitle.vue';
 import RegularText from '@/components/text/RegularText.vue';
 import UserProductCard from '@/components/UserProductCard.vue';
@@ -15,34 +16,38 @@ const delivery = totalPrice.value * 0.05;
 </script>
 
 <template>
-    <div class="container">
-        <div class="list">
-            <UserProductCard v-for="card in basketStore.products" :key="card.product.id"
-                :card="card.product"
-                :count="card.count"
-            />
+    <template v-if="basketStore.products.length !== 0">
+        <div class="container">
+            <div class="list">
+                <UserProductCard v-for="card in basketStore.products" :key="card.product.id"
+                    :card="card.product"
+                    :count="card.count"
+                    :isBasket="true"
+                />
+            </div>
+            <div class="sidebar">
+                <h2><MiddleTitle>Summary</MiddleTitle></h2>
+                <div class="sidebar__line">
+                    <RegularText>Products</RegularText>
+                    <RegularText>${{ totalPrice }}</RegularText>
+                </div>
+                <div class="sidebar__line">
+                    <RegularText>Delivery</RegularText>
+                    <RegularText>${{ delivery.toFixed() }}</RegularText>
+                </div>
+                <div class="sidebar__line bold">
+                    <RegularText>Total</RegularText>
+                    <RegularText>${{ totalPrice + Number(delivery.toFixed()) }}</RegularText>
+                </div>
+                <div class="coupon">
+                    <input type="text" placeholder="Coupon code">
+                    <button>Apply</button>
+                </div>
+                <button class="pay">Checkout</button>
+            </div>
         </div>
-        <div class="sidebar">
-            <h2><MiddleTitle>Summary</MiddleTitle></h2>
-            <div class="sidebar__line">
-                <RegularText>Products</RegularText>
-                <RegularText>${{ totalPrice }}</RegularText>
-            </div>
-            <div class="sidebar__line">
-                <RegularText>Delivery</RegularText>
-                <RegularText>${{ delivery.toFixed() }}</RegularText>
-            </div>
-            <div class="sidebar__line bold">
-                <RegularText>Total</RegularText>
-                <RegularText>${{ totalPrice + Number(delivery.toFixed()) }}</RegularText>
-            </div>
-            <div class="coupon">
-                <input type="text" placeholder="Coupon code">
-                <button>Apply</button>
-            </div>
-            <button class="pay">Checkout</button>
-        </div>
-    </div>
+    </template>
+    <EmptyList v-else title="Cart"/>
 </template>
 
 <style scoped>
@@ -52,12 +57,20 @@ const delivery = totalPrice.value * 0.05;
     flex-wrap: wrap;
 }
 .list {
-    flex: 1;
+    flex: 1 1 550px;
+    min-width: 0;
 }
+
 .sidebar {
+    flex: 0 0 350px;
     display: flex;
     flex-direction: column;
     row-gap: 16px;
+}
+@media (max-width: 800px) {
+    .list, .sidebar {
+        flex: 1 1 100%;
+    }
 }
 h2 {
     color: var(--bg-color)
@@ -79,6 +92,7 @@ input {
 }
 .coupon {
     display: flex;
+    justify-content: space-between;
     column-gap: 8px;
 }
 .coupon button {
