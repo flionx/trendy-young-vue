@@ -1,6 +1,6 @@
 # trendy-young-vue
 
-Online fashion store designed to sell clothing for men, women and children. The site includes pages for authorization, viewing the catalog of goods, adding them to the cart, as well as provides an administrative panel for managing goods.
+Trendy Young is a modern online fashion store for all ages and styles. The range is designed for women, men and children from leading brands at affordable prices.
 
 ## Installation
 
