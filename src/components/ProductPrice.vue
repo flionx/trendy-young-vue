@@ -1,14 +1,14 @@
 <template>
     <div class="card__price">
-        <div class="card__sale" v-if="sale">{{ price }}</div>
-        <div class="card__count-price" :class="sale ? 'red' : ''">{{ sale ? sale : price }}</div>
+        <div class="card__sale" v-if="sale">${{ price }}</div>
+        <div class="card__count-price" :class="sale ? 'red' : ''">${{ sale ? sale : price }}</div>
     </div>
 </template>
 
 <script setup>
     const props = defineProps({
-        price: String,
-        sale: String,
+        price: Number,
+        sale: Number,
     })
 </script>
 

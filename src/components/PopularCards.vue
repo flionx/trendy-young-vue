@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import ProductCard from './ProductCard.vue';
 import MiddleTitle from './text/MiddleTitle.vue';
 const testCards = [
@@ -7,30 +7,30 @@ const testCards = [
         img: '/test/1.jpg',
         brand: 'Gucci',
         type: 'Sweatshirt',
-        price: '$29',
-        sale: '$26',
+        price: 29,
+        sale: 26,
     },
     {
         id: 2,
         img: '/test/2.jpg',
         brand: 'Puma',
         type: 'T-Shirt',
-        price: '$12',
+        price: 12,
     },
     {
         id: 3,
         img: '/test/3.jpg',
         brand: 'CR7',
         type: 'Sweatshirt',
-        price: '$107',
+        price: 107,
     },
     {
         id: 4,
         img: '/test/4.jpg',
         brand: 'Adidas',
         type: 'Sweatshirt',
-        price: '$19',
-        sale: '$16',
+        price: 19,
+        sale: 16,
     },
 ]
 

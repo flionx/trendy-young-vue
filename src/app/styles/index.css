@@ -17,6 +17,8 @@
 
     --column-gap: clamp(10px, 1.2vw, 16px);
 
+    --clamp48px: clamp(35px, 3.3vw, 48px);
+    --clamp12px: clamp(8px, 0.8vw, 12px);
     --m20px: clamp(10px, 2.5vw, 20px);
     --m48px: clamp(20px, 2.5vw, 48px);
 
@@ -29,6 +31,7 @@
     --sun-url: url('/icons/sun.svg');
     --arrow-right-url: url('/icons/arrow-right.svg');
     --plus-url: url('/icons/plus.svg');
+    --minus-url: url('/icons/minus.svg');
     --google-url: url('/icons/google.png');
     --close-url: url('/icons/close.svg');
     

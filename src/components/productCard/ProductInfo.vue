@@ -20,7 +20,9 @@ const props = defineProps({
     flex-direction: column;
     gap: 5px;
 }
-
+.card__type {
+    width: calc(100% - 35px);
+}
 .card__art {
     font-weight: 400;
     font-size: 14px;
