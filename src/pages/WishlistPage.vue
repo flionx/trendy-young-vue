@@ -1,13 +1,13 @@
 <script setup>
 import { useWishlistStore } from '@/app/store/wishlist';
-import EmptyList from '@/components/EmptyList.vue';
-import WishlistCard from '@/components/WishlistCard.vue';
+import UserProductCard from '@/components/UserProductCard.vue';
+import EmptyList from '@/components/UserProductCard.vue';
 
 const wishlistStore = useWishlistStore();
 </script>
 
 <template>
-    <WishlistCard v-for="card in wishlistStore.products" 
+    <UserProductCard v-for="card in wishlistStore.products" 
         :card="card" 
         :key="card.id"
         />

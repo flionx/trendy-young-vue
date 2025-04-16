@@ -4,12 +4,13 @@ import ProductPrice from './ProductPrice.vue';
 import ProductInfo from './productCard/ProductInfo.vue';
 const props = defineProps({
     card: Object,
+    isBasket: Boolean,
 })
 const wishlistStore = useWishlistStore();
 </script>
 
 <template>
-    <section class="card">
+    <section class="card" v-if="card">
         <router-link to="/" class="img" title="Visit product page">
             <img :src="card.img" alt="product image">
         </router-link>
@@ -17,6 +18,14 @@ const wishlistStore = useWishlistStore();
             <div class="card__info">
                 <ProductInfo :id="card.id" :type="card.type"/>
                 <div class="card__price-wrapper">
+                    <div class="card__count">
+                        <button class="minus"><span></span></button>
+                        <div class="count">{{ count ?? 0 }}</div>
+                        <button class="plus">
+                            <span></span>
+                            <span class="vertical"></span>
+                        </button>
+                    </div>
                     <ProductPrice :price="card.price" :sale="card.sale" />
                 </div>
             </div>
@@ -85,6 +94,29 @@ const wishlistStore = useWishlistStore();
 .card__price-wrapper {
     margin-top: auto;
     padding-top: 12px;
+    display: flex;
+    justify-content: space-between;
+}
+.card__count {
+    display: flex;
+    column-gap: 8px;
+}
+.card__count button {
+    padding: 15px;
+    background: var(--gray-main);
+    border-radius: 8px;
+    width: 48px;
+    height: 48px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card__count button span {
+    background: var(--bg-color);
+    border-radius: 5px;
+    height: 3px;
+    width: 100%;
 }
 
 .btn-delete {

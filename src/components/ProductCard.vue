@@ -27,6 +27,7 @@ import { computed, ref } from 'vue';
 import RegularText from './text/RegularText.vue';
 import ProductPrice from './ProductPrice.vue';
 import { useWishlistStore } from '@/app/store/wishlist';
+import useBasketStore from '@/app/store/basket';
 const props = defineProps({
     card: {
         type: Object,
@@ -36,18 +37,19 @@ const props = defineProps({
             img: '/test/1.jpg',
             brand: 'Brand Name',
             type: 'Sweatshirt',
-            price: '$19',
-            sale: '$16',
+            price: 19,
+            sale: 16,
         })
     }
 })
 const wishlistStore = useWishlistStore();
+const basketStore = useBasketStore();
 const isLike = computed(() => 
     wishlistStore.products.some(product => product.id === props.card.id)
 );
 
 function addToBasket(card) {
-    console.log('Added to basket: ' + card.id);
+    basketStore.addToBasket(card)
 }
 
 function toggleWishlist(card) {    
