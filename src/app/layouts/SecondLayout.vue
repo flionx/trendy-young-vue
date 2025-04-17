@@ -1,6 +1,5 @@
-<script setup lang="ts">
+<script setup>
 import HeaderBack from '@/components/HeaderBack.vue';
-
 </script>
 
 <template>
