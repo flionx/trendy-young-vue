@@ -20,14 +20,20 @@
             </button>
         </div>
     </div>
+    <ModalInfo v-if="modalInfo.show" 
+        v-model:isOpen="modalInfo.show"
+        :className="modalInfo.className">
+        {{modalInfo.text}}
+    </ModalInfo>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, nextTick, reactive, ref } from 'vue';
 import RegularText from './text/RegularText.vue';
 import ProductPrice from './ProductPrice.vue';
 import { useWishlistStore } from '@/app/store/wishlist';
 import useBasketStore from '@/app/store/basket';
+import ModalInfo from './ui/ModalInfo.vue';
 const props = defineProps({
     card: {
         type: Object,
@@ -44,20 +50,33 @@ const props = defineProps({
 })
 const wishlistStore = useWishlistStore();
 const basketStore = useBasketStore();
+const modalInfo = reactive({
+    className: '',
+    text: 'Added to',
+    show: false,
+})
 const isLike = computed(() => 
     wishlistStore.products.some(product => product.id === props.card.id)
 );
-
 function addToBasket(card) {
     basketStore.addToBasket(card)
+    setModalInfo('Added to Cart', 'basket')
 }
-
 function toggleWishlist(card) {    
     if (isLike.value) { 
         wishlistStore.deleteFromWishlist(card.id);
+        setModalInfo('Removed from Wishlist', 'like');
     } else {
         wishlistStore.addToWishlist(card);
+        setModalInfo('Added to Wishlist', 'like');
     }
+}
+async function setModalInfo(text, className) {
+    modalInfo.text = text;
+    modalInfo.className = className;
+    modalInfo.show = false;
+    await nextTick();
+    modalInfo.show = true;
 }
 </script>
 
