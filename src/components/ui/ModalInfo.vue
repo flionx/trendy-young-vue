@@ -76,10 +76,11 @@ dialog::after {
 @keyframes hide {
     0% {
         opacity: 1;
+        transform: translateX(-50%) translateY(0);
     }
     100% {
         opacity: 0;
-        transform: translateX(-30%) translateY(0);
+        transform: translateX(-50%) translateY(10px);
     }
 }
 

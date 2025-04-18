@@ -4,14 +4,22 @@ import ProductPrice from './ProductPrice.vue';
 import ProductInfo from './productCard/ProductInfo.vue';
 import useBasketStore from '@/app/store/basket';
 import { computed } from 'vue';
+import ModalInfo from './ui/ModalInfo.vue';
+import { useModalInfo } from '@/hooks/useModalInfo';
 const props = defineProps({
     card: Object,
     count: Number,
     isBasket: Boolean,
+    setModalInfo: Function,
 })
 const wishlistStore = useWishlistStore();
 const basketStore = useBasketStore();
-const deleteProduct = computed(() => props.isBasket ? basketStore.deleteFromBasket : wishlistStore.deleteFromWishlist )
+const deleteFromStore = computed(() => props.isBasket ? basketStore.deleteFromBasket : wishlistStore.deleteFromWishlist );
+
+function deleteProduct(id) {
+    props.setModalInfo(`Removed from ${props.isBasket ? 'Cart' : 'Wishlist'}`, `${props.isBasket ? 'basket' : 'like'}`)
+    deleteFromStore.value(id);
+}
 </script>
 
 <template>
