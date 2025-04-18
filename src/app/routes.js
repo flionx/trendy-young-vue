@@ -5,6 +5,7 @@ import SecondLayout from "./layouts/SecondLayout.vue";
 import CategoryPage from "@/pages/CategoryPage.vue";
 import BasketPage from "@/pages/BasketPage.vue";
 import WishlistPage from "@/pages/WishlistPage.vue";
+import ProductPage from "@/pages/ProductPage.vue";
 
 const routes = [
     {
@@ -35,7 +36,7 @@ const routes = [
             },
             {
                 path: '/product/:id',
-                component: SecondLayout //change
+                component: ProductPage
             }
         ]
     }

@@ -36,11 +36,11 @@ const activeCategory = computed(() => {
       <h1><BigTitle>{{ titleText }}</BigTitle></h1>
     </div>
     <div class="row-btns" v-if="isCatalog">
-        <button v-for="category in categories"
+        <router-link v-for="category in categories" :to="`/store/${category.toLowerCase()}`"
             :class="{'active': isActiveCategory(category.toLowerCase())}"
             :key="category">
             <RegularText>{{ category }}</RegularText>
-        </button>
+        </router-link>
     </div>
   </header>
   <div class="categories" v-if="isCatalog">
@@ -82,7 +82,7 @@ header {
     border-radius: 8px;
     background: var(--text-color);
 }
-.row-btns button{
+.row-btns a {
     padding: 5px 12px;
     background: transparent;
     border-radius: 8px;
@@ -92,13 +92,13 @@ header {
 .active {
     background: rgba(63, 63, 63, 0.15) !important;
 }
-.row-btns button:hover{
+.row-btns a:hover{
     background: rgba(63, 63, 63, 0.1);
 }
 .categories {
     display: flex;
     align-items: center;
-    column-gap: 30px;
+    column-gap: 25px;
     padding: 22px 48px;
     border-radius: 0 0 16px 16px;
     border: 2px solid var(--gray-main);
@@ -108,7 +108,7 @@ header {
 .categories button {
     background: transparent;
     color: var(--bg-color);
-    padding: 5px 12px;
+    padding: 5px 10px;
     border-radius: 8px;
     transition: .4s;
 }
