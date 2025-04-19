@@ -6,7 +6,8 @@ const testCards = [
         id: 1,
         img: '/test/1.jpg',
         brand: 'Gucci',
-        type: 'Sweatshirt',
+        name: 'Sweatshirt',
+        type: 'Casual',
         price: 29,
         sale: 26,
     },
@@ -14,32 +15,38 @@ const testCards = [
         id: 2,
         img: '/test/2.jpg',
         brand: 'Puma',
-        type: 'T-Shirt',
+        name: 'T-Shirt',
+        type: 'Casual',
         price: 12,
     },
     {
         id: 3,
         img: '/test/3.jpg',
         brand: 'CR7',
-        type: 'Sweatshirt',
+        name: 'Sweatshirt',
+        type: 'Sport',
         price: 107,
     },
     {
         id: 4,
         img: '/test/4.jpg',
         brand: 'Adidas',
-        type: 'Sweatshirt',
+        name: 'Sweatshirt',
+        type: 'Casual',
         price: 19,
         sale: 16,
     },
 ]
+const props = defineProps({
+    title: String,
+})
 
 </script>
 
 <template>
     <section>
         <div class="see-more">
-            <h3><MiddleTitle>Popular</MiddleTitle></h3>
+            <h3><MiddleTitle>{{title}}</MiddleTitle></h3>
             <router-link to="store/all">See all</router-link>
         </div>
         <div class="row">

@@ -6,7 +6,7 @@ import HeroSection from '@/components/HeroSection.vue';
 import CategoriesSection from '@/components/CategoriesSection.vue';
 import FullWidthCard from '@/components/FullWidthCard.vue';
 import ShopBySection from '@/components/ShopBySection.vue';
-import PopularCards from '@/components/PopularCards.vue';
+import RowCards from '@/components/RowCards.vue';
 import { ref } from 'vue';
 
 const isAuthForm = ref(false);
@@ -24,7 +24,7 @@ const isAuthForm = ref(false);
         <section id="fullCard">
             <FullWidthCard :card="{img: '/mainPage/sale-1.png'}" :isSmallSale="true"/>
         </section>
-        <PopularCards />
+        <RowCards title="Popular"/>
         <ShopBySection />
     </main>
 </template>

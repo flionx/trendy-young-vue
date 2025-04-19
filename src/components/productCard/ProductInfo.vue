@@ -1,6 +1,6 @@
 <template>
     <div class="card__product-info">
-        <div class="card__type"><RegularText>{{ type }}</RegularText></div>
+        <div class="card__type"><RegularText>{{ name }}</RegularText></div>
         <div class="card__art">Art: {{ id }}</div>
     </div>
 </template>
@@ -8,7 +8,7 @@
 <script setup>
 import RegularText from '../text/RegularText.vue'
 const props = defineProps({
-    type: String,
+    name: String,
     id: Number, //change to string
 })
 </script>
