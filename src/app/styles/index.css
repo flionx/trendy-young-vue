@@ -9,11 +9,14 @@
     --gray-light-text: #A3A3A3;
     --gray-dark-text: #969696;
     --gray-main: #F2F2F2;
+    --gray-main-hover: 
     --red: #E34A4A;
 
-    --bg-color: black;
-    --text-color: white;
+    --bg-color: black; /* text */
+     --text-color: white; /* bg ... :[ */
     --bg-color-hover: #222222;
+    --bg-hover: rgba(0, 0, 0, 0.05);
+    --bg-active-hover: rgba(0, 0, 0, 0.1);
 
     --column-gap: clamp(10px, 1.2vw, 16px);
 
@@ -74,8 +77,7 @@ input {
     --bg-color: white;
     --text-color: #393737;
     --gray-main: #555555;
-    /* --gray-main: #828282; */
     --bg-color-hover: #dddddd;
-    /* --text-color: #3f3f3f;
-    --gray-main: #949494; */
+    --bg-hover: rgba(255, 255, 255, 0.05);
+    --bg-active-hover: rgba(255, 255, 255, 0.1);
 }

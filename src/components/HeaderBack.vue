@@ -1,14 +1,12 @@
 <script setup>
 import { useRoute } from 'vue-router';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import ButtonBack from './ButtonBack.vue';
 import BigTitle from './text/BigTitle.vue';
 import RegularText from './text/RegularText.vue';
+import CustomSelect from './CustomSelect.vue';
 
 const route = useRoute();
-
-const categoryParam = computed(() => route.params.category || 'all');
-const currentPath = computed(() => route.path);
 
 const titleText = computed(() => {
   if (route.path.includes('basket')) return 'Cart';
@@ -21,12 +19,8 @@ const isCatalog = computed(() => titleText.value === 'Catalog');
 const categories = ['Women', 'Men', 'Children', 'All'];
 const subCategories = ['Casual', 'Formal', 'Sport', 'Sleep'];
 
-const isActiveCategory = (category) => category === categoryParam.value;
-
-const activeCategory = computed(() => {
-  if (categoryParam.value === 'all') return 'All';
-  return categoryParam.value.charAt(0).toUpperCase() + categoryParam.value.slice(1); 
-});
+const isActiveCategory = (category) => category === (route.params.category || 'all');
+const activeType = ref('');
 </script>
 
 <template>
@@ -35,21 +29,17 @@ const activeCategory = computed(() => {
       <ButtonBack />
       <h1><BigTitle>{{ titleText }}</BigTitle></h1>
     </div>
-    <div class="row-btns" v-if="isCatalog">
-        <router-link v-for="category in categories" :to="`/store/${category.toLowerCase()}`"
-            :class="{'active': isActiveCategory(category.toLowerCase())}"
-            :key="category">
-            <RegularText>{{ category }}</RegularText>
-        </router-link>
+    <div class="header__row" v-if="isCatalog">
+        <div class="row-btns">
+            <router-link v-for="category in categories" :to="`/store/${category.toLowerCase()}`"
+                :class="{'active': isActiveCategory(category.toLowerCase())}"
+                :key="category">
+                <RegularText>{{ category }}</RegularText>
+            </router-link>
+        </div>
+        <CustomSelect v-model="activeType" :options="subCategories" default="Clothing type" />
     </div>
   </header>
-  <div class="categories" v-if="isCatalog">
-    <button v-for="subCategory in subCategories"
-        :class="{'active': categoryParam === subCategory.toLowerCase()}"
-        :key="subCategory">
-        <RegularText>{{ subCategory }}</RegularText>
-    </button>
-  </div>
 </template>
 
 
@@ -65,8 +55,13 @@ header {
 }
 .small-m {
     padding: 30px 48px 20px 48px;
-    border-radius: 16px 16px 0 0;
-    margin-bottom: 0;
+}
+.small-m .header__row:first-child {
+    margin-bottom: 24px;
+}
+.small-m .header__row:last-child {
+    row-gap: 20px;
+    flex-wrap: wrap;
 }
 .header__row {
     display: flex;
@@ -74,7 +69,6 @@ header {
     column-gap: 24px;
 }
 .row-btns {
-    margin-top: 24px;
     width: fit-content;
     display: flex;
     column-gap: 20px;
@@ -90,27 +84,43 @@ header {
     transition: .4s;
 }
 .active {
-    background: rgba(63, 63, 63, 0.15) !important;
+    background: var(--bg-active-hover) !important;
 }
 .row-btns a:hover{
-    background: rgba(63, 63, 63, 0.1);
+    background: var(--bg-hover);
 }
-.categories {
-    display: flex;
-    align-items: center;
-    column-gap: 25px;
-    padding: 22px 48px;
-    border-radius: 0 0 16px 16px;
-    border: 2px solid var(--gray-main);
-    border-top: none;
-    margin-bottom: var(--m20px);
+.select {
+  position: relative;
+  display: inline-block;
+  background: var(--text-color);
+  border-radius: 8px;
+  padding: 5px 10px;
 }
-.categories button {
-    background: transparent;
-    color: var(--bg-color);
-    padding: 5px 10px;
-    border-radius: 8px;
-    transition: .4s;
+
+.select select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background: transparent;
+  border: none;
+  padding: 10px 30px 10px 10px;
+  font-size: 16px;
+  color: var(--bg-color);
+  cursor: pointer;
+  outline: none;
 }
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%) rotate(90deg);
+  pointer-events: none;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--bg-color);
+}
+
 
 </style>
