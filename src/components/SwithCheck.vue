@@ -45,7 +45,7 @@ const theme = defineModel('theme');
   height: 19px;
   width: 19px;
   left: 2px;
-  bottom: 3px;
+  bottom: 3.5px;
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;

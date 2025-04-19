@@ -2,6 +2,7 @@
 import BurgerNav from '../components/BurgerNav.vue'
 import ButtonContrast from '../components/ui/ButtonContrast.vue'
 import InputSearch from './InputSearch.vue';
+import ButtonOrange from './ui/ButtonOrange.vue';
 const isAuthForm = defineModel('isAuthForm');
 </script>
 
@@ -11,8 +12,12 @@ const isAuthForm = defineModel('isAuthForm');
         <div class="desktop">
             <InputSearch />
             <nav class="header__nav">
-                <router-link to="/store/user/wishlist" class="wishlist"></router-link>
-                <router-link to="/store/user/basket" class="cart">Cart</router-link>
+                <router-link to="/store/user/wishlist">
+                    <ButtonOrange icon="like"/>
+                </router-link>
+                <router-link to="/store/user/basket" class="cart">
+                    <ButtonOrange icon="cart">Cart</ButtonOrange>
+                </router-link>
                 <ButtonContrast :handleClick="() => isAuthForm = true">Log in/Sign up</ButtonContrast>
             </nav>
         </div>
@@ -39,55 +44,6 @@ h1 {
     display: flex;
     align-items: center;
     column-gap: 8px;
-}
-.header__nav button, 
-.header__nav a {
-    min-width: 48px;
-    height: 48px;
-    padding: 14px;
-    border-radius: 8px;
-    background: var(--orange-bg);
-    font-weight: 600;
-    font-size: 16px;
-    text-align: center;
-    color: var(--orange-text);
-    position: relative;
-    border: none;
-    cursor: pointer;
-    transition: .3s all;
-    text-decoration: none;
-}
-.wishlist::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 22px;
-    height: 18px;
-    background-image: var(--like-url);
-    background-size: cover;
-    background-position: center;
-}
-.cart {
-    padding-left: 44px !important;
-}
-.cart:hover,
-.wishlist:hover {
-    background: var(--orange-bg-hover);
-}
-.cart::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 14px;
-    transform: translateY(-50%);
-    width: 22px;
-    height: 18px;
-    background-image: var(--basket-url);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 .desktop {

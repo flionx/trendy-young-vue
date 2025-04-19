@@ -21,6 +21,7 @@
     --clamp12px: clamp(8px, 0.8vw, 12px);
     --m20px: clamp(10px, 2.5vw, 20px);
     --m48px: clamp(20px, 2.5vw, 48px);
+    --m70px: clamp(30px, 5vw, 70px);
 
     --like-url: url('/icons/like.svg');
     --likeDone-url: url('/icons/likeDone.svg');
@@ -34,6 +35,7 @@
     --minus-url: url('/icons/minus.svg');
     --google-url: url('/icons/google.png');
     --close-url: url('/icons/close.svg');
+    --share-url: url('/icons/share.svg');
     
     --men-url: url('/mainPage/men.jpg');
     --women-url: url('/mainPage/women.jpg');

@@ -1,7 +1,7 @@
 <template>
     <div class="card__price">
-        <div class="card__sale" v-if="sale">${{ price }}</div>
-        <div class="card__count-price" :class="sale ? 'red' : ''">${{ sale ? sale : price }}</div>
+        <div class="card__sale" :class="size" v-if="sale">${{ price }}</div>
+        <div class="card__count-price" :class="[{red: sale}, size]">${{ sale ? sale : price }}</div>
     </div>
 </template>
 
@@ -9,6 +9,7 @@
     const props = defineProps({
         price: Number,
         sale: Number,
+        size: String,
     })
 </script>
 
@@ -31,5 +32,8 @@
 .red {
     font-weight: 600;
     color: var(--red);
+}
+.big {
+    font-size: 24px !important;
 }
 </style>

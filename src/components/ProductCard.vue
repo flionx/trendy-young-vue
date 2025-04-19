@@ -5,13 +5,13 @@
             @click="toggleWishlist(card)" 
             title="add to wishlist">
         </button>
-        <router-link :to="`/product/${card.id}`">
+        <button class="card__image" @click="goToProductPage(card)">
             <img :src="card.img" alt="product image">
-        </router-link>
+        </button>
         <div class="card__info">
             <div class="card__left">
-                <div class="card__brand">{{ card.brand }}</div>
-                <div class="card__type"><RegularText>{{ card.type }}</RegularText></div>
+                <BoldText class="card__brand">{{ card.brand }}</BoldText>
+                <div class="card__type"><RegularText>{{ card.name }}</RegularText></div>
                 <ProductPrice :price="card.price" :sale="card.sale" />
             </div>
             <button class="card__add" 
@@ -29,12 +29,15 @@
 
 <script setup>
 import { computed } from 'vue';
-import RegularText from './text/RegularText.vue';
 import ProductPrice from './ProductPrice.vue';
+import ModalInfo from './ui/ModalInfo.vue';
+import RegularText from './text/RegularText.vue';
+import BoldText from './text/BoldText.vue';
 import { useWishlistStore } from '@/app/store/wishlist';
 import useBasketStore from '@/app/store/basket';
-import ModalInfo from './ui/ModalInfo.vue';
 import { useModalInfo } from '@/hooks/useModalInfo';
+import { useProductStore } from '@/app/store/product';
+import { useRouter } from 'vue-router';
 const props = defineProps({
     card: {
         type: Object,
@@ -43,7 +46,8 @@ const props = defineProps({
             id: 1,
             img: '/test/1.jpg',
             brand: 'Brand Name',
-            type: 'Sweatshirt',
+            name: 'Sweatshirt',
+            type: 'Casual',
             price: 19,
             sale: 16,
         })
@@ -51,6 +55,8 @@ const props = defineProps({
 })
 const wishlistStore = useWishlistStore();
 const basketStore = useBasketStore();
+const productStore = useProductStore();
+const router = useRouter();
 const {modalInfo, setModalInfo} = useModalInfo();
 
 const isLike = computed(() => 
@@ -69,6 +75,10 @@ function toggleWishlist(card) {
         setModalInfo('Added to Wishlist', 'like');
     }
 }
+function goToProductPage(card) {
+    productStore.setProduct(card);
+    router.push(`/product/${card.id}`)
+}
 
 </script>
 
@@ -78,7 +88,7 @@ function toggleWishlist(card) {
     min-width: 220px;
     position: relative;
 }
-.card a {
+.card__image {
     display: block;
     width: 100%;
     height: 323px;
@@ -89,7 +99,7 @@ function toggleWishlist(card) {
     z-index: 1;
     transition: .4s all;
 }
-.card a:hover {
+.card__image:hover {
     transform: scale(1.02);
 }
 .card img {
@@ -114,9 +124,7 @@ function toggleWishlist(card) {
     width: 60%;
 }
 .card__brand {
-    font-weight: 600;
     font-size: 12px;
-    color: var(--gray-dark-text);
 }
 
 .card__add {

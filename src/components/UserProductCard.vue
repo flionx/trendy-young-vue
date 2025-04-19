@@ -29,7 +29,7 @@ function deleteProduct(id) {
         </router-link>
         <div class="card__right">
             <div class="card__info">
-                <ProductInfo :id="card.id" :type="card.type"/>
+                <ProductInfo :id="card.id" :name="card.name"/>
                 <div class="card__price-wrapper">
                     <div class="card__count" v-if="isBasket">
                         <button class="minus" 
