@@ -2,13 +2,49 @@
 import { computed, ref } from 'vue';
 import MiddleTitle from './text/MiddleTitle.vue';
 import RegularText from './text/RegularText.vue';
+import { useModalInfo } from '@/hooks/useModalInfo';
+import ModalInfo from './ui/ModalInfo.vue';
 
 const isAuthForm = defineModel('isAuthForm');
 const isLogin = ref(true);
-const mainText = computed(() => isLogin.value ? 'Log in' : 'Sign in');
+const mainText = computed(() => isLogin.value ? 'Log in' : 'Sign up');
+const reverseMainText = computed(() => isLogin.value ? 'Sign up' : 'Log in');
 
-const emailInput = ref('');
-const passwordInput = ref('');
+const login = ref('');
+const password = ref('');
+const {modalInfo, setModalInfo} = useModalInfo();
+
+function validateUsersInput(login, password) {
+    if (!login.trim() || !password.trim()) {
+        setModalInfo('Please fill in all fields', '');
+        return false;
+    }
+    if (password.length < 6) {
+        setModalInfo('Password must contain at least 6 characters', '');
+        return false;
+    }
+    return true;
+}
+
+function loginUser() {
+    if (validateUsersInput(login.value, password.value)) {
+        console.log('LOGIN');
+    }
+}
+async function createUser() {
+    if (validateUsersInput(login.value, password.value)) {
+        const response = await fetch('http://localhost:5000/api/auth/signup', {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({ 
+                login: login.value,
+                password: password.value 
+            })
+        })
+        console.log(response);
+    }
+}
 </script>
 
 <template>
@@ -16,12 +52,12 @@ const passwordInput = ref('');
         <dialog open>
             <h2><MiddleTitle>{{ mainText }}</MiddleTitle></h2>
             <div class="column">
-                <label for="email"><RegularText>Email</RegularText></label>
-                <input type="email" 
-                    name="email" 
-                    id="email"
-                    placeholder="Enter email"
-                    v-model="emailInput"
+                <label for="login"><RegularText>Login</RegularText></label>
+                <input type="login" 
+                    name="login" 
+                    id="login"
+                    placeholder="Enter login"
+                    v-model="login"
                 >
             </div>
             <div class="column">
@@ -30,11 +66,14 @@ const passwordInput = ref('');
                     name="password" 
                     id="password"
                     placeholder="Enter password"
-                    v-model="passwordInput"
+                    v-model="password"
                 >
                 <button v-if="isLogin" class="small-text forgot">Forgot password</button>
             </div>
-            <button class="submit">{{ mainText }}</button>
+            <button class="submit" 
+                @click="isLogin ? loginUser() : createUser()">
+                {{ mainText }}
+            </button>
             <div class="or">
                 <span>or</span>
                 <div class="line"></div>
@@ -47,9 +86,14 @@ const passwordInput = ref('');
                 {{ isLogin ? "You don't have an account?" : 'Already have an account?' }}
                 <button 
                     @click="isLogin = !isLogin">
-                    {{ mainText}}
+                    {{ reverseMainText}}
                 </button>
             </p>
+            <ModalInfo v-if="modalInfo.show" 
+                v-model:isOpen="modalInfo.show"
+                :className="modalInfo.className">
+                {{modalInfo.text}}
+            </ModalInfo>
         </dialog>
     </div>
 </template>
