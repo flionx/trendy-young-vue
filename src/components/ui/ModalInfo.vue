@@ -1,7 +1,7 @@
 <template>
-<dialog :open="isOpen" :class="[className, {'anim-hide': isHide}]">
+<div :class="[className, {'anim-hide': isHide}]">
     <slot></slot>
-</dialog>
+</div>
 </template>
 
 <script setup>
@@ -24,7 +24,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-dialog {
+div {
     position: fixed;
     z-index: 999;
     bottom: 24px;
@@ -43,7 +43,7 @@ dialog {
     opacity: 0;
     animation: show 0.5s forwards;
 }
-dialog::after {
+div::after {
     content: '';
     position: absolute;
     top: 50%;

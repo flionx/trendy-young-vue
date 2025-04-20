@@ -8,6 +8,7 @@ const testCards = [
         brand: 'Gucci',
         name: 'Sweatshirt',
         type: 'Casual',
+        target: 'woman',
         price: 29,
         sale: 26,
     },
@@ -17,6 +18,7 @@ const testCards = [
         brand: 'Puma',
         name: 'T-Shirt',
         type: 'Casual',
+        target: 'man',
         price: 12,
     },
     {
@@ -25,16 +27,18 @@ const testCards = [
         brand: 'CR7',
         name: 'Sweatshirt',
         type: 'Sport',
+        target: 'woman',
         price: 107,
     },
     {
         id: 4,
         img: '/test/4.jpg',
-        brand: 'Adidas',
-        name: 'Sweatshirt',
-        type: 'Casual',
-        price: 19,
-        sale: 16,
+        brand: 'Adidas', 
+        name: 'Sweatshirt', 
+        type: 'Casual', //casual, formal, sport, sleep
+        target: 'woman', //man, woman, children
+        price: 19, 
+        sale: 16, //not required
     },
 ]
 const props = defineProps({

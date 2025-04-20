@@ -6,7 +6,6 @@ const isOpen = ref(false);
 
 function openAuthModal(params) {
     isOpen.value = false;
-    console.log(isAuthForm.value);
     isAuthForm.value = true;
 }
 </script>

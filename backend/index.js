@@ -1,14 +1,23 @@
 import express from 'express'
-import mongoose from 'mongoose';
+import cors from 'cors'
+import registerRoute from './routes/auth.js';
+import connectDB from './connectDB.js'
+import 'dotenv/config'
 
-mongoose.connect('mongodb+srv://admin:xMYH6B8ms648Bnvz@cluster0.bslo4ki.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
-.then(() => console.log('MongoDB was connected'))
-.catch((err) => console.log('MongoDB connect error: ', err))
+await connectDB();
 
 const app = express();
-const PORT = 5000
-
+const PORT = process.env.PORT || 5000;
+app.use(cors({
+    origin: [
+        'http://localhost:5173',
+        'http://localhost:5174',
+        // domain <----
+    ],
+    credentials: true,
+}))
 app.use(express.json());
+app.use('/api/auth', registerRoute) // 'api/auth/signup'
 
 app.listen(PORT, (err) => {
     if (err) {
