@@ -39,6 +39,8 @@
     --google-url: url('/icons/google.png');
     --close-url: url('/icons/close.svg');
     --share-url: url('/icons/share.svg');
+    --trash-url: url('/icons/trash.svg');
+    --edit-url: url('/icons/edit.svg');
     
     --men-url: url('/mainPage/men.jpg');
     --women-url: url('/mainPage/women.jpg');

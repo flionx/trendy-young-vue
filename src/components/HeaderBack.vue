@@ -54,7 +54,7 @@ header {
     background: var(--gray-main);
 }
 .small-m {
-    padding: 30px 48px 20px 48px;
+    padding: 30px var(--m48px) 20px var(--m48px);
 }
 .small-m .header__row:first-child {
     margin-bottom: 24px;
@@ -71,7 +71,7 @@ header {
 .row-btns {
     width: fit-content;
     display: flex;
-    column-gap: 20px;
+    column-gap: var(--m20px);
     padding: 10px 12px;
     border-radius: 8px;
     background: var(--text-color);

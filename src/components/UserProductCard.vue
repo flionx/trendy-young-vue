@@ -3,30 +3,47 @@ import { useWishlistStore } from '@/app/store/wishlist';
 import ProductPrice from './ProductPrice.vue';
 import ProductInfo from './productCard/ProductInfo.vue';
 import useBasketStore from '@/app/store/basket';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import ModalInfo from './ui/ModalInfo.vue';
 import { useModalInfo } from '@/hooks/useModalInfo';
+import EditProduct from './EditProduct.vue';
+import { useProductStore } from '@/app/store/product';
+import { useRouter } from 'vue-router';
 const props = defineProps({
     card: Object,
     count: Number,
     isBasket: Boolean,
     setModalInfo: Function,
+    btns: String,
 })
+const adminEdit = ref(false)
 const wishlistStore = useWishlistStore();
 const basketStore = useBasketStore();
+const productStore = useProductStore();
+const router = useRouter();
+
 const deleteFromStore = computed(() => props.isBasket ? basketStore.deleteFromBasket : wishlistStore.deleteFromWishlist );
 
 function deleteProduct(id) {
     props.setModalInfo(`Removed from ${props.isBasket ? 'Cart' : 'Wishlist'}`, `${props.isBasket ? 'basket' : 'like'}`)
     deleteFromStore.value(id);
 }
+function deleteFromAdmin(id) {
+    props.setModalInfo('The product was removed', 'basket') //Test
+    basketStore.deleteFromBasket(id) //Test
+}
+function goToProductPage(card) {
+    productStore.setProduct(card);
+    router.push(`/product/${card.id}`)
+}
+
 </script>
 
 <template>
     <section class="card" v-if="card">
-        <router-link to="/" class="img" title="Visit product page">
+        <button class="img" title="Visit product page" @click="goToProductPage(card)">
             <img :src="card.img" alt="product image">
-        </router-link>
+        </button>
         <div class="card__right">
             <div class="card__info">
                 <ProductInfo :id="card.id" :name="card.name"/>
@@ -46,12 +63,27 @@ function deleteProduct(id) {
                     <ProductPrice :price="card.price" :sale="card.sale" />
                 </div>
             </div>
-            <button class="btn-delete" 
-                @click="deleteProduct(card.id)" 
-                title="Delete product">
-            </button>
+            <template v-if="btns === 'basic'">
+                <button class="btn-delete" 
+                    @click="deleteProduct(card.id)" 
+                    title="Delete product">
+                </button>
+            </template>
+            <template v-if="btns === 'admin'">
+                <div class="btns__container">
+                    <button class="edit" 
+                        @click="adminEdit = !adminEdit" 
+                        title="Edit product">
+                    </button>
+                    <button class="trash" 
+                        @click="deleteFromAdmin(card.id)" 
+                        title="Delete product">
+                    </button>
+                </div>
+            </template>
         </div>
     </section>
+    <EditProduct v-if="adminEdit" :card="card" />
 </template>
 
 <style scoped>
@@ -76,7 +108,7 @@ function deleteProduct(id) {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.card a {
+.card .img {
     width: 175px;
     height: 175px;
     border-radius: 8px;
@@ -161,11 +193,19 @@ function deleteProduct(id) {
 .vertical {
     transform: translate(-50%, -50%) rotate(90deg) !important;
 }
-
+.btns__container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+.btns__container, 
 .btn-delete {
     position: absolute;
     top: 12px;
     right: 0;
+}
+.btns__container button,
+.btn-delete {
     width: 32px;
     height: 32px;
     border-radius: 8px;
@@ -175,10 +215,12 @@ function deleteProduct(id) {
     transition: transform 0.2s ease;
 }
 
+.btns__container button,
 .btn-delete:hover {
     transform: scale(1.05);
 }
 
+.btns__container button::after,
 .btn-delete::after {
     content: '';
     position: absolute;
@@ -187,10 +229,19 @@ function deleteProduct(id) {
     transform: translate(-50%, -50%);
     width: 16px;
     height: 16px;
-    mask-image: var(--close-url);
     mask-position: center;
     mask-repeat: no-repeat;
     mask-size: cover;
     background: var(--bg-color);
+}
+
+.btn-delete::after {
+    mask-image: var(--close-url);
+}
+.btns__container .edit::after {
+    mask-image: var(--edit-url);
+}
+.btns__container .trash::after {
+    mask-image: var(--trash-url);
 }
 </style>

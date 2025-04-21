@@ -16,6 +16,7 @@ const {modalInfo, setModalInfo} = useModalInfo();
             :card="card" 
             :key="card.id"
             :isBasket="false"
+            btns="basic"
             />
     </template>
     <EmptyList v-else :title="'WishList'" />
