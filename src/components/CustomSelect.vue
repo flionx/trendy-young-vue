@@ -1,6 +1,6 @@
 <template>
     <div class="select" ref="selectRef">
-        <div class="select__top" @click="toggleOpen">
+        <div class="select__top" @click="toggleOpen" :class="{border: hasBorder}">
             <span>{{ selectedLabel }}</span>
             <span class="arrow" :class="{ open: isOpen }">></span>
         </div>
@@ -23,6 +23,7 @@ import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 const props = defineProps({
     modelValue: String,
     options: Array,
+    hasBorder: Boolean,
     default: {
         type: String,
         default: 'Select option'
@@ -77,6 +78,9 @@ onBeforeUnmount(() => {
     align-items: center;
     border-radius: 8px;
     cursor: pointer;
+}
+.border {
+    border: 1px solid var(--gray-light-text);
 }
 .select__list {
     position: absolute;

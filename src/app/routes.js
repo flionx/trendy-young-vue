@@ -34,7 +34,7 @@ const routes = [
                         component: WishlistPage,
                     },
                     {
-                        path: 'user/admin',
+                        path: 'admin/:category',
                         component: AdminPage,
                     }
                 ]

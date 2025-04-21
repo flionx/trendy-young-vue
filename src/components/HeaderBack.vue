@@ -5,6 +5,7 @@ import ButtonBack from './ButtonBack.vue';
 import BigTitle from './text/BigTitle.vue';
 import RegularText from './text/RegularText.vue';
 import CustomSelect from './CustomSelect.vue';
+import { productTargets, productTypes } from '@/constants/products';
 
 const route = useRoute();
 
@@ -13,13 +14,12 @@ const titleText = computed(() => {
   if (route.path.includes('wishlist')) return 'Wishlist';
   return 'Catalog';
 });
-
 const isCatalog = computed(() => titleText.value === 'Catalog');
 
-const categories = ['Women', 'Men', 'Children', 'All'];
-const subCategories = ['Casual', 'Formal', 'Sport', 'Sleep'];
-
 const isActiveCategory = (category) => category === (route.params.category || 'all');
+const isAdminPage = computed(() => route.path.includes('admin'));
+const linkToCategory = (category) => (isAdminPage.value ? '/store/admin/' : '/store/') + category.toLocaleLowerCase();
+
 const activeType = ref('');
 </script>
 
@@ -31,13 +31,13 @@ const activeType = ref('');
     </div>
     <div class="header__row" v-if="isCatalog">
         <div class="row-btns">
-            <router-link v-for="category in categories" :to="`/store/${category.toLowerCase()}`"
+            <router-link v-for="category in productTargets" :to="linkToCategory(category)"
                 :class="{'active': isActiveCategory(category.toLowerCase())}"
                 :key="category">
                 <RegularText>{{ category }}</RegularText>
             </router-link>
         </div>
-        <CustomSelect v-model="activeType" :options="subCategories" default="Clothing type" />
+        <CustomSelect v-model="activeType" :options="productTypes" default="Clothing type" />
     </div>
   </header>
 </template>

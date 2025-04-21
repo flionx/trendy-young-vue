@@ -16,7 +16,7 @@ const props = defineProps({
     setModalInfo: Function,
     btns: String,
 })
-const adminEdit = ref(false)
+const isAdminEdit = ref(false)
 const wishlistStore = useWishlistStore();
 const basketStore = useBasketStore();
 const productStore = useProductStore();
@@ -72,7 +72,7 @@ function goToProductPage(card) {
             <template v-if="btns === 'admin'">
                 <div class="btns__container">
                     <button class="edit" 
-                        @click="adminEdit = !adminEdit" 
+                        @click="isAdminEdit = !isAdminEdit" 
                         title="Edit product">
                     </button>
                     <button class="trash" 
@@ -83,7 +83,7 @@ function goToProductPage(card) {
             </template>
         </div>
     </section>
-    <EditProduct v-if="adminEdit" :card="card" />
+    <EditProduct v-if="isAdminEdit" v-model:isAdminEdit="isAdminEdit" :card="card" />
 </template>
 
 <style scoped>
@@ -93,7 +93,7 @@ function goToProductPage(card) {
     column-gap: 26px;
     align-items: center;
     margin-bottom: 16px;
-    padding: 12px 24px 12px 12px;
+    padding: 12px var(--m20px) 12px 12px;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
