@@ -148,6 +148,7 @@ input[type='number'] {
     font-family: var(--main-font);
     padding: 8px 12px;
     background: var(--gray-main);
+    font-size: 17px;
     border-radius: 8px;
     color: var(--bg-color)
 }
