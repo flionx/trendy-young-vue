@@ -21,6 +21,7 @@ const currProduct = reactive({
     name: '',
     type: '',
     target: '',
+    description: '',
     price: 0,
 })
 watchEffect(() => {
@@ -86,6 +87,12 @@ watchEffect(() => {
                 <div class="column">
                     <label for="sale">Product sale</label>
                     <input type="number" min="1" id="sale" placeholder="Enter product sale" v-model="currProduct.sale">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <label for="description">Product description</label>
+                    <textarea id="description" placeholder="Enter product description" v-model="currProduct.description"></textarea>
                 </div>
             </div>
             <div class="row-btns">
@@ -156,12 +163,16 @@ label {
     margin-bottom: 5px;
     color: var(--bg-color)
 }
+textarea,
 input:not(.select) {
     padding: 10px 12px;
     background: transparent;
     color: var(--bg-color);
     border: 1px solid var(--gray-light-text);
     border-radius: 8px;
+}
+textarea {
+  resize: none;
 }
 .row {
     display: flex;
