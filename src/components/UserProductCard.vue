@@ -9,6 +9,7 @@ import { useModalInfo } from '@/hooks/useModalInfo';
 import EditProduct from './EditProduct.vue';
 import { useProductStore } from '@/app/store/product';
 import { useRouter } from 'vue-router';
+import ButtonOption from './ui/ButtonOption.vue';
 const props = defineProps({
     card: Object,
     count: Number,
@@ -64,21 +65,21 @@ function goToProductPage(card) {
                 </div>
             </div>
             <template v-if="btns === 'basic'">
-                <button class="btn-delete" 
+                <ButtonOption class="delete"
                     @click="deleteProduct(card.id)" 
                     title="Delete product">
-                </button>
+                </ButtonOption>
             </template>
             <template v-if="btns === 'admin'">
                 <div class="btns__container">
-                    <button class="edit" 
-                        @click="isAdminEdit = !isAdminEdit" 
-                        title="Edit product">
-                    </button>
-                    <button class="trash" 
-                        @click="deleteFromAdmin(card.id)" 
+                    <ButtonOption class="edit"
+                    @click="isAdminEdit = !isAdminEdit" 
+                    title="Edit product">
+                    </ButtonOption>
+                    <ButtonOption class="trash"
+                        @click="deleteFromAdmin(card.id)"
                         title="Delete product">
-                    </button>
+                    </ButtonOption>
                 </div>
             </template>
         </div>
@@ -199,49 +200,10 @@ function goToProductPage(card) {
     row-gap: 15px;
 }
 .btns__container, 
-.btn-delete {
+.delete {
     position: absolute;
     top: 12px;
     right: 0;
 }
-.btns__container button,
-.btn-delete {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    background: var(--gray-main);
-    border: none;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
 
-.btns__container button,
-.btn-delete:hover {
-    transform: scale(1.05);
-}
-
-.btns__container button::after,
-.btn-delete::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 16px;
-    height: 16px;
-    mask-position: center;
-    mask-repeat: no-repeat;
-    mask-size: cover;
-    background: var(--bg-color);
-}
-
-.btn-delete::after {
-    mask-image: var(--close-url);
-}
-.btns__container .edit::after {
-    mask-image: var(--edit-url);
-}
-.btns__container .trash::after {
-    mask-image: var(--trash-url);
-}
 </style>

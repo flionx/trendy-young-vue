@@ -1,21 +1,17 @@
 <script setup>
-import { useProductStore } from '@/app/store/product';
 import { productTargets, productTypes } from '@/constants/products';
 import { useRouter } from 'vue-router';
 import CustomSelect from './CustomSelect.vue';
-import { reactive, watchEffect } from 'vue';
+import { reactive, ref, watchEffect } from 'vue';
+import ButtonOption from './ui/ButtonOption.vue';
+import useChangeImage from '@/hooks/useChangeImage';
 
 const props = defineProps({
     card: Object,
 })
 const isAdminEdit = defineModel('isAdminEdit')
 const router = useRouter();
-const productStore = useProductStore();
 
-function goToProductPage(card) {
-    productStore.setProduct(card);
-    router.push(`/product/${card.id}`)
-}
 const currProduct = reactive({
     id: -1,
     img: '',
@@ -28,13 +24,21 @@ const currProduct = reactive({
 watchEffect(() => {
     Object.assign(currProduct, props.card);
 })
+const inputFile = ref(null);
+const {changeImage, uploading} = useChangeImage();
+
 </script>
 
 <template>
     <div class="item">
-        <button class="img" title="Visit product page" @click="goToProductPage(card)">
+        <div class="img" title="Visit product page">
             <img :src="currProduct.img" alt="product image">
-        </button>
+            <input type="file" ref="inputFile" class="input-file" @change="changeImage($event, currProduct)">
+            <ButtonOption class="edit" 
+                @click="inputFile.click()"
+                title="Edit image">
+            </ButtonOption>
+        </div>
         <form @submit.prevent>
             <div class="row">
                 <div class="column">
@@ -87,20 +91,39 @@ watchEffect(() => {
 
 <style scoped>
 .item {
+    width: 95%;
     display: flex;
     flex-wrap: wrap;
     column-gap: 15px;
     margin-bottom: var(--m48px);
 }
+@media (max-width: 800px) {
+    .item {
+        width: 100%;
+    }
+}
 .img {
     height: fit-content;
     background: transparent;
     min-width: 250px;
+    max-width: 400px;
+    position: relative;
 }
 .img img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: center;
     border-radius: 16px;
+}
+.input-file {
+    display: none;
+}
+.img button {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: var(--text-color);
 }
 
 form {
@@ -144,6 +167,7 @@ input[type='number'] {
     align-items: center;
     column-gap: 25px;
 }
+
 .row-btns button{
     font-family: var(--main-font);
     padding: 8px 12px;
@@ -154,6 +178,7 @@ input[type='number'] {
 }
 .row-btns button.nobg{
     background: transparent;
-    border: 2px solid var(--gray-main)
+    border: 2px solid var(--gray-main);
 }
+
 </style>
