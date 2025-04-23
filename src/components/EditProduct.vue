@@ -5,6 +5,8 @@ import CustomSelect from './CustomSelect.vue';
 import { reactive, ref, watchEffect } from 'vue';
 import ButtonOption from './ui/ButtonOption.vue';
 import useChangeImage from '@/hooks/useChangeImage';
+import ModalInfo from './ui/ModalInfo.vue';
+import { useModalInfo } from '@/hooks/useModalInfo';
 
 const props = defineProps({
     card: Object,
@@ -25,7 +27,13 @@ watchEffect(() => {
     Object.assign(currProduct, props.card);
 })
 const inputFile = ref(null);
+const {modalInfo, setModalInfo} = useModalInfo();
 const {changeImage, uploading} = useChangeImage();
+watchEffect(() => {
+    if (uploading.value) {
+        setModalInfo('Please wait. Uploading an image', '')
+    }
+})
 
 </script>
 
@@ -87,6 +95,11 @@ const {changeImage, uploading} = useChangeImage();
             </div>
         </form>
     </div>
+    <ModalInfo v-if="modalInfo.show" 
+        v-model:isOpen="modalInfo.show"
+        :className="modalInfo.className">
+        {{modalInfo.text}}
+    </ModalInfo>
 </template>
 
 <style scoped>
