@@ -6,6 +6,7 @@ import CategoryPage from "@/pages/CategoryPage.vue";
 import BasketPage from "@/pages/BasketPage.vue";
 import WishlistPage from "@/pages/WishlistPage.vue";
 import ProductPage from "@/pages/ProductPage.vue";
+import AdminPage from "@/pages/AdminPage.vue";
 
 const routes = [
     {
@@ -31,6 +32,10 @@ const routes = [
                     {
                         path: 'user/wishlist',
                         component: WishlistPage,
+                    },
+                    {
+                        path: 'admin/:category',
+                        component: AdminPage,
                     }
                 ]
             },

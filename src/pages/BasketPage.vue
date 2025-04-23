@@ -26,6 +26,7 @@ const {modalInfo, setModalInfo} = useModalInfo();
                     :card="card.product"
                     :count="card.count"
                     :isBasket="true"
+                    btns="basic"
                 />
             </div>
             <div class="sidebar">

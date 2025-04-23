@@ -10,6 +10,7 @@
     "server": "nodemon ./backend/index.js"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.4",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
