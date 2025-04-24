@@ -1,10 +1,10 @@
 import express from 'express'
 import cors from 'cors'
+import bodyParser from 'body-parser';
 import 'dotenv/config'
 import connectDB from './connectDB.js'
 import registerRoute from './routes/auth.js';
-import createProductRoute from './routes/product.js';
-import bodyParser from 'body-parser';
+import productRoute from './routes/product.js';
 
 await connectDB();
 
@@ -21,7 +21,7 @@ app.use(cors({
 }))
 app.use(bodyParser.json());
 app.use('/api/auth', registerRoute);
-app.use('/api/product', createProductRoute);
+app.use('/api/product', productRoute);
 
 app.listen(PORT, (err) => {
     if (err) {

@@ -30,7 +30,7 @@ function deleteProduct(id) {
     deleteFromStore.value(id);
 }
 function deleteFromAdmin(id) {
-    props.setModalInfo('The product was removed', 'basket') //Test
+    props.setModalInfo('The product was removed', 'basket');
     basketStore.deleteFromBasket(id) //Test
 }
 function goToProductPage(card) {

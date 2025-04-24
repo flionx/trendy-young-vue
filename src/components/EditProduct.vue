@@ -7,6 +7,7 @@ import ButtonOption from './ui/ButtonOption.vue';
 import useChangeImage from '@/hooks/useChangeImage';
 import ModalInfo from './ui/ModalInfo.vue';
 import { useModalInfo } from '@/hooks/useModalInfo';
+import fetchProductById from '@/utils/fetchProductById';
 
 const props = defineProps({
     card: Object,
@@ -65,9 +66,11 @@ async function addNewProduct() {
             credentials: 'include',
             body: JSON.stringify(currProduct),
         }) // the path is temporary, it'll be hosted later.
-        
+
         if (newProduct.status === 201) {
             const result = await newProduct.json();
+            result.product;
+            
             setModalInfo('The product has been successfully created', '')
             isAdminEdit.value = false;
         }

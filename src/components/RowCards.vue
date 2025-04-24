@@ -44,7 +44,6 @@ const testCards = [
 const props = defineProps({
     title: String,
 })
-
 </script>
 
 <template>

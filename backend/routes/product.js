@@ -12,5 +12,34 @@ router.post('/create', async (req, res) => {
         res.status(400).json({error: error.message})
     }
 })
+router.get('/find', async (req, res) => {
+    const { type, target } = req.query;
+    const filter = {};
+    if (type) filter.type = type;
+    if (target) filter.target = target;
+
+    try {
+        const products = await Product.find(filter);
+        if (products.length === 0) {
+            return res.status(404).json({ error: 'No products found matching the filter'});
+        }
+        return res.status(200).json({ products });
+    } catch (error) {
+        return res.status(400).json({ error: 'Failed to fetch products', details: error.message });
+    }
+});
+
+router.get('/find/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const product = await Product.findById(id);
+        if (!product) return res.status(404).json({ error: 'Product not found' });
+        return res.status(200).json({ product });
+    } catch (error) {
+        return res.status(400).json({ error: 'Failed to fetch product', details: error.message });
+    }
+});
+
+
 
 export default router
