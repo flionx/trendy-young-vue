@@ -89,6 +89,7 @@ function goToProductPage(card) {
 
 <style scoped>
 .card {
+    margin: 0 auto;
     width: 95%;
     display: flex;
     column-gap: 26px;

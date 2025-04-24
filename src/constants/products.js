@@ -1,2 +1,2 @@
-export const productTargets = ['Women', 'Men', 'Children', 'All'];
-export const productTypes = ['Casual', 'Formal', 'Sport', 'Sleep'];
+export const productTargets = ['women', 'men', 'children', 'all'];
+export const productTypes = ['casual', 'formal', 'sport', 'sleep'];

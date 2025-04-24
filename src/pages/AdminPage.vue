@@ -10,14 +10,6 @@ const basketStore = useBasketStore(); // Test
 const {modalInfo, setModalInfo} = useModalInfo();
 
 const showCreateProduct = ref(false);
-const newCard = reactive({
-    img: '',
-    brand: '',
-    name: '',
-    type: '',
-    target: '',
-    price: 0,
-})
 </script>
 
 <template>
@@ -27,7 +19,7 @@ const newCard = reactive({
             <span class="btn-text">Add new product</span>
         </button>
     </div>
-    <EditProduct v-if="showCreateProduct" v-model:isAdminEdit="showCreateProduct" :card="newCard" />
+    <EditProduct v-if="showCreateProduct" v-model:isAdminEdit="showCreateProduct" :isCreate="true"/>
     <UserProductCard v-for="card in basketStore.products" :key="card.product.id"
         :setModalInfo="setModalInfo"
         :card="card.product"

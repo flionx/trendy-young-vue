@@ -18,7 +18,7 @@ const isCatalog = computed(() => titleText.value === 'Catalog');
 
 const isActiveCategory = (category) => category === (route.params.category || 'all');
 const isAdminPage = computed(() => route.path.includes('admin'));
-const linkToCategory = (category) => (isAdminPage.value ? '/store/admin/' : '/store/') + category.toLocaleLowerCase();
+const linkToCategory = (category) => (isAdminPage.value ? '/store/admin/' : '/store/') + category;
 
 const activeType = ref('');
 </script>
@@ -32,7 +32,7 @@ const activeType = ref('');
     <div class="header__row" v-if="isCatalog">
         <div class="row-btns">
             <router-link v-for="category in productTargets" :to="linkToCategory(category)"
-                :class="{'active': isActiveCategory(category.toLowerCase())}"
+                :class="{'active': isActiveCategory(category)}"
                 :key="category">
                 <RegularText>{{ category }}</RegularText>
             </router-link>
