@@ -42,8 +42,8 @@ function shareOrCopy() {
             </div>
             <div class="card__btns">
                 <div class="row">
-                    <div class="teg">#{{ product.type }}</div>
                     <div class="teg">#{{ product.target }}</div>
+                    <div class="teg">#{{ product.type }}</div>
                 </div>
                 <div class="row right">
                     <ButtonOrange icon="like"></ButtonOrange>
@@ -52,7 +52,6 @@ function shareOrCopy() {
             </div>
             <div class="card__description">
                 <div class="circle-title">Description</div>
-                <!-- from product -->
                 <p><RegularText>{{ product.description }}</RegularText></p>
             </div>
         </div>

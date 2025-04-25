@@ -1,13 +1,15 @@
 <script setup>
 import { useRoute } from 'vue-router';
-import { computed, ref } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 import ButtonBack from './ButtonBack.vue';
 import BigTitle from './text/BigTitle.vue';
 import RegularText from './text/RegularText.vue';
 import CustomSelect from './CustomSelect.vue';
+import { useProductsStore } from '@/app/store/products';
 import { productTargets, productTypes } from '@/constants/products';
 
 const route = useRoute();
+const productsStore = useProductsStore();
 
 const titleText = computed(() => {
   if (route.path.includes('basket')) return 'Cart';
@@ -16,11 +18,18 @@ const titleText = computed(() => {
 });
 const isCatalog = computed(() => titleText.value === 'Catalog');
 
-const isActiveCategory = (category) => category === (route.params.category || 'all');
+const isActiveTarget = (target) => target === (route.params.category || 'all');
 const isAdminPage = computed(() => route.path.includes('admin'));
-const linkToCategory = (category) => (isAdminPage.value ? '/store/admin/' : '/store/') + category;
+const linkToTarget = (target) => (isAdminPage.value ? '/store/admin/' : '/store/') + target;
 
 const activeType = ref('');
+
+watchEffect(async () => {
+  await productsStore.fetchProducts({
+    type: activeType.value,
+    target: (route.params.category === 'all' ? '' : route.params.category),
+  })
+})
 </script>
 
 <template>
@@ -31,10 +40,10 @@ const activeType = ref('');
     </div>
     <div class="header__row" v-if="isCatalog">
         <div class="row-btns">
-            <router-link v-for="category in productTargets" :to="linkToCategory(category)"
-                :class="{'active': isActiveCategory(category)}"
-                :key="category">
-                <RegularText>{{ category }}</RegularText>
+            <router-link v-for="target in productTargets" :to="linkToTarget(target)"
+                :class="{'active': isActiveTarget(target)}"
+                :key="target">
+                <RegularText>{{ target }}</RegularText>
             </router-link>
         </div>
         <CustomSelect v-model="activeType" :options="productTypes" default="Clothing type" />

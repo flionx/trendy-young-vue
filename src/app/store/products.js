@@ -7,10 +7,10 @@ export const useProductsStore = defineStore('products', {
         loading: false,
     }),
     actions: {
-        async fetchProducts(filter) {
+        async fetchProducts(filters) {
             try {
                 this.loading = true;
-                const response = await fetchProducts(filter);                
+                const response = await fetchProducts(filters);                
                 this.products = response;
             } catch (error) {
                 console.log('Error when fetching items from the DB: ', error);

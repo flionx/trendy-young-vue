@@ -31,9 +31,7 @@ function deleteFromAdmin(id) {
     props.setModalInfo('The product was removed', 'basket');
     basketStore.deleteFromBasket(id) //Test
 }
-function goToProductPage(card) {
-    console.log(card);
-    
+function goToProductPage(card) {    
     router.push(`/product/${card._id}`)
 }
 

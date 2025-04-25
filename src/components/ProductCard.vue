@@ -103,7 +103,6 @@ function goToProductPage(card) {
     color: var(--bg-color);
     background: var(--gray-main);
     border-radius: 0 0 16px 16px;
-
 }
 .card__left {
     width: 60%;
