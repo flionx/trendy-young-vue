@@ -1,3 +1,13 @@
+<script setup>
+import { onMounted } from 'vue';
+import { useProductsStore } from './app/store/products';
+const productsStore = useProductsStore();
+
+onMounted(async () => {
+    await productsStore.fetchProducts();
+})
+</script>
+
 <template>
   <div class="container">
     <router-view></router-view>

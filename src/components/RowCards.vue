@@ -1,46 +1,12 @@
 <script setup>
+import { computed, onMounted } from 'vue';
 import ProductCard from './ProductCard.vue';
 import MiddleTitle from './text/MiddleTitle.vue';
-const testCards = [
-    {
-        id: 1,
-        img: '/test/1.jpg',
-        brand: 'Gucci',
-        name: 'Sweatshirt',
-        type: 'Casual',
-        target: 'woman',
-        price: 29,
-        sale: 26,
-    },
-    {
-        id: 2,
-        img: '/test/2.jpg',
-        brand: 'Puma',
-        name: 'T-Shirt',
-        type: 'Casual',
-        target: 'man',
-        price: 12,
-    },
-    {
-        id: 3,
-        img: '/test/3.jpg',
-        brand: 'CR7',
-        name: 'Sweatshirt',
-        type: 'Sport',
-        target: 'woman',
-        price: 107,
-    },
-    {
-        id: 4,
-        img: '/test/4.jpg',
-        brand: 'Adidas', 
-        name: 'Sweatshirt', 
-        type: 'Casual', //casual, formal, sport, sleep
-        target: 'woman', //man, woman, children
-        price: 19, 
-        sale: 16, //not required
-    },
-]
+import { useProductsStore } from '@/app/store/products';
+
+const productsStore = useProductsStore();
+const filteredProducts = computed(() => productsStore.products.slice(0, 4))
+
 const props = defineProps({
     title: String,
 })
@@ -53,7 +19,7 @@ const props = defineProps({
             <router-link to="store/all">See all</router-link>
         </div>
         <div class="row">
-            <ProductCard v-for="card in testCards" :card="card" :key="card.id"></ProductCard>
+            <ProductCard v-for="card in filteredProducts" :card="card" :key="card.id"></ProductCard>
         </div>
     </section>
 </template>

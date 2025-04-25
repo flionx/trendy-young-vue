@@ -29,6 +29,7 @@
 
 <script setup>
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 import ProductPrice from './ProductPrice.vue';
 import ModalInfo from './ui/ModalInfo.vue';
 import RegularText from './text/RegularText.vue';
@@ -36,26 +37,11 @@ import BoldText from './text/BoldText.vue';
 import { useWishlistStore } from '@/app/store/wishlist';
 import useBasketStore from '@/app/store/basket';
 import { useModalInfo } from '@/hooks/useModalInfo';
-import { useProductStore } from '@/app/store/product';
-import { useRouter } from 'vue-router';
 const props = defineProps({
-    card: {
-        type: Object,
-        required: true,
-        default: () => ({
-            id: 1,
-            img: '/test/1.jpg',
-            brand: 'Brand Name',
-            name: 'Sweatshirt',
-            type: 'Casual',
-            price: 19,
-            sale: 16,
-        })
-    }
+    card: Object,
 })
 const wishlistStore = useWishlistStore();
 const basketStore = useBasketStore();
-const productStore = useProductStore();
 const router = useRouter();
 const {modalInfo, setModalInfo} = useModalInfo();
 
@@ -76,8 +62,7 @@ function toggleWishlist(card) {
     }
 }
 function goToProductPage(card) {
-    productStore.setProduct(card);
-    router.push(`/product/${card.id}`)
+    router.push(`/product/${card._id}`)
 }
 
 </script>

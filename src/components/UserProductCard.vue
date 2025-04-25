@@ -1,14 +1,13 @@
 <script setup>
+import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useWishlistStore } from '@/app/store/wishlist';
 import ProductPrice from './ProductPrice.vue';
 import ProductInfo from './productCard/ProductInfo.vue';
 import useBasketStore from '@/app/store/basket';
-import { computed, ref } from 'vue';
 import ModalInfo from './ui/ModalInfo.vue';
 import { useModalInfo } from '@/hooks/useModalInfo';
 import EditProduct from './EditProduct.vue';
-import { useProductStore } from '@/app/store/product';
-import { useRouter } from 'vue-router';
 import ButtonOption from './ui/ButtonOption.vue';
 const props = defineProps({
     card: Object,
@@ -20,22 +19,22 @@ const props = defineProps({
 const isAdminEdit = ref(false)
 const wishlistStore = useWishlistStore();
 const basketStore = useBasketStore();
-const productStore = useProductStore();
 const router = useRouter();
 
-const deleteFromStore = computed(() => props.isBasket ? basketStore.deleteFromBasket : wishlistStore.deleteFromWishlist );
+const deleteFromUserList = computed(() => props.isBasket ? basketStore.deleteFromBasket : wishlistStore.deleteFromWishlist );
 
 function deleteProduct(id) {
     props.setModalInfo(`Removed from ${props.isBasket ? 'Cart' : 'Wishlist'}`, `${props.isBasket ? 'basket' : 'like'}`)
-    deleteFromStore.value(id);
+    deleteFromUserList.value(id);
 }
 function deleteFromAdmin(id) {
     props.setModalInfo('The product was removed', 'basket');
     basketStore.deleteFromBasket(id) //Test
 }
 function goToProductPage(card) {
-    productStore.setProduct(card);
-    router.push(`/product/${card.id}`)
+    console.log(card);
+    
+    router.push(`/product/${card._id}`)
 }
 
 </script>

@@ -7,5 +7,7 @@ export async function fetchProducts(filters) {
     if (products.status === 200) {
         const result = await products.json();
         return result.products;
+    } else {
+        throw Error("No products found");
     }
 }
