@@ -1,15 +1,14 @@
 <script setup>
-import useBasketStore from '@/app/store/basket';
+import { reactive, ref } from 'vue';
+import { useProductsStore } from '@/app/store/products';
 import EditProduct from '@/components/EditProduct.vue';
 import ModalInfo from '@/components/ui/ModalInfo.vue';
 import UserProductCard from '@/components/UserProductCard.vue';
 import { useModalInfo } from '@/hooks/useModalInfo';
-import { reactive, ref } from 'vue';
 
-const basketStore = useBasketStore(); // Test
-const {modalInfo, setModalInfo} = useModalInfo();
-
+const productsStore = useProductsStore();
 const showCreateProduct = ref(false);
+const {modalInfo, setModalInfo} = useModalInfo();
 </script>
 
 <template>
@@ -20,10 +19,9 @@ const showCreateProduct = ref(false);
         </button>
     </div>
     <EditProduct v-if="showCreateProduct" v-model:isAdminEdit="showCreateProduct" :isCreate="true"/>
-    <UserProductCard v-for="card in basketStore.products" :key="card.product.id"
+    <UserProductCard v-for="product in productsStore.products" :key="product._id"
         :setModalInfo="setModalInfo"
-        :card="card.product"
-        :count="card.count"
+        :card="product"
         :isBasket="false"
         btns="admin"
     />
