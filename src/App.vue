@@ -1,10 +1,10 @@
 <script setup>
 import { onMounted } from 'vue';
-import { useProductsStore } from './app/store/products';
-const productsStore = useProductsStore();
+import { usePopProductsStore } from './app/store/popularProducts';
+const popProductsStore = usePopProductsStore();
 
 onMounted(async () => {
-    await productsStore.fetchProducts();
+    await popProductsStore.loadProducts();
 })
 </script>
 

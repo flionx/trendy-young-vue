@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router';
-import { computed, ref, watchEffect } from 'vue';
+import { computed, ref, watch } from 'vue';
 import ButtonBack from './ButtonBack.vue';
 import BigTitle from './text/BigTitle.vue';
 import RegularText from './text/RegularText.vue';
@@ -24,12 +24,16 @@ const linkToTarget = (target) => (isAdminPage.value ? '/store/admin/' : '/store/
 
 const activeType = ref('');
 
-watchEffect(async () => {
-  await productsStore.fetchProducts({
-    type: activeType.value,
-    target: (route.params.category === 'all' ? '' : route.params.category),
-  })
-})
+watch(
+  [() => activeType.value, () => route.params.category],
+  async ([newType, newCategory]) => {
+    await productsStore.loadProducts({
+      type: newType,
+      target: newCategory === 'all' ? '' : newCategory,
+    });
+  },
+  { deep: true, immediate: true }
+);
 </script>
 
 <template>

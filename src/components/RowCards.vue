@@ -3,13 +3,13 @@ import { computed, onMounted } from 'vue';
 import ProductCard from './ProductCard.vue';
 import MiddleTitle from './text/MiddleTitle.vue';
 import { useProductsStore } from '@/app/store/products';
-
-const productsStore = useProductsStore();
-const filteredProducts = computed(() => productsStore.products.slice(0, 4))
+import { usePopProductsStore } from '@/app/store/popularProducts';
 
 const props = defineProps({
     title: String,
 })
+const popProductsStore = usePopProductsStore();
+
 </script>
 
 <template>
@@ -19,7 +19,7 @@ const props = defineProps({
             <router-link to="store/all">See all</router-link>
         </div>
         <div class="row">
-            <ProductCard v-for="card in filteredProducts" :card="card" :key="card.id"></ProductCard>
+            <ProductCard v-for="card in popProductsStore.products" :card="card" :key="card.id"></ProductCard>
         </div>
     </section>
 </template>

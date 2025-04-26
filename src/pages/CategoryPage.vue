@@ -19,6 +19,11 @@ const productsStore = useProductsStore();
 }
 @media (max-width: 767px) {
     .row {
+        grid-template-columns: 1fr 1fr; 
+    }
+}
+@media (max-width: 475px) {
+    .row {
         grid-template-columns: 1fr; 
     }
 }

@@ -8,6 +8,6 @@ export async function fetchProducts(filters) {
         const result = await products.json();
         return result.products;
     } else {
-        throw Error("No products found");
+        return [];
     }
 }
