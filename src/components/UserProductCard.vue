@@ -34,7 +34,6 @@ function deleteFromAdmin(id) {
 function goToProductPage(card) {    
     router.push(`/product/${card._id}`)
 }
-
 </script>
 
 <template>
@@ -44,11 +43,11 @@ function goToProductPage(card) {
         </button>
         <div class="card__right">
             <div class="card__info">
-                <ProductInfo :id="card.id" :name="card.name"/>
+                <ProductInfo :id="card._id" :name="card.name"/>
                 <div class="card__price-wrapper">
                     <div class="card__count" v-if="isBasket">
                         <button class="minus" 
-                            @click="basketStore.minusBasket(card.id)">
+                            @click="basketStore.minusBasket(card._id)">
                             <span></span>
                         </button>
                         <div class="count">{{ count ?? 1 }}</div>
@@ -63,7 +62,7 @@ function goToProductPage(card) {
             </div>
             <template v-if="btns === 'basic'">
                 <ButtonOption class="delete"
-                    @click="deleteProduct(card.id)" 
+                    @click="deleteProduct(card._id)" 
                     title="Delete product">
                 </ButtonOption>
             </template>
@@ -74,7 +73,7 @@ function goToProductPage(card) {
                     title="Edit product">
                     </ButtonOption>
                     <ButtonOption class="trash"
-                        @click="deleteFromAdmin(card.id)"
+                        @click="deleteFromAdmin(card._id)"
                         title="Delete product">
                     </ButtonOption>
                 </div>

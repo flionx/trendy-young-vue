@@ -13,7 +13,7 @@ export const useWishlistStore = defineStore('wishlist', {
             this.products.push(product);
         },
         deleteFromWishlist(id) {
-            const deleteIndex = this.products.findIndex(card => card.id === id);
+            const deleteIndex = this.products.findIndex(card => card._id === id);
             if (deleteIndex !== -1) {
                 this.products.splice(deleteIndex, 1);
             }

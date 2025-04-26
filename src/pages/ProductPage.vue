@@ -1,5 +1,5 @@
 <script setup>
-import RowCards from '@/components/RowCards.vue';
+import RowCards from '@/components/PopularCards.vue';
 import ProductPrice from '@/components/ProductPrice.vue';
 import BoldText from '@/components/text/BoldText.vue';
 import MiddleTitle from '@/components/text/MiddleTitle.vue';
@@ -46,7 +46,7 @@ function shareOrCopy() {
                     <div class="teg">#{{ product.type }}</div>
                 </div>
                 <div class="row right">
-                    <ButtonOrange icon="like"></ButtonOrange>
+                    <ButtonOrange class="like"></ButtonOrange>
                     <ButtonOrange>Add to Cart</ButtonOrange>
                 </div>
             </div>

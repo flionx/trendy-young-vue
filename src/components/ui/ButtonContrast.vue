@@ -1,14 +1,8 @@
 <template>
-    <button @click="handleClick">
+    <button>
         <slot></slot>
     </button>
 </template>
-
-<script setup>
-const props = defineProps({
-    handleClick: Function
-})
-</script>
 
 <style scoped>
 button {

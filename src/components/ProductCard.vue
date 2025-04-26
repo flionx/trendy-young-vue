@@ -1,32 +1,3 @@
-<template>
-    <div class="card">
-        <button class="card__like" 
-            :class="isLike ? 'like-done' : ''" 
-            @click="toggleWishlist(card)" 
-            title="add to wishlist">
-        </button>
-        <button class="card__image" @click="goToProductPage(card)">
-            <img :src="card.img" alt="product image">
-        </button>
-        <div class="card__info">
-            <div class="card__left">
-                <BoldText class="card__brand">{{ card.brand }}</BoldText>
-                <div class="card__type"><RegularText>{{ card.name }}</RegularText></div>
-                <ProductPrice :price="card.price" :sale="card.sale" />
-            </div>
-            <button class="card__add" 
-                @click="addToBasket(card)" 
-                title="add to basket">
-            </button>
-        </div>
-    </div>
-    <ModalInfo v-if="modalInfo.show" 
-        v-model:isOpen="modalInfo.show"
-        :className="modalInfo.className">
-        {{modalInfo.text}}
-    </ModalInfo>
-</template>
-
 <script setup>
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
@@ -38,7 +9,7 @@ import { useWishlistStore } from '@/app/store/wishlist';
 import useBasketStore from '@/app/store/basket';
 import { useModalInfo } from '@/hooks/useModalInfo';
 const props = defineProps({
-    card: Object,
+    product: Object,
 })
 const wishlistStore = useWishlistStore();
 const basketStore = useBasketStore();
@@ -46,26 +17,54 @@ const router = useRouter();
 const {modalInfo, setModalInfo} = useModalInfo();
 
 const isLike = computed(() => 
-    wishlistStore.products.some(product => product.id === props.card.id)
+    wishlistStore.products.some(product => product._id === props.product._id)
 );
-function addToBasket(card) {
-    basketStore.addToBasket(card)
+function addToBasket(product) {
+    basketStore.addToBasket(product)
     setModalInfo('Added to Cart', 'basket')
 }
-function toggleWishlist(card) {    
+function toggleWishlist(product) {    
     if (isLike.value) { 
-        wishlistStore.deleteFromWishlist(card.id);
+        wishlistStore.deleteFromWishlist(product._id);
         setModalInfo('Removed from Wishlist', 'like');
     } else {
-        wishlistStore.addToWishlist(card);
+        wishlistStore.addToWishlist(product);
         setModalInfo('Added to Wishlist', 'like');
     }
 }
-function goToProductPage(card) {
-    router.push(`/product/${card._id}`)
+function goToProductPage(product) {
+    router.push(`/product/${product._id}`)
 }
-
 </script>
+
+<template>
+    <div class="card">
+        <button class="card__like" 
+            :class="isLike ? 'like-done' : ''" 
+            @click="toggleWishlist(product)" 
+            title="add to wishlist">
+        </button>
+        <button class="card__image" @click="goToProductPage(product)">
+            <img :src="product.img" alt="product image">
+        </button>
+        <div class="card__info">
+            <div class="card__left">
+                <BoldText class="card__brand">{{ product.brand }}</BoldText>
+                <div class="card__type"><RegularText>{{ product.name }}</RegularText></div>
+                <ProductPrice :price="product.price" :sale="product.sale" />
+            </div>
+            <button class="card__add" 
+                @click="addToBasket(product)" 
+                title="add to basket">
+            </button>
+        </div>
+    </div>
+    <ModalInfo v-if="modalInfo.show" 
+        v-model:isOpen="modalInfo.show"
+        :className="modalInfo.className">
+        {{modalInfo.text}}
+    </ModalInfo>
+</template>
 
 <style scoped>
 .card {

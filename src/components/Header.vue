@@ -11,17 +11,17 @@ const isAuthForm = defineModel('isAuthForm');
         <h1>Trendy Young</h1>
         <div class="desktop">
             <InputSearch />
-            <nav class="header__nav">
+            <nav>
                 <router-link to="/store/user/wishlist">
-                    <ButtonOrange icon="like"/>
+                    <ButtonOrange class="like"/>
                 </router-link>
-                <router-link to="/store/user/basket" class="cart">
-                    <ButtonOrange icon="cart">Cart</ButtonOrange>
+                <router-link to="/store/user/basket">
+                    <ButtonOrange class="cart">Cart</ButtonOrange>
                 </router-link>
-                <ButtonContrast :handleClick="() => isAuthForm = true">Log in/Sign up</ButtonContrast>
+                <ButtonContrast @click="() => isAuthForm = true">Log in/Sign up</ButtonContrast>
             </nav>
         </div>
-        <BurgerNav v-model:isAuthForm="isAuthForm"/>
+        <BurgerNav v-model="isAuthForm"/>
     </header>
 </template>
 
@@ -40,7 +40,7 @@ h1 {
     color: var(--bg-color);
     margin-right: 25px;
 }
-.header__nav {
+nav {
     display: flex;
     align-items: center;
     column-gap: 8px;
