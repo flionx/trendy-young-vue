@@ -34,7 +34,6 @@ const theme = defineModel('theme');
   right: 0;
   bottom: 0;
   background-color: var(--gray-dark-text);
-
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -42,10 +41,10 @@ const theme = defineModel('theme');
 .slider:before {
   position: absolute;
   content: "";
-  height: 19px;
-  width: 19px;
+  height: 20px;
+  width: 20px;
   left: 2px;
-  bottom: 3.5px;
+  bottom: 3px;
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
@@ -61,12 +60,11 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-  -webkit-transform: translateX(17px);
-  -ms-transform: translateX(17px);
-  transform: translateX(17px);
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
 }
 
-/* Rounded sliders */
 .slider.round {
   border-radius: 34px;
 }

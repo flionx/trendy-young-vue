@@ -14,7 +14,7 @@ const {modalInfo, setModalInfo} = useModalInfo();
         <UserProductCard v-for="card in wishlistStore.products" 
             :setModalInfo="setModalInfo"
             :card="card" 
-            :key="card.id"
+            :key="card._id"
             :isBasket="false"
             btns="basic"
             />

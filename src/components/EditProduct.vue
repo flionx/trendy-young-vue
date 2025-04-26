@@ -1,30 +1,34 @@
 <script setup>
 import { productTargets, productTypes } from '@/constants/products';
+import { reactive, ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import CustomSelect from './CustomSelect.vue';
-import { reactive, ref, watchEffect } from 'vue';
 import ButtonOption from './ui/ButtonOption.vue';
 import useChangeImage from '@/hooks/useChangeImage';
 import ModalInfo from './ui/ModalInfo.vue';
 import { useModalInfo } from '@/hooks/useModalInfo';
+import fetchProductById from '@/utils/fetchProductById';
 
 const props = defineProps({
     card: Object,
+    isCreate: Boolean,
 })
 const isAdminEdit = defineModel('isAdminEdit')
 const router = useRouter();
 
 const currProduct = reactive({
-    id: -1,
     img: '',
     brand: '',
     name: '',
     type: '',
     target: '',
+    description: '',
     price: 0,
 })
 watchEffect(() => {
-    Object.assign(currProduct, props.card);
+    if (!props.isCreate.value) {
+        Object.assign(currProduct, props.card);
+    }
 })
 const inputFile = ref(null);
 const {modalInfo, setModalInfo} = useModalInfo();
@@ -34,12 +38,54 @@ watchEffect(() => {
         setModalInfo('Please wait. Uploading an image', '')
     }
 })
+function isCorrectInputs() {
+    if (!currProduct.img.trim() ||
+        !currProduct.brand.trim() ||
+        !currProduct.name.trim() ||
+        !currProduct.type.trim() ||
+        !currProduct.target.trim() ||
+        !currProduct.description.trim() || 
+        currProduct.price <= 0 || 
+        currProduct.sale < 0
+    ) {
+       return false; 
+    } else {
+        return true;
+    }
+}
+
+async function addNewProduct() {
+    if (!isCorrectInputs()) {
+        setModalInfo('Please fill in the fields correctly' , '')
+        return;
+    }
+    try {
+        const newProduct = await fetch('http://localhost:5000/api/product/create', {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify(currProduct),
+        }) // the path is temporary, it'll be hosted later.
+
+        if (newProduct.status === 201) {
+            const result = await newProduct.json();
+            result.product;
+            
+            setModalInfo('The product has been successfully created', '')
+            isAdminEdit.value = false;
+        }
+
+    } catch (error) {
+        setModalInfo('Error during product creation', '')
+        console.log('Error during product creation', error);
+    }
+}
 
 </script>
 
 <template>
     <div class="item">
-        <div class="img" title="Visit product page">
+        <div class="img" title="Visit product page" :class="{noimg: !currProduct.img}">
             <img :src="currProduct.img" alt="product image">
             <input type="file" ref="inputFile" class="input-file" @change="changeImage($event, currProduct)">
             <ButtonOption class="edit" 
@@ -80,18 +126,24 @@ watchEffect(() => {
             </div>
             <div class="row">
                 <div class="column">
-                    <label for="price">Product price</label>
+                    <label for="price">Product price $</label>
                     <input type="number" min="1" id="price" placeholder="Enter product price" v-model="currProduct.price">
                 </div>
                 <div class="column">
-                    <label for="sale">Product sale</label>
-                    <input type="number" min="1" id="sale" placeholder="Enter product sale" v-model="currProduct.sale">
+                    <label for="sale">Product sale $(not required)</label>
+                    <input type="number" min="0" id="sale" placeholder="Enter product sale" v-model="currProduct.sale">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <label for="description">Product description</label>
+                    <textarea id="description" placeholder="Enter product description" v-model="currProduct.description"></textarea>
                 </div>
             </div>
             <div class="row-btns">
                 <button class="nobg" @click="isAdminEdit = false">Cancel</button>
-                <button>Delete</button>
-                <button>Save</button>
+                <button v-if="!isCreate">Delete</button>
+                <button @click="isCreate ? addNewProduct() : 'Save'">{{isCreate ? 'Add product' : 'Save'}}</button>
             </div>
         </form>
     </div>
@@ -104,6 +156,7 @@ watchEffect(() => {
 
 <style scoped>
 .item {
+    margin: 0 auto;
     width: 95%;
     display: flex;
     flex-wrap: wrap;
@@ -128,6 +181,20 @@ watchEffect(() => {
     object-fit: cover;
     object-position: center;
     border-radius: 16px;
+}
+.noimg {
+    height: fit-content;
+    background: transparent;
+    min-height: 400px;
+    position: relative;
+    background: var(--gray-main);
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.noimg img {
+    display: none;
 }
 .input-file {
     display: none;
@@ -156,12 +223,16 @@ label {
     margin-bottom: 5px;
     color: var(--bg-color)
 }
+textarea,
 input:not(.select) {
     padding: 10px 12px;
     background: transparent;
     color: var(--bg-color);
     border: 1px solid var(--gray-light-text);
     border-radius: 8px;
+}
+textarea {
+  resize: none;
 }
 .row {
     display: flex;
@@ -187,7 +258,17 @@ input[type='number'] {
     background: var(--gray-main);
     font-size: 17px;
     border-radius: 8px;
-    color: var(--bg-color)
+    color: var(--bg-color);
+    transition: .3s all;
+}
+.row-btns button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.row-btns button:active {
+    transform: translateY(0);
+    box-shadow: none;
 }
 .row-btns button.nobg{
     background: transparent;

@@ -36,7 +36,11 @@ const routes = [
                     {
                         path: 'admin/:category',
                         component: AdminPage,
-                    }
+                    },
+                    {
+                        path: '', 
+                        redirect: '/store/all'
+                    },
                 ]
             },
             {

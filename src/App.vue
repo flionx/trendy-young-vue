@@ -1,3 +1,13 @@
+<script setup>
+import { onMounted } from 'vue';
+import { usePopProductsStore } from './app/store/popularProducts';
+const popProductsStore = usePopProductsStore();
+
+onMounted(async () => {
+    await popProductsStore.loadProducts();
+})
+</script>
+
 <template>
   <div class="container">
     <router-view></router-view>

@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 import useBasketStore from '@/app/store/basket';
 import EmptyList from '@/components/EmptyList.vue';
 import MiddleTitle from '@/components/text/MiddleTitle.vue';
@@ -6,14 +7,14 @@ import RegularText from '@/components/text/RegularText.vue';
 import ModalInfo from '@/components/ui/ModalInfo.vue';
 import UserProductCard from '@/components/UserProductCard.vue';
 import { useModalInfo } from '@/hooks/useModalInfo';
-import { computed } from 'vue';
 const basketStore = useBasketStore();
+
 const totalPrice = computed(() => 
   basketStore.products.reduce((sum, card) => 
     sum + ((card.product.sale ?? card.product.price) * card.count), 
   0)
 );
-const delivery = totalPrice.value * 0.05;
+const delivery = computed(() => totalPrice.value * 0.05);
 const {modalInfo, setModalInfo} = useModalInfo();
 </script>
 
@@ -21,7 +22,7 @@ const {modalInfo, setModalInfo} = useModalInfo();
     <template v-if="basketStore.products.length !== 0">
         <div class="container">
             <div class="list">
-                <UserProductCard v-for="card in basketStore.products" :key="card.product.id"
+                <UserProductCard v-for="card in basketStore.products" :key="card.product._id"
                     :setModalInfo="setModalInfo"
                     :card="card.product"
                     :count="card.count"

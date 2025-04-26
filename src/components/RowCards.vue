@@ -1,103 +1,32 @@
-<script setup>
-import ProductCard from './ProductCard.vue';
-import MiddleTitle from './text/MiddleTitle.vue';
-const testCards = [
-    {
-        id: 1,
-        img: '/test/1.jpg',
-        brand: 'Gucci',
-        name: 'Sweatshirt',
-        type: 'Casual',
-        target: 'woman',
-        price: 29,
-        sale: 26,
-    },
-    {
-        id: 2,
-        img: '/test/2.jpg',
-        brand: 'Puma',
-        name: 'T-Shirt',
-        type: 'Casual',
-        target: 'man',
-        price: 12,
-    },
-    {
-        id: 3,
-        img: '/test/3.jpg',
-        brand: 'CR7',
-        name: 'Sweatshirt',
-        type: 'Sport',
-        target: 'woman',
-        price: 107,
-    },
-    {
-        id: 4,
-        img: '/test/4.jpg',
-        brand: 'Adidas', 
-        name: 'Sweatshirt', 
-        type: 'Casual', //casual, formal, sport, sleep
-        target: 'woman', //man, woman, children
-        price: 19, 
-        sale: 16, //not required
-    },
-]
-const props = defineProps({
-    title: String,
-})
-
-</script>
-
 <template>
-    <section>
-        <div class="see-more">
-            <h3><MiddleTitle>{{title}}</MiddleTitle></h3>
-            <router-link to="store/all">See all</router-link>
-        </div>
-        <div class="row">
-            <ProductCard v-for="card in testCards" :card="card" :key="card.id"></ProductCard>
-        </div>
-    </section>
+    <div class="row">
+        <ProductCard v-for="product in products" :product="product" :key="product._id"></ProductCard>
+    </div>
 </template>
 
+<script setup>
+import ProductCard from './ProductCard.vue';
+
+const props = defineProps({
+    products: Array,
+})
+</script>
+
 <style scoped>
-section {
-    margin-bottom: var(--m48px);
-}
-h3 {
-    color: var(--bg-color);
-}
-.see-more {
-    display: flex;
-    align-items: center;
-    column-gap: 32px;
-    margin-bottom: calc(var(--m20px) - 15px);
-}
-.see-more a {
-    color: var(--orange-text);
-    padding-right: 18px;
-    position: relative;
-}
-.see-more a:hover {
-    text-decoration: underline;
-}
-.see-more a::after {
-    content: '';
-    width: 14px;
-    height: 14px;
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    background-position: center;
-    mask-size: cover;
-    mask-repeat: no-repeat;
-    mask-image: var(--arrow-right-url);
-    background: var(--orange-text);
-}
 .row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
     column-gap: var(--column-gap);
+    justify-items: stretch;
 }
-
+@media (max-width: 767px) {
+    .row {
+        grid-template-columns: 1fr 1fr; 
+    }
+}
+@media (max-width: 475px) {
+    .row {
+        grid-template-columns: 1fr; 
+    }
+}
 </style>

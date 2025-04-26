@@ -1,10 +1,9 @@
-
 <script setup>
 import { ref } from 'vue';
-const isAuthForm = defineModel('isAuthForm');
+const isAuthForm = defineModel();
 const isOpen = ref(false);
 
-function openAuthModal(params) {
+function openAuthModal() {
     isOpen.value = false;
     isAuthForm.value = true;
 }
@@ -17,9 +16,9 @@ function openAuthModal(params) {
         <span></span>
     </button>
     <nav class="menu" :class="{'menu-open': isOpen}">
-        <router-link class="like" to="/store/all">Catalog</router-link>
-        <router-link class="like" to="/store/user/wishlist">Wishlist</router-link>
-        <router-link class="basket" to="/store/user/basket">Cart</router-link>
+        <router-link to="/store/all">Catalog</router-link>
+        <router-link to="/store/user/wishlist">Wishlist</router-link>
+        <router-link to="/store/user/basket">Cart</router-link>
         <button @click="openAuthModal">Log in/Sign up</button>
     </nav>
 </template>

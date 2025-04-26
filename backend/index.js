@@ -1,13 +1,16 @@
 import express from 'express'
 import cors from 'cors'
-import registerRoute from './routes/auth.js';
-import connectDB from './connectDB.js'
+import bodyParser from 'body-parser';
 import 'dotenv/config'
+import connectDB from './connectDB.js'
+import registerRoute from './routes/auth.js';
+import productRoute from './routes/product.js';
 
 await connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
 app.use(cors({
     origin: [
         'http://localhost:5173',
@@ -16,8 +19,9 @@ app.use(cors({
     ],
     credentials: true,
 }))
-app.use(express.json());
-app.use('/api/auth', registerRoute) // 'api/auth/signup'
+app.use(bodyParser.json());
+app.use('/api/auth', registerRoute);
+app.use('/api/product', productRoute);
 
 app.listen(PORT, (err) => {
     if (err) {
@@ -26,6 +30,6 @@ app.listen(PORT, (err) => {
     console.log('The server was running on port ' + PORT);
 })
 
-app.get('/', (req, res) => {
-    res.send("It works")
-})
+// app.get('/', (req, res) => {
+//     res.send("It works")
+// })

@@ -2,8 +2,8 @@
 import { computed, ref } from 'vue';
 import MiddleTitle from './text/MiddleTitle.vue';
 import RegularText from './text/RegularText.vue';
-import { useModalInfo } from '@/hooks/useModalInfo';
 import ModalInfo from './ui/ModalInfo.vue';
+import { useModalInfo } from '@/hooks/useModalInfo';
 
 const isAuthForm = defineModel('isAuthForm');
 const isLogin = ref(true);

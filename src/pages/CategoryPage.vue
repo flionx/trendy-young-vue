@@ -1,3 +1,10 @@
+<script setup>
+import { useProductsStore } from '@/app/store/products';
+import ProductCard from '@/components/ProductCard.vue';
+import RowCards from '@/components/RowCards.vue';
+const productsStore = useProductsStore();
+</script>
+
 <template>
-    <h2>Category</h2>
+    <RowCards :products="productsStore.products"></RowCards>
 </template>

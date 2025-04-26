@@ -1,20 +1,14 @@
 <template>
-    <button :class="icon">
+    <button>
         <slot></slot>
     </button>
 </template>
-
-<script setup>
-const props = defineProps({
-    icon: String,
-})
-</script>
 
 <style scoped>
 button {
     min-width: 48px;
     height: 48px;
-    padding: 14px;
+    padding: var(--clamp12px);
     border-radius: 8px;
     background: var(--orange-bg);
     font-weight: 600;
@@ -26,6 +20,7 @@ button {
     cursor: pointer;
     transition: .3s all;
     text-decoration: none;
+    white-space: nowrap;
 }
 button::after {
     content: '';

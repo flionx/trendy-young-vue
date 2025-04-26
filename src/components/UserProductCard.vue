@@ -1,14 +1,13 @@
 <script setup>
+import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useWishlistStore } from '@/app/store/wishlist';
 import ProductPrice from './ProductPrice.vue';
 import ProductInfo from './productCard/ProductInfo.vue';
 import useBasketStore from '@/app/store/basket';
-import { computed, ref } from 'vue';
 import ModalInfo from './ui/ModalInfo.vue';
 import { useModalInfo } from '@/hooks/useModalInfo';
 import EditProduct from './EditProduct.vue';
-import { useProductStore } from '@/app/store/product';
-import { useRouter } from 'vue-router';
 import ButtonOption from './ui/ButtonOption.vue';
 const props = defineProps({
     card: Object,
@@ -20,24 +19,21 @@ const props = defineProps({
 const isAdminEdit = ref(false)
 const wishlistStore = useWishlistStore();
 const basketStore = useBasketStore();
-const productStore = useProductStore();
 const router = useRouter();
 
-const deleteFromStore = computed(() => props.isBasket ? basketStore.deleteFromBasket : wishlistStore.deleteFromWishlist );
+const deleteFromUserList = computed(() => props.isBasket ? basketStore.deleteFromBasket : wishlistStore.deleteFromWishlist );
 
 function deleteProduct(id) {
     props.setModalInfo(`Removed from ${props.isBasket ? 'Cart' : 'Wishlist'}`, `${props.isBasket ? 'basket' : 'like'}`)
-    deleteFromStore.value(id);
+    deleteFromUserList.value(id);
 }
 function deleteFromAdmin(id) {
-    props.setModalInfo('The product was removed', 'basket') //Test
+    props.setModalInfo('The product was removed', 'basket');
     basketStore.deleteFromBasket(id) //Test
 }
-function goToProductPage(card) {
-    productStore.setProduct(card);
-    router.push(`/product/${card.id}`)
+function goToProductPage(card) {    
+    router.push(`/product/${card._id}`)
 }
-
 </script>
 
 <template>
@@ -47,11 +43,11 @@ function goToProductPage(card) {
         </button>
         <div class="card__right">
             <div class="card__info">
-                <ProductInfo :id="card.id" :name="card.name"/>
+                <ProductInfo :id="card._id" :name="card.name"/>
                 <div class="card__price-wrapper">
                     <div class="card__count" v-if="isBasket">
                         <button class="minus" 
-                            @click="basketStore.minusBasket(card.id)">
+                            @click="basketStore.minusBasket(card._id)">
                             <span></span>
                         </button>
                         <div class="count">{{ count ?? 1 }}</div>
@@ -66,7 +62,7 @@ function goToProductPage(card) {
             </div>
             <template v-if="btns === 'basic'">
                 <ButtonOption class="delete"
-                    @click="deleteProduct(card.id)" 
+                    @click="deleteProduct(card._id)" 
                     title="Delete product">
                 </ButtonOption>
             </template>
@@ -77,7 +73,7 @@ function goToProductPage(card) {
                     title="Edit product">
                     </ButtonOption>
                     <ButtonOption class="trash"
-                        @click="deleteFromAdmin(card.id)"
+                        @click="deleteFromAdmin(card._id)"
                         title="Delete product">
                     </ButtonOption>
                 </div>
@@ -89,6 +85,7 @@ function goToProductPage(card) {
 
 <style scoped>
 .card {
+    margin: 0 auto;
     width: 95%;
     display: flex;
     column-gap: 26px;

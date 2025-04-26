@@ -1,21 +1,60 @@
+<script setup>
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+import ProductPrice from './ProductPrice.vue';
+import ModalInfo from './ui/ModalInfo.vue';
+import RegularText from './text/RegularText.vue';
+import BoldText from './text/BoldText.vue';
+import { useWishlistStore } from '@/app/store/wishlist';
+import useBasketStore from '@/app/store/basket';
+import { useModalInfo } from '@/hooks/useModalInfo';
+const props = defineProps({
+    product: Object,
+})
+const wishlistStore = useWishlistStore();
+const basketStore = useBasketStore();
+const router = useRouter();
+const {modalInfo, setModalInfo} = useModalInfo();
+
+const isLike = computed(() => 
+    wishlistStore.products.some(product => product._id === props.product._id)
+);
+function addToBasket(product) {
+    basketStore.addToBasket(product)
+    setModalInfo('Added to Cart', 'basket')
+}
+function toggleWishlist(product) {    
+    if (isLike.value) { 
+        wishlistStore.deleteFromWishlist(product._id);
+        setModalInfo('Removed from Wishlist', 'like');
+    } else {
+        wishlistStore.addToWishlist(product);
+        setModalInfo('Added to Wishlist', 'like');
+    }
+}
+function goToProductPage(product) {
+    router.push(`/product/${product._id}`)
+}
+</script>
+
 <template>
     <div class="card">
         <button class="card__like" 
             :class="isLike ? 'like-done' : ''" 
-            @click="toggleWishlist(card)" 
+            @click="toggleWishlist(product)" 
             title="add to wishlist">
         </button>
-        <button class="card__image" @click="goToProductPage(card)">
-            <img :src="card.img" alt="product image">
+        <button class="card__image" @click="goToProductPage(product)">
+            <img :src="product.img" alt="product image">
         </button>
         <div class="card__info">
             <div class="card__left">
-                <BoldText class="card__brand">{{ card.brand }}</BoldText>
-                <div class="card__type"><RegularText>{{ card.name }}</RegularText></div>
-                <ProductPrice :price="card.price" :sale="card.sale" />
+                <BoldText class="card__brand">{{ product.brand }}</BoldText>
+                <div class="card__type"><RegularText>{{ product.name }}</RegularText></div>
+                <ProductPrice :price="product.price" :sale="product.sale" />
             </div>
             <button class="card__add" 
-                @click="addToBasket(card)" 
+                @click="addToBasket(product)" 
                 title="add to basket">
             </button>
         </div>
@@ -26,61 +65,6 @@
         {{modalInfo.text}}
     </ModalInfo>
 </template>
-
-<script setup>
-import { computed } from 'vue';
-import ProductPrice from './ProductPrice.vue';
-import ModalInfo from './ui/ModalInfo.vue';
-import RegularText from './text/RegularText.vue';
-import BoldText from './text/BoldText.vue';
-import { useWishlistStore } from '@/app/store/wishlist';
-import useBasketStore from '@/app/store/basket';
-import { useModalInfo } from '@/hooks/useModalInfo';
-import { useProductStore } from '@/app/store/product';
-import { useRouter } from 'vue-router';
-const props = defineProps({
-    card: {
-        type: Object,
-        required: true,
-        default: () => ({
-            id: 1,
-            img: '/test/1.jpg',
-            brand: 'Brand Name',
-            name: 'Sweatshirt',
-            type: 'Casual',
-            price: 19,
-            sale: 16,
-        })
-    }
-})
-const wishlistStore = useWishlistStore();
-const basketStore = useBasketStore();
-const productStore = useProductStore();
-const router = useRouter();
-const {modalInfo, setModalInfo} = useModalInfo();
-
-const isLike = computed(() => 
-    wishlistStore.products.some(product => product.id === props.card.id)
-);
-function addToBasket(card) {
-    basketStore.addToBasket(card)
-    setModalInfo('Added to Cart', 'basket')
-}
-function toggleWishlist(card) {    
-    if (isLike.value) { 
-        wishlistStore.deleteFromWishlist(card.id);
-        setModalInfo('Removed from Wishlist', 'like');
-    } else {
-        wishlistStore.addToWishlist(card);
-        setModalInfo('Added to Wishlist', 'like');
-    }
-}
-function goToProductPage(card) {
-    productStore.setProduct(card);
-    router.push(`/product/${card.id}`)
-}
-
-</script>
 
 <style scoped>
 .card {
@@ -118,7 +102,6 @@ function goToProductPage(card) {
     color: var(--bg-color);
     background: var(--gray-main);
     border-radius: 0 0 16px 16px;
-
 }
 .card__left {
     width: 60%;

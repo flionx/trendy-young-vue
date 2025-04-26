@@ -1,10 +1,8 @@
-import { useProductStore } from "@/app/store/product";
 import supabase from "@/app/supabase";
 import { ref } from "vue";
 
 const useChangeImage = () => {
     const uploading = ref(false);
-    const productStore = useProductStore();
 
     const changeImage = async (e, currProduct) => {
         const file = e.target.files?.[0];

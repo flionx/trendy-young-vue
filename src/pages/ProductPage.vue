@@ -1,37 +1,25 @@
 <script setup>
-import RowCards from '@/components/RowCards.vue';
+import RowCards from '@/components/PopularCards.vue';
 import ProductPrice from '@/components/ProductPrice.vue';
 import BoldText from '@/components/text/BoldText.vue';
 import MiddleTitle from '@/components/text/MiddleTitle.vue';
 import RegularText from '@/components/text/RegularText.vue';
 import ButtonOrange from '@/components/ui/ButtonOrange.vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useProductStore } from '@/app/store/product';
-import { computed, onMounted, reactive, watch } from 'vue';
+import { onMounted, ref, watchEffect } from 'vue';
 import { scrollToUp } from '@/utils/scrollToUp';
 import { shareLink } from '@/utils/shareLink';
-const productStore = useProductStore();
+import fetchProductById from '@/utils/fetchProductById';
 const route = useRoute();
 const router = useRouter();
-const product = reactive({});
+const product = ref({});
 
-onMounted(() => {
-    Object.assign(product, productStore.product);
-    scrollToUp();
-})
-// Temporary solution, later to be redesigned for a request to MongoDB 
-watch(() => route.params.id, (newId, prevId) => {
-    Object.assign(product, productStore.product);
+watchEffect(async () => {
+    const currProduct = await fetchProductById(route.params.id) 
+    product.value = currProduct;
     scrollToUp();
 })
 
-function goBack() {
-    if (window.history.state.back) {
-        router.back();
-    } else {
-        router.push('/');
-    }
-}
 function shareOrCopy() {
     shareLink(window.location.href)
 }
@@ -41,7 +29,7 @@ function shareOrCopy() {
     <section class="card" v-if="product.name">
         <div class="card__img">
             <img :src="product.img" alt="product image">
-            <button class="back" @click="goBack"></button>
+            <router-link to="/" class="back"></router-link>
             <button class="share" @click="shareOrCopy"></button>
         </div>
         <div class="card__info">
@@ -53,20 +41,25 @@ function shareOrCopy() {
                 <ProductPrice size="big" :price="product.price" :sale="product.sale"></ProductPrice>
             </div>
             <div class="card__btns">
-                <ButtonOrange icon="like"></ButtonOrange>
-                <ButtonOrange>Add to Cart</ButtonOrange>
+                <div class="row">
+                    <div class="teg">#{{ product.target }}</div>
+                    <div class="teg">#{{ product.type }}</div>
+                </div>
+                <div class="row right">
+                    <ButtonOrange class="like"></ButtonOrange>
+                    <ButtonOrange>Add to Cart</ButtonOrange>
+                </div>
             </div>
             <div class="card__description">
                 <div class="circle-title">Description</div>
-                <!-- from product -->
-                <p><RegularText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente facere vero similique odit voluptates porro doloremque repudiandae aperiam eveniet rem?</RegularText></p>
+                <p><RegularText>{{ product.description }}</RegularText></p>
             </div>
         </div>
     </section>
     <!-- loading and error components -->
      <template v-else>
         <h1 class="error">ERROR</h1>
-        <router-link to="/"><---GO HOME ^^</router-link>
+        <router-link to="/">{{ '<---GO HOME ^^' }}</router-link>
      </template>
     <RowCards title="Similar products"/>
 </template>
@@ -76,28 +69,34 @@ function shareOrCopy() {
     margin: var(--m20px) 0 var(--m70px) 0;
     display: flex;
     flex-wrap: wrap;
-    gap: 24px;
+    gap: clamp(20px, 5vw, 70px);
+    min-height: 400px;
+    justify-content: space-between;
+    align-items: stretch;
 }
 .card__img {
-    width: 30%;
-    min-width: 300px;
-    height: 300px;
+    width: clamp(300px, 27vw, 400px);
     position: relative;
+    overflow: hidden;
     transition: .3s all;
+    border-radius: 16px;
 }
 
 .card__img img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100%;
+    max-height: 100%;
     object-fit: cover;
     object-position: center;
     border-radius: 16px;
-    overflow: hidden;
     transition: .3s all;
 }
 .card__img img:hover {
     transform: scale(1.02);
 }
+.card__img a,
 .card__img button {
     position: absolute;
     top: 20px;
@@ -107,6 +106,7 @@ function shareOrCopy() {
     width: 48px;
     height: 48px;
 }
+.card__img a::after,
 .card__img button::after {
     content: '';
     position: absolute;
@@ -134,9 +134,22 @@ function shareOrCopy() {
     mask-image: var(--share-url);
 }
 .card__info {
-    flex: 1 1;
-    min-width: 400px;
+    flex: 1 1 380px;
 }
+@media (max-width: 910px) {
+    .card__img {
+        width: auto;
+        flex: 1 1 100%;
+        padding-bottom: 75%;
+    }
+
+    .card__info {
+        width: auto;
+        flex: 1 1 100%;
+        margin-top: 16px;
+    }
+}
+
 .card__top {
     display: flex;
     justify-content: space-between;
@@ -154,9 +167,24 @@ function shareOrCopy() {
 .card__btns {
     display: flex;
     align-items: center;
-    justify-content: end;
-    gap: 1rem;
+    justify-content: space-between;
     margin-bottom: 15px;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.card__btns .row{
+    flex: 1;
+    display: flex;
+    gap: 1rem;
+}
+.card__btns .row.right{
+    justify-content: end;
+}
+.teg {
+    border-radius: 8px;
+    padding: 5px 10px;
+    background: var(--gray-main);
+    color: var(--orange-text);
 }
 .card__description {
 }

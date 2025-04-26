@@ -1,47 +1,32 @@
 <script setup>
-import { useRoute } from 'vue-router';
-import { computed, ref } from 'vue';
 import ButtonBack from './ButtonBack.vue';
 import BigTitle from './text/BigTitle.vue';
 import RegularText from './text/RegularText.vue';
 import CustomSelect from './CustomSelect.vue';
 import { productTargets, productTypes } from '@/constants/products';
+import useCategoriesHeader from '@/hooks/useCategoriesHeader';
 
-const route = useRoute();
-
-const titleText = computed(() => {
-  if (route.path.includes('basket')) return 'Cart';
-  if (route.path.includes('wishlist')) return 'Wishlist';
-  return 'Catalog';
-});
-const isCatalog = computed(() => titleText.value === 'Catalog');
-
-const isActiveCategory = (category) => category === (route.params.category || 'all');
-const isAdminPage = computed(() => route.path.includes('admin'));
-const linkToCategory = (category) => (isAdminPage.value ? '/store/admin/' : '/store/') + category.toLocaleLowerCase();
-
-const activeType = ref('');
+const { isCatalog, headerTitle, linkToPage, isActiveTarget, activeType } = useCategoriesHeader();
 </script>
 
 <template>
-  <header :class="isCatalog ? 'small-m' : ''">
+  <header :class="{'small-m': isCatalog}">
     <div class="header__row">
       <ButtonBack />
-      <h1><BigTitle>{{ titleText }}</BigTitle></h1>
+      <h1><BigTitle>{{ headerTitle }}</BigTitle></h1>
     </div>
     <div class="header__row" v-if="isCatalog">
         <div class="row-btns">
-            <router-link v-for="category in productTargets" :to="linkToCategory(category)"
-                :class="{'active': isActiveCategory(category.toLowerCase())}"
-                :key="category">
-                <RegularText>{{ category }}</RegularText>
+            <router-link v-for="target in productTargets" :to="linkToPage(target)"
+                :class="{'active': isActiveTarget(target)}"
+                :key="target">
+                <RegularText>{{ target }}</RegularText>
             </router-link>
         </div>
         <CustomSelect v-model="activeType" :options="productTypes" default="Clothing type" />
     </div>
   </header>
 </template>
-
 
 <style scoped>
 h1 {
