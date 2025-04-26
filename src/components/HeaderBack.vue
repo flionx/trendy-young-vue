@@ -1,50 +1,23 @@
 <script setup>
-import { useRoute } from 'vue-router';
-import { computed, ref, watch } from 'vue';
 import ButtonBack from './ButtonBack.vue';
 import BigTitle from './text/BigTitle.vue';
 import RegularText from './text/RegularText.vue';
 import CustomSelect from './CustomSelect.vue';
-import { useProductsStore } from '@/app/store/products';
 import { productTargets, productTypes } from '@/constants/products';
+import useCategoriesHeader from '@/hooks/useCategoriesHeader';
 
-const route = useRoute();
-const productsStore = useProductsStore();
-
-const titleText = computed(() => {
-  if (route.path.includes('basket')) return 'Cart';
-  if (route.path.includes('wishlist')) return 'Wishlist';
-  return 'Catalog';
-});
-const isCatalog = computed(() => titleText.value === 'Catalog');
-
-const isActiveTarget = (target) => target === (route.params.category || 'all');
-const isAdminPage = computed(() => route.path.includes('admin'));
-const linkToTarget = (target) => (isAdminPage.value ? '/store/admin/' : '/store/') + target;
-
-const activeType = ref('');
-
-watch(
-  [() => activeType.value, () => route.params.category],
-  async ([newType, newCategory]) => {
-    await productsStore.loadProducts({
-      type: newType,
-      target: newCategory === 'all' ? '' : newCategory,
-    });
-  },
-  { deep: true, immediate: true }
-);
+const { isCatalog, headerTitle, linkToPage, isActiveTarget, activeType } = useCategoriesHeader();
 </script>
 
 <template>
-  <header :class="isCatalog ? 'small-m' : ''">
+  <header :class="{'small-m': isCatalog}">
     <div class="header__row">
       <ButtonBack />
-      <h1><BigTitle>{{ titleText }}</BigTitle></h1>
+      <h1><BigTitle>{{ headerTitle }}</BigTitle></h1>
     </div>
     <div class="header__row" v-if="isCatalog">
         <div class="row-btns">
-            <router-link v-for="target in productTargets" :to="linkToTarget(target)"
+            <router-link v-for="target in productTargets" :to="linkToPage(target)"
                 :class="{'active': isActiveTarget(target)}"
                 :key="target">
                 <RegularText>{{ target }}</RegularText>
@@ -54,7 +27,6 @@ watch(
     </div>
   </header>
 </template>
-
 
 <style scoped>
 h1 {

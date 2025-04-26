@@ -1,8 +1,8 @@
-<script setup lang="ts">
+<script setup>
+import { productTypes } from '@/constants/products';
 import MiddleTitle from './text/MiddleTitle.vue';
 import RegularText from './text/RegularText.vue';
 import SmallTitle from './text/SmallTitle.vue';
-
 </script>
 
 <template>
@@ -10,18 +10,11 @@ import SmallTitle from './text/SmallTitle.vue';
         <h3><MiddleTitle>Shop by Style</MiddleTitle></h3>
         <p><RegularText>Your style for every day</RegularText></p>
         <div class="row">
-            <router-link to="/store/casual" class="card" id="casual">
-                <SmallTitle>Casual</SmallTitle>
-            </router-link>
-            <router-link to="/store/formal" class="card" id="formal">
-                <SmallTitle>Formal</SmallTitle>
-            </router-link>
-            <router-link to="/store/sport" class="card" id="sport">
-                <SmallTitle>Sport</SmallTitle>
-            </router-link>
-            <router-link to="/store/sleep" class="card" id="sleep">
-                <SmallTitle>Sleep</SmallTitle>
-            </router-link>
+            <template v-for="type in productTypes">
+                <router-link :to="`/store/all/?type=${type}`" class="card" :id="type">
+                    <SmallTitle>{{ type[0].toUpperCase() + type.slice(1) }}</SmallTitle>
+                </router-link>
+            </template>
         </div>
     </section>
 </template>
