@@ -9,6 +9,7 @@ import ModalInfo from './ui/ModalInfo.vue';
 import { useModalInfo } from '@/hooks/useModalInfo';
 import EditProduct from './EditProduct.vue';
 import ButtonOption from './ui/ButtonOption.vue';
+import fetchDeleteProduct from '@/utils/fetchDeleteProduct';
 const props = defineProps({
     card: Object,
     count: Number,
@@ -27,9 +28,15 @@ function deleteProduct(id) {
     props.setModalInfo(`Removed from ${props.isBasket ? 'Cart' : 'Wishlist'}`, `${props.isBasket ? 'basket' : 'like'}`)
     deleteFromUserList.value(id);
 }
-function deleteFromAdmin(id) {
-    props.setModalInfo('The product was removed', 'basket');
-    basketStore.deleteFromBasket(id) //Test
+async function deleteFromAdmin(id) {
+    try {
+        const isDelete = await fetchDeleteProduct(id);
+        if (isDelete) {       
+            props.setModalInfo('The product was removed', 'basket');
+        }
+    } catch (error) {
+        props.setModalInfo('Error during product remove', '');
+    }
 }
 function goToProductPage(card) {    
     router.push(`/product/${card._id}`)
@@ -80,7 +87,11 @@ function goToProductPage(card) {
             </template>
         </div>
     </section>
-    <EditProduct v-if="isAdminEdit" v-model:isAdminEdit="isAdminEdit" :card="card" />
+    <EditProduct v-if="isAdminEdit" 
+        v-model:isAdminEdit="isAdminEdit" 
+        :setModalInfo="setModalInfo"
+        :card="card" 
+    />
 </template>
 
 <style scoped>

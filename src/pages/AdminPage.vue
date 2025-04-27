@@ -18,7 +18,12 @@ const {modalInfo, setModalInfo} = useModalInfo();
             <span class="btn-text">Add new product</span>
         </button>
     </div>
-    <EditProduct v-if="showCreateProduct" v-model:isAdminEdit="showCreateProduct" :isCreate="true"/>
+    <EditProduct v-if="showCreateProduct" 
+        v-model:isAdminEdit="showCreateProduct" 
+        :setModalInfo="setModalInfo"
+        :isCreate="true"
+    />
+
     <UserProductCard v-for="product in productsStore.products" :key="product._id"
         :setModalInfo="setModalInfo"
         :card="product"

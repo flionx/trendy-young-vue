@@ -9,7 +9,7 @@
 import RegularText from '../text/RegularText.vue'
 const props = defineProps({
     name: String,
-    id: Number, //change to string
+    id: String,
 })
 </script>
 

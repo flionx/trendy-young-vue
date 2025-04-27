@@ -37,6 +37,27 @@ router.get('/find/:id', async (req, res) => {
     }
 });
 
+router.put('/:id', async (req, res) => {
+    const { id } = req.params;
+    const newProduct = req.body;
+    try {
+        const product = await Product.findByIdAndUpdate(id, newProduct, { new: true });
+        if (!product) return res.status(404).json({ error: 'Product not found' });
+        return res.status(200).json({ product });
+    } catch (error) {
+        return res.status(400).json({ error: 'Failed to update product', details: error.message });
+    }
+});
 
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const product = await Product.findByIdAndDelete(id);
+        if (!product) return res.status(404).json({ error: 'Product not found' });
+        return res.status(200).json({ message: 'Product deleted successfully' });
+    } catch (error) {
+        return res.status(400).json({ error: 'Failed to delete product', details: error.message });
+    }
+});
 
 export default router

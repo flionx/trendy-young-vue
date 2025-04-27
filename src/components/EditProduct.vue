@@ -1,17 +1,19 @@
 <script setup>
-import { productTargets, productTypes } from '@/constants/products';
-import { reactive, ref, watchEffect } from 'vue';
+import { productApiUrl, productTargets, productTypes } from '@/constants/products';
+import { nextTick, reactive, ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import CustomSelect from './CustomSelect.vue';
 import ButtonOption from './ui/ButtonOption.vue';
 import useChangeImage from '@/hooks/useChangeImage';
-import ModalInfo from './ui/ModalInfo.vue';
-import { useModalInfo } from '@/hooks/useModalInfo';
 import fetchProductById from '@/utils/fetchProductById';
+import fetchCreateProduct from '@/utils/fetchCreateProduct';
+import fetchUpdateProduct from '@/utils/fetchUpdateProduct';
+import fetchDeleteProduct from '@/utils/fetchDeleteProduct';
 
 const props = defineProps({
     card: Object,
     isCreate: Boolean,
+    setModalInfo: Function,
 })
 const isAdminEdit = defineModel('isAdminEdit')
 const router = useRouter();
@@ -31,11 +33,10 @@ watchEffect(() => {
     }
 })
 const inputFile = ref(null);
-const {modalInfo, setModalInfo} = useModalInfo();
 const {changeImage, uploading} = useChangeImage();
 watchEffect(() => {
     if (uploading.value) {
-        setModalInfo('Please wait. Uploading an image', '')
+        props.setModalInfo('Please wait. Uploading an image', '')
     }
 })
 function isCorrectInputs() {
@@ -53,31 +54,53 @@ function isCorrectInputs() {
         return true;
     }
 }
+function succesOperation(action) {
+    props.setModalInfo(`The product was successfully ${action}`, '')
+    isAdminEdit.value = false;
+}
+function errorOperation(action, error) {
+    props.setModalInfo(`Error during product ${action}`, '')
+    console.log(`Error during product ${action}`, error);
+}
 
 async function addNewProduct() {
     if (!isCorrectInputs()) {
-        setModalInfo('Please fill in the fields correctly' , '')
+        props.setModalInfo('Please fill in the fields correctly' , '')
         return;
     }
     try {
-        const newProduct = await fetch('http://localhost:5000/api/product/create', {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json'},
-            credentials: 'include',
-            body: JSON.stringify(currProduct),
-        }) // the path is temporary, it'll be hosted later.
-
-        if (newProduct.status === 201) {
-            const result = await newProduct.json();
-            result.product;
-            
-            setModalInfo('The product has been successfully created', '')
-            isAdminEdit.value = false;
+       const createdProduct = await fetchCreateProduct(currProduct)
+        if (createdProduct) {      
+            succesOperation('created');      
         }
 
     } catch (error) {
-        setModalInfo('Error during product creation', '')
-        console.log('Error during product creation', error);
+        errorOperation('creation', error)
+    }
+}
+async function updateProduct() {
+    if (!isCorrectInputs()) {
+        props.setModalInfo('Please fill in the fields correctly' , '')
+        return;
+    }
+    try {
+       const updatedProduct = await fetchUpdateProduct(props.card._id, currProduct);
+        if (updatedProduct) {     
+            succesOperation('updated');             
+        }
+        
+    } catch (error) {
+        errorOperation('update', error);
+    }
+}
+async function deleteProduct(id) {
+    try {
+        const isDelete = await fetchDeleteProduct(id);
+        if (isDelete) {       
+            succesOperation('deleted');             
+        }
+    } catch (error) {
+        errorOperation('delete', error);
     }
 }
 
@@ -142,16 +165,11 @@ async function addNewProduct() {
             </div>
             <div class="row-btns">
                 <button class="nobg" @click="isAdminEdit = false">Cancel</button>
-                <button v-if="!isCreate">Delete</button>
-                <button @click="isCreate ? addNewProduct() : 'Save'">{{isCreate ? 'Add product' : 'Save'}}</button>
+                <button v-if="!isCreate" @click="deleteProduct(card._id)">Delete</button>
+                <button @click="isCreate ? addNewProduct() : updateProduct()">{{isCreate ? 'Add product' : 'Save'}}</button>
             </div>
         </form>
     </div>
-    <ModalInfo v-if="modalInfo.show" 
-        v-model:isOpen="modalInfo.show"
-        :className="modalInfo.className">
-        {{modalInfo.text}}
-    </ModalInfo>
 </template>
 
 <style scoped>
