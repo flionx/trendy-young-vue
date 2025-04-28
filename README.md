@@ -15,7 +15,11 @@ Trendy Young is a modern online fashion store for all ages and styles. The range
    ```bash
    npm i
    ```
-3. Start the project:
+3. Start the local server:
+   ```bash
+   npm run server
+   ```
+4. Start the project:
    ```bash
    npm run dev
    ```
