@@ -5,12 +5,13 @@
 </template>
 
 <script setup>
+import { useModalStore } from '@/app/store/modal';
 import { onMounted, ref } from 'vue';
 
 const props = defineProps({
     className: String,
 })
-const isOpen = defineModel('isOpen');
+const modalStore = useModalStore();
 const isHide = ref(false);
 
 onMounted(() => {
@@ -18,7 +19,7 @@ onMounted(() => {
         isHide.value = true;
     }, 1200)
     setTimeout(() => {
-        isOpen.value = false;
+        modalStore.hideModal();
     }, 1800)
 })
 </script>

@@ -1,15 +1,15 @@
 <script setup>
-import RowCards from '@/components/PopularCards.vue';
+import { useRoute, useRouter } from 'vue-router';
+import { onMounted, ref, watchEffect } from 'vue';
 import ProductPrice from '@/components/ProductPrice.vue';
 import BoldText from '@/components/text/BoldText.vue';
 import MiddleTitle from '@/components/text/MiddleTitle.vue';
 import RegularText from '@/components/text/RegularText.vue';
 import ButtonOrange from '@/components/ui/ButtonOrange.vue';
-import { useRoute, useRouter } from 'vue-router';
-import { onMounted, ref, watchEffect } from 'vue';
 import { scrollToUp } from '@/utils/scrollToUp';
 import { shareLink } from '@/utils/shareLink';
 import fetchProductById from '@/utils/fetchProductById';
+import SectionCards from '@/components/SectionCards.vue';
 const route = useRoute();
 const router = useRouter();
 const product = ref({});
@@ -61,7 +61,7 @@ function shareOrCopy() {
         <h1 class="error">ERROR</h1>
         <router-link to="/">{{ '<---GO HOME ^^' }}</router-link>
      </template>
-    <RowCards title="Similar products"/>
+    <SectionCards title="Similar products"/>
 </template>
 
 <style scoped>

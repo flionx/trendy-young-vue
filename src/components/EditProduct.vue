@@ -9,14 +9,18 @@ import fetchProductById from '@/utils/fetchProductById';
 import fetchCreateProduct from '@/utils/fetchCreateProduct';
 import fetchUpdateProduct from '@/utils/fetchUpdateProduct';
 import fetchDeleteProduct from '@/utils/fetchDeleteProduct';
+import useBasketStore from '@/app/store/basket';
+import { useWishlistStore } from '@/app/store/wishlist';
 
 const props = defineProps({
     card: Object,
     isCreate: Boolean,
     setModalInfo: Function,
 })
-const isAdminEdit = defineModel('isAdminEdit')
+const isAdminEdit = defineModel('isAdminEdit');
 const router = useRouter();
+const basketStore = useBasketStore();
+const wishlistStore = useWishlistStore();
 
 const currProduct = reactive({
     img: '',
@@ -97,7 +101,9 @@ async function deleteProduct(id) {
     try {
         const isDelete = await fetchDeleteProduct(id);
         if (isDelete) {       
-            succesOperation('deleted');             
+            succesOperation('deleted');   
+            basketStore.deleteFromBasket(id);       
+            wishlistStore.deleteFromWishlist(id);       
         }
     } catch (error) {
         errorOperation('delete', error);

@@ -2,8 +2,8 @@
 import { computed, ref } from 'vue';
 import MiddleTitle from './text/MiddleTitle.vue';
 import RegularText from './text/RegularText.vue';
-import ModalInfo from './ui/ModalInfo.vue';
-import { useModalInfo } from '@/hooks/useModalInfo';
+import { useModalStore } from '@/app/store/modal';
+const modalStore = useModalStore();
 
 const isAuthForm = defineModel('isAuthForm');
 const isLogin = ref(true);
@@ -12,15 +12,14 @@ const reverseMainText = computed(() => isLogin.value ? 'Sign up' : 'Log in');
 
 const login = ref('');
 const password = ref('');
-const {modalInfo, setModalInfo} = useModalInfo();
 
 function validateUsersInput(login, password) {
     if (!login.trim() || !password.trim()) {
-        setModalInfo('Please fill in all fields', '');
+        modalStore.setModal('Please fill in all fields', '')
         return false;
     }
     if (password.length < 6) {
-        setModalInfo('Password must contain at least 6 characters', '');
+        modalStore.setModal('Password must contain at least 6 characters', '');
         return false;
     }
     return true;
@@ -89,11 +88,6 @@ async function createUser() {
                     {{ reverseMainText}}
                 </button>
             </p>
-            <ModalInfo v-if="modalInfo.show" 
-                v-model:isOpen="modalInfo.show"
-                :className="modalInfo.className">
-                {{modalInfo.text}}
-            </ModalInfo>
         </dialog>
     </div>
 </template>

@@ -10,7 +10,7 @@ import SmallTitle from './text/SmallTitle.vue';
         <h3><MiddleTitle>Shop by Style</MiddleTitle></h3>
         <p><RegularText>Your style for every day</RegularText></p>
         <div class="row">
-            <template v-for="type in productTypes">
+            <template v-for="type in productTypes" :key="type">
                 <router-link :to="`/store/all/?type=${type}`" class="card" :id="type">
                     <SmallTitle>{{ type[0].toUpperCase() + type.slice(1) }}</SmallTitle>
                 </router-link>

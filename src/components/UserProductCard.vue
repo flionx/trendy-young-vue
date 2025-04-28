@@ -5,22 +5,21 @@ import { useWishlistStore } from '@/app/store/wishlist';
 import ProductPrice from './ProductPrice.vue';
 import ProductInfo from './productCard/ProductInfo.vue';
 import useBasketStore from '@/app/store/basket';
-import ModalInfo from './ui/ModalInfo.vue';
-import { useModalInfo } from '@/hooks/useModalInfo';
 import EditProduct from './EditProduct.vue';
 import ButtonOption from './ui/ButtonOption.vue';
 import fetchDeleteProduct from '@/utils/fetchDeleteProduct';
+import { useModalStore } from '@/app/store/modal';
 const props = defineProps({
     card: Object,
     count: Number,
     isBasket: Boolean,
-    setModalInfo: Function,
     btns: String,
 })
 const isAdminEdit = ref(false)
 const wishlistStore = useWishlistStore();
 const basketStore = useBasketStore();
 const router = useRouter();
+const modalStore = useModalStore();
 
 const deleteFromUserList = computed(() => props.isBasket ? basketStore.deleteFromBasket : wishlistStore.deleteFromWishlist );
 
@@ -32,10 +31,10 @@ async function deleteFromAdmin(id) {
     try {
         const isDelete = await fetchDeleteProduct(id);
         if (isDelete) {       
-            props.setModalInfo('The product was removed', 'basket');
+            modalStore.setModal('The product was removed', 'basket');
         }
     } catch (error) {
-        props.setModalInfo('Error during product remove', '');
+        modalStore.setModal('Error during product remove', '');
     }
 }
 function goToProductPage(card) {    
@@ -89,7 +88,6 @@ function goToProductPage(card) {
     </section>
     <EditProduct v-if="isAdminEdit" 
         v-model:isAdminEdit="isAdminEdit" 
-        :setModalInfo="setModalInfo"
         :card="card" 
     />
 </template>

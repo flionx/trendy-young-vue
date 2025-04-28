@@ -2,17 +2,14 @@
 import { reactive, ref } from 'vue';
 import { useProductsStore } from '@/app/store/products';
 import EditProduct from '@/components/EditProduct.vue';
-import ModalInfo from '@/components/ui/ModalInfo.vue';
 import UserProductCard from '@/components/UserProductCard.vue';
-import { useModalInfo } from '@/hooks/useModalInfo';
 
 const productsStore = useProductsStore();
 const showCreateProduct = ref(false);
-const {modalInfo, setModalInfo} = useModalInfo();
 </script>
 
 <template>
-    <div class="container-center">
+    <div class="container-btn">
         <button class="add-btn" @click="showCreateProduct = true" v-if="!showCreateProduct">
             <span class="plus-icon">+</span>
             <span class="btn-text">Add new product</span>
@@ -20,26 +17,18 @@ const {modalInfo, setModalInfo} = useModalInfo();
     </div>
     <EditProduct v-if="showCreateProduct" 
         v-model:isAdminEdit="showCreateProduct" 
-        :setModalInfo="setModalInfo"
         :isCreate="true"
     />
 
     <UserProductCard v-for="product in productsStore.products" :key="product._id"
-        :setModalInfo="setModalInfo"
         :card="product"
         :isBasket="false"
         btns="admin"
     />
-
-    <ModalInfo v-if="modalInfo.show" 
-        v-model:isOpen="modalInfo.show"
-        :className="modalInfo.className">
-        {{modalInfo.text}}
-    </ModalInfo>
 </template>
 
 <style scoped>
-.container-center {
+.container-btn {
     width: 100%;
     margin-bottom: var(--m20px);
     display: flex;
