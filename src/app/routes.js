@@ -7,6 +7,7 @@ import BasketPage from "@/pages/BasketPage.vue";
 import WishlistPage from "@/pages/WishlistPage.vue";
 import ProductPage from "@/pages/ProductPage.vue";
 import AdminPage from "@/pages/AdminPage.vue";
+import { getLocalStorage } from "@/utils/localStorageUtils";
 
 const routes = [
     {
@@ -36,6 +37,7 @@ const routes = [
                     {
                         path: 'admin/:category',
                         component: AdminPage,
+                        meta: { isAdmin: true }
                     },
                     {
                         path: '', 
@@ -56,5 +58,17 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 })
+
+router.beforeEach((to, from, next) => {
+    const user = getLocalStorage('user') || {};
+    const accessToken = getLocalStorage('accessToken');
+
+    if (to.meta.isAdmin) {
+        if (!accessToken || user.role !== 'admin') {
+            return next('/');
+        }
+    }
+    next();
+});
 
 export default router;

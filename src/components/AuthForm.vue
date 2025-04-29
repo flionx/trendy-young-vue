@@ -1,10 +1,14 @@
 <script setup>
 import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import MiddleTitle from './text/MiddleTitle.vue';
 import RegularText from './text/RegularText.vue';
 import { useModalStore } from '@/app/store/modal';
 import { authApiUrl } from '@/constants/auth';
+import signUp from '@/utils/auth/signUp';
+import logIn from '@/utils/auth/logIn';
 const modalStore = useModalStore();
+const router = useRouter()
 
 const isAuthForm = defineModel('isAuthForm');
 const isLogin = ref(true);
@@ -26,32 +30,34 @@ function validateUsersInput(login, password) {
     return true;
 }
 
-async function createUser() {
-    if (validateUsersInput(login.value, password.value)) {
-        const response = await fetch(`${authApiUrl}/signup`, {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json'},
-            credentials: 'include',
-            body: JSON.stringify({ 
-                login: login.value,
-                password: password.value 
-            })
-        })
-        console.log(await response.json());
+async function createUser(currLogin, currPassword) {    
+    if (validateUsersInput(currLogin, currPassword)) {
+        try {
+            const {isCreate, error} = await signUp(currLogin, currPassword);
+            if (isCreate) {
+                modalStore.setModal('Account created. Log in to the account', '');
+                isLogin.value = true;
+                password.value = '';
+            } else {
+                modalStore.setModal(error, '');
+            }
+        } catch (error) {
+            console.log('Error when creating an account:', error);
+            modalStore.setModal('Error when creating an account:', '');
+        }
     }
 }
-async function loginUser() {
-    if (validateUsersInput(login.value, password.value)) {
-        const response = await fetch(`${authApiUrl}/login`, {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json'},
-            credentials: 'include',
-            body: JSON.stringify({ 
-                login: login.value,
-                password: password.value 
-            })
-        })
-        console.log(await response.json());
+async function loginUser(login, password) {
+    if (validateUsersInput(login, password)) {
+        try {
+            const userData = await logIn(login, password);
+            if (userData.user.role === 'admin') {
+                router.push('/store/admin/all');
+            }
+        } catch (error) {
+            console.log('Error when logging in to the account:', error);
+            modalStore.setModal('Error when logging in to the account:', '');        
+        }
     }
 }
 </script>
@@ -80,7 +86,7 @@ async function loginUser() {
                 <button v-if="isLogin" class="small-text forgot">Forgot password</button>
             </div>
             <button class="submit" 
-                @click="isLogin ? loginUser() : createUser()">
+                @click="isLogin ? loginUser(login, password) : createUser(login, password)">
                 {{ mainText }}
             </button>
             <div class="or">

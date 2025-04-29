@@ -3,7 +3,8 @@ import { reactive, ref } from 'vue';
 import { useProductsStore } from '@/app/store/products';
 import EditProduct from '@/components/EditProduct.vue';
 import UserProductCard from '@/components/UserProductCard.vue';
-
+import { getLocalStorage } from '@/utils/localStorageUtils';
+const isAdmin = getLocalStorage('user')
 const productsStore = useProductsStore();
 const showCreateProduct = ref(false);
 </script>
