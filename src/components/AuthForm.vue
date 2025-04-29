@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import MiddleTitle from './text/MiddleTitle.vue';
 import RegularText from './text/RegularText.vue';
 import { useModalStore } from '@/app/store/modal';
+import { authApiUrl } from '@/constants/auth';
 const modalStore = useModalStore();
 
 const isAuthForm = defineModel('isAuthForm');
@@ -25,14 +26,9 @@ function validateUsersInput(login, password) {
     return true;
 }
 
-function loginUser() {
-    if (validateUsersInput(login.value, password.value)) {
-        console.log('LOGIN');
-    }
-}
 async function createUser() {
     if (validateUsersInput(login.value, password.value)) {
-        const response = await fetch('http://localhost:5000/api/auth/signup', {
+        const response = await fetch(`${authApiUrl}/signup`, {
             method: 'POST',
             headers: { 'Content-type': 'application/json'},
             credentials: 'include',
@@ -41,7 +37,21 @@ async function createUser() {
                 password: password.value 
             })
         })
-        console.log(response);
+        console.log(await response.json());
+    }
+}
+async function loginUser() {
+    if (validateUsersInput(login.value, password.value)) {
+        const response = await fetch(`${authApiUrl}/login`, {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({ 
+                login: login.value,
+                password: password.value 
+            })
+        })
+        console.log(await response.json());
     }
 }
 </script>

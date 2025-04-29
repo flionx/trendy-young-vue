@@ -24,7 +24,7 @@ const modalStore = useModalStore();
 const deleteFromUserList = computed(() => props.isBasket ? basketStore.deleteFromBasket : wishlistStore.deleteFromWishlist );
 
 function deleteProduct(id) {
-    props.setModalInfo(`Removed from ${props.isBasket ? 'Cart' : 'Wishlist'}`, `${props.isBasket ? 'basket' : 'like'}`)
+    modalStore.setModal(`Removed from ${props.isBasket ? 'Cart' : 'Wishlist'}`, `${props.isBasket ? 'basket' : 'like'}`)
     deleteFromUserList.value(id);
 }
 async function deleteFromAdmin(id) {
