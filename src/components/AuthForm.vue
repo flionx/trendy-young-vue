@@ -53,6 +53,8 @@ async function loginUser(login, password) {
     if (validateUsersInput(login, password)) {
         try {
             const userData = await logIn(login, password);
+            console.log(userData);
+            
             userStore.setUser(userData.user);
             isAuthForm.value = false;
             if (userData.user.role === 'admin') {

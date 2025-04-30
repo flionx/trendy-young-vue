@@ -1,5 +1,5 @@
 <script setup>
-import { productApiUrl, productTargets, productTypes } from '@/constants/products';
+import { productTargets, productTypes } from '@/constants/products';
 import { nextTick, reactive, ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import CustomSelect from './CustomSelect.vue';
@@ -10,17 +10,17 @@ import fetchCreateProduct from '@/utils/fetchCreateProduct';
 import fetchUpdateProduct from '@/utils/fetchUpdateProduct';
 import fetchDeleteProduct from '@/utils/fetchDeleteProduct';
 import useBasketStore from '@/app/store/basket';
+import { useModalStore } from '@/app/store/modal';
 import { useWishlistStore } from '@/app/store/wishlist';
-
 const props = defineProps({
     card: Object,
     isCreate: Boolean,
-    setModalInfo: Function,
 })
 const isAdminEdit = defineModel('isAdminEdit');
 const router = useRouter();
 const basketStore = useBasketStore();
 const wishlistStore = useWishlistStore();
+const modalStore = useModalStore();
 
 const currProduct = reactive({
     img: '',
@@ -40,7 +40,7 @@ const inputFile = ref(null);
 const {changeImage, uploading} = useChangeImage();
 watchEffect(() => {
     if (uploading.value) {
-        props.setModalInfo('Please wait. Uploading an image', '')
+        modalStore.setModal('Please wait. Uploading an image', '')
     }
 })
 function isCorrectInputs() {
@@ -59,17 +59,17 @@ function isCorrectInputs() {
     }
 }
 function succesOperation(action) {
-    props.setModalInfo(`The product was successfully ${action}`, '')
+    modalStore.setModal(`The product was successfully ${action}`, '')
     isAdminEdit.value = false;
 }
 function errorOperation(action, error) {
-    props.setModalInfo(`Error during product ${action}`, '')
+    modalStore.setModal(`Error during product ${action}`, '')
     console.log(`Error during product ${action}`, error);
 }
 
 async function addNewProduct() {
     if (!isCorrectInputs()) {
-        props.setModalInfo('Please fill in the fields correctly' , '')
+        modalStore.setModal('Please fill in the fields correctly' , '')
         return;
     }
     try {
@@ -84,7 +84,7 @@ async function addNewProduct() {
 }
 async function updateProduct() {
     if (!isCorrectInputs()) {
-        props.setModalInfo('Please fill in the fields correctly' , '')
+        modalStore.setModal('Please fill in the fields correctly' , '')
         return;
     }
     try {

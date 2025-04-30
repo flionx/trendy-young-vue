@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken'
 import { randomBytes } from 'crypto'
 import User from '../models/User.js'
 import RefreshToken from '../models/RefreshToken.js'
+import checkAuthToken from '../middleware/checkAuthToken.js'
+import checkIsAdmin from '../middleware/checkUserRole.js'
 
 const router = express.Router();
 export const JWT_SECRET = process.env.JWT_SECRET || 'trendy-young-key';
@@ -70,5 +72,9 @@ router.post('/refresh', async (req, res) => {
 
     res.json({ accessToken: newAccessToken });
 });
+
+router.get('/verify', checkAuthToken, checkIsAdmin, async (req, res) => {
+    res.json({ message: 'User is Admin' });
+})
 
 export default router

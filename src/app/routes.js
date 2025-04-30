@@ -8,6 +8,7 @@ import WishlistPage from "@/pages/WishlistPage.vue";
 import ProductPage from "@/pages/ProductPage.vue";
 import AdminPage from "@/pages/AdminPage.vue";
 import { getLocalStorage } from "@/utils/localStorageUtils";
+import { authApiUrl } from "@/constants/auth";
 
 const routes = [
     {
@@ -59,16 +60,34 @@ const router = createRouter({
     routes
 })
 
-router.beforeEach((to, from, next) => {
-    const user = getLocalStorage('user') || {};
+router.beforeEach(async (to, from, next) => {
     const accessToken = getLocalStorage('accessToken');
-
     if (to.meta.isAdmin) {
-        if (!accessToken || user.role !== 'admin') {
+        if (!accessToken) {
             return next('/');
         }
+        try {
+            const response = await fetch(`${authApiUrl}/verify`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                }
+            })
+            console.log(response);
+            
+            if (!response.ok) {
+                throw Error('Access denied');
+            }
+            next();
+        } catch (error) {
+            console.log('Admin verification failed:', error);
+            localStorage.clear();
+            location.reload();
+            next('/');
+        }
+
+    } else {
+        next();
     }
-    next();
 });
 
 export default router;

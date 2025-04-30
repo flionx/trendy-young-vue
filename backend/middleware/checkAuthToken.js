@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from '../routes/auth.js';
 
-const authToken = (req, res, next) => {
+const checkAuthToken = (req, res, next) => {
     const authHeader = req.headers['authorization']; // Bearer token
     const token = authHeader && authHeader.split(' ')[1]; // token
 
@@ -14,4 +14,4 @@ const authToken = (req, res, next) => {
     })
 }
 
-export default authToken
+export default checkAuthToken

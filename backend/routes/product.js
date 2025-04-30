@@ -1,9 +1,11 @@
 import express from 'express'
 import Product from '../models/Product.js';
+import checkAuthToken from '../middleware/checkAuthToken.js';
+import checkIsAdmin from '../middleware/checkUserRole.js';
 
 const router = express.Router();
 
-router.post('/create', async (req, res) => {
+router.post('/create', checkAuthToken, checkIsAdmin, async (req, res) => {
     try {   
         const newProduct = new Product(req.body);
         const savedProduct = await newProduct.save();
@@ -37,7 +39,7 @@ router.get('/find/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', checkAuthToken, checkIsAdmin, async (req, res) => {
     const { id } = req.params;
     const newProduct = req.body;
     try {
@@ -49,7 +51,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', checkAuthToken, checkIsAdmin, async (req, res) => {
     const { id } = req.params;
     try {
         const product = await Product.findByIdAndDelete(id);
