@@ -9,6 +9,7 @@ import ProductPage from "@/pages/ProductPage.vue";
 import AdminPage from "@/pages/AdminPage.vue";
 import { getLocalStorage } from "@/utils/localStorageUtils";
 import { authApiUrl } from "@/constants/auth";
+import refreshAccessToken from "@/utils/auth/refreshAccessToken";
 
 const routes = [
     {
@@ -68,13 +69,18 @@ router.beforeEach(async (to, from, next) => {
             })
             
             if (!response.ok) {
-                throw Error('Access denied');
+                if (response.status === 403) {
+                    const accessToken = await refreshAccessToken();
+                    if (!accessToken) throw Error('Access denied');
+                } else {
+                    throw Error('Access denied');
+                }
             }
             next();
         } catch (error) {
-            console.log('Admin verification failed:', error);
             localStorage.clear();
             location.reload();
+            console.log('Admin verification failed:', error);
             next('/');
         }
 

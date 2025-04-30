@@ -45,7 +45,16 @@ router.post('/login', async (req, res) => {
         )
 
         const refreshToken = randomBytes(32).toString('hex');
-        const refreshTokenExpires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+        const refreshTokenExpires = new Date(Date.now() + 7 * 24); // 7 * 24 * 60 * 60 * 1000  7 days
+
+        const tokenCount = await RefreshToken.countDocuments({ userId: user._id });
+        if (tokenCount >= 3) {
+            const oldestToken = await RefreshToken.findOne({ userId: user._id }).sort({ createdAt: 1 });
+            if (oldestToken) {
+                await RefreshToken.deleteOne({ _id: oldestToken._id });
+            }
+        }
+
         await RefreshToken.create({
             token: refreshToken,
             userId: user._id,
@@ -72,7 +81,6 @@ router.get('/refresh', async (req, res) => {
     const storedToken = await RefreshToken.findOne({ token: refreshToken });
     if (!storedToken || storedToken.expiresAt < new Date()) {
         return res.status(403).json({ message: 'Invalid or expired refresh token' });
-        // catch error and navigate to login
     }
 
     const user = await User.findById(storedToken.userId);
