@@ -1,28 +1,17 @@
 <template>
-<div :class="[className, {'anim-hide': isHide}]">
-    <slot></slot>
-</div>
-</template>
-
-<script setup>
-import { useModalStore } from '@/app/store/modal';
-import { onMounted, ref } from 'vue';
-
-const props = defineProps({
+    <div :class="[className, { 'anim-hide': modalStore.isHiding }]">
+      <slot></slot>
+    </div>
+  </template>
+  
+  <script setup>
+  import { useModalStore } from '@/app/store/modal';
+  
+  const props = defineProps({
     className: String,
-})
-const modalStore = useModalStore();
-const isHide = ref(false);
-
-onMounted(() => {
-    setTimeout(() => {
-        isHide.value = true;
-    }, 1200)
-    setTimeout(() => {
-        modalStore.hideModal();
-    }, 1800)
-})
-</script>
+  });
+  const modalStore = useModalStore();
+  </script>
 
 <style scoped>
 div {
