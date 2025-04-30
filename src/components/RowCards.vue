@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="row" :class="{'row-fit': isPopular}">
         <ProductCard v-for="product in products" :product="product" :key="product._id"></ProductCard>
     </div>
 </template>
@@ -9,6 +9,7 @@ import ProductCard from './ProductCard.vue';
 
 const props = defineProps({
     products: Array,
+    isPopular: Boolean,
 })
 </script>
 
@@ -18,6 +19,9 @@ const props = defineProps({
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
     column-gap: var(--column-gap);
     justify-items: stretch;
+}
+.row-fit {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
 }
 @media (max-width: 767px) {
     .row {

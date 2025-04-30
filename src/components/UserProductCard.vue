@@ -5,31 +5,37 @@ import { useWishlistStore } from '@/app/store/wishlist';
 import ProductPrice from './ProductPrice.vue';
 import ProductInfo from './productCard/ProductInfo.vue';
 import useBasketStore from '@/app/store/basket';
-import ModalInfo from './ui/ModalInfo.vue';
-import { useModalInfo } from '@/hooks/useModalInfo';
 import EditProduct from './EditProduct.vue';
 import ButtonOption from './ui/ButtonOption.vue';
+import fetchDeleteProduct from '@/utils/products/fetchDeleteProduct';
+import { useModalStore } from '@/app/store/modal';
 const props = defineProps({
     card: Object,
     count: Number,
     isBasket: Boolean,
-    setModalInfo: Function,
     btns: String,
 })
 const isAdminEdit = ref(false)
 const wishlistStore = useWishlistStore();
 const basketStore = useBasketStore();
 const router = useRouter();
+const modalStore = useModalStore();
 
 const deleteFromUserList = computed(() => props.isBasket ? basketStore.deleteFromBasket : wishlistStore.deleteFromWishlist );
 
 function deleteProduct(id) {
-    props.setModalInfo(`Removed from ${props.isBasket ? 'Cart' : 'Wishlist'}`, `${props.isBasket ? 'basket' : 'like'}`)
+    modalStore.setModal(`Removed from ${props.isBasket ? 'Cart' : 'Wishlist'}`, `${props.isBasket ? 'basket' : 'like'}`)
     deleteFromUserList.value(id);
 }
-function deleteFromAdmin(id) {
-    props.setModalInfo('The product was removed', 'basket');
-    basketStore.deleteFromBasket(id) //Test
+async function deleteFromAdmin(id) {
+    try {
+        const isDelete = await fetchDeleteProduct(id);
+        if (isDelete) {       
+            modalStore.setModal('The product was removed', 'basket');
+        }
+    } catch (error) {
+        modalStore.setModal('Error during product remove', '');
+    }
 }
 function goToProductPage(card) {    
     router.push(`/product/${card._id}`)
@@ -80,7 +86,10 @@ function goToProductPage(card) {
             </template>
         </div>
     </section>
-    <EditProduct v-if="isAdminEdit" v-model:isAdminEdit="isAdminEdit" :card="card" />
+    <EditProduct v-if="isAdminEdit" 
+        v-model:isAdminEdit="isAdminEdit" 
+        :card="card" 
+    />
 </template>
 
 <style scoped>

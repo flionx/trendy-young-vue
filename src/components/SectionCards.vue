@@ -5,17 +5,19 @@ import MiddleTitle from './text/MiddleTitle.vue';
 import { useProductsStore } from '@/app/store/products';
 import { usePopProductsStore } from '@/app/store/popularProducts';
 import RowCards from './RowCards.vue';
-
+const props = defineProps({
+    title: String,
+})
 const popProductsStore = usePopProductsStore();
 </script>
 
 <template>
     <section>
         <div class="see-more">
-            <h3><MiddleTitle>Popular</MiddleTitle></h3>
-            <router-link to="store/all">See all</router-link>
+            <h3><MiddleTitle>{{ title }}</MiddleTitle></h3>
+            <router-link to="/store/all">See all</router-link>
         </div>
-        <RowCards :products="popProductsStore.products"></RowCards>
+        <RowCards :products="popProductsStore.products" isPopular></RowCards>
     </section>
 </template>
 

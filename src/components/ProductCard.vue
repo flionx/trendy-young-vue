@@ -2,34 +2,33 @@
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import ProductPrice from './ProductPrice.vue';
-import ModalInfo from './ui/ModalInfo.vue';
 import RegularText from './text/RegularText.vue';
 import BoldText from './text/BoldText.vue';
 import { useWishlistStore } from '@/app/store/wishlist';
 import useBasketStore from '@/app/store/basket';
-import { useModalInfo } from '@/hooks/useModalInfo';
+import { useModalStore } from '@/app/store/modal';
 const props = defineProps({
     product: Object,
 })
 const wishlistStore = useWishlistStore();
 const basketStore = useBasketStore();
 const router = useRouter();
-const {modalInfo, setModalInfo} = useModalInfo();
+const modalStore = useModalStore();
 
 const isLike = computed(() => 
     wishlistStore.products.some(product => product._id === props.product._id)
 );
 function addToBasket(product) {
     basketStore.addToBasket(product)
-    setModalInfo('Added to Cart', 'basket')
+    modalStore.setModal('Added to Cart', 'basket')
 }
 function toggleWishlist(product) {    
     if (isLike.value) { 
         wishlistStore.deleteFromWishlist(product._id);
-        setModalInfo('Removed from Wishlist', 'like');
+        modalStore.setModal('Removed from Wishlist', 'like');
     } else {
         wishlistStore.addToWishlist(product);
-        setModalInfo('Added to Wishlist', 'like');
+        modalStore.setModal('Added to Wishlist', 'like');
     }
 }
 function goToProductPage(product) {
@@ -59,11 +58,6 @@ function goToProductPage(product) {
             </button>
         </div>
     </div>
-    <ModalInfo v-if="modalInfo.show" 
-        v-model:isOpen="modalInfo.show"
-        :className="modalInfo.className">
-        {{modalInfo.text}}
-    </ModalInfo>
 </template>
 
 <style scoped>

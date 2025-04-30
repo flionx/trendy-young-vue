@@ -1,8 +1,11 @@
 <script setup>
 import { onMounted } from 'vue';
 import { usePopProductsStore } from './app/store/popularProducts';
+import { useModalStore } from './app/store/modal';
+import ModalInfo from './components/ui/ModalInfo.vue';
 const popProductsStore = usePopProductsStore();
 
+const modalStore = useModalStore();
 onMounted(async () => {
     await popProductsStore.loadProducts();
 })
@@ -12,6 +15,10 @@ onMounted(async () => {
   <div class="container">
     <router-view></router-view>
   </div>
+  <ModalInfo v-if="modalStore.show" 
+      :className="modalStore.className">
+      {{modalStore.text}}
+  </ModalInfo>
 </template>
 
 <style scoped>

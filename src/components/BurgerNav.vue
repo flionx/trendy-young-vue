@@ -1,11 +1,22 @@
 <script setup>
 import { ref } from 'vue';
-const isAuthForm = defineModel();
+import ModalUserProfile from './ModalUserProfile.vue';
+import { useUserStore } from '@/app/store/user';
+import IconUser from './ui/icons/IconUser.vue';
+import IconLogout from './ui/icons/IconLogout.vue';
+
+const isAuthForm = defineModel('isAuthForm');
 const isOpen = ref(false);
+const userStore = useUserStore();
 
 function openAuthModal() {
     isOpen.value = false;
     isAuthForm.value = true;
+}
+function logout() {
+    isOpen.value = false;
+    userStore.resetUser();
+    localStorage.clear();
 }
 </script>
 
@@ -19,7 +30,10 @@ function openAuthModal() {
         <router-link to="/store/all">Catalog</router-link>
         <router-link to="/store/user/wishlist">Wishlist</router-link>
         <router-link to="/store/user/basket">Cart</router-link>
-        <button @click="openAuthModal">Log in/Sign up</button>
+        <button @click="openAuthModal" v-if="!userStore.user">Log in/Sign up</button>
+        <div class="user-cnt" v-if="userStore.user">
+            <button @click="logout">{{ userStore.user.role }}<IconLogout class="light"/></button>
+        </div>
     </nav>
 </template>
 
@@ -99,6 +113,19 @@ function openAuthModal() {
 }
 .menu button:hover {
     background: #222222;
+}
+.user-cnt {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.user-cnt button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 10px;
 }
 @media (min-width: 1101px) {
     .menu-open {

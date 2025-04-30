@@ -1,9 +1,16 @@
 <script setup>
 import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import MiddleTitle from './text/MiddleTitle.vue';
 import RegularText from './text/RegularText.vue';
-import ModalInfo from './ui/ModalInfo.vue';
-import { useModalInfo } from '@/hooks/useModalInfo';
+import { useModalStore } from '@/app/store/modal';
+import { authApiUrl } from '@/constants/auth';
+import signUp from '@/utils/auth/signUp';
+import logIn from '@/utils/auth/logIn';
+import { useUserStore } from '@/app/store/user';
+const modalStore = useModalStore();
+const router = useRouter()
+const userStore = useUserStore();
 
 const isAuthForm = defineModel('isAuthForm');
 const isLogin = ref(true);
@@ -12,37 +19,49 @@ const reverseMainText = computed(() => isLogin.value ? 'Sign up' : 'Log in');
 
 const login = ref('');
 const password = ref('');
-const {modalInfo, setModalInfo} = useModalInfo();
 
 function validateUsersInput(login, password) {
     if (!login.trim() || !password.trim()) {
-        setModalInfo('Please fill in all fields', '');
+        modalStore.setModal('Please fill in all fields', '')
         return false;
     }
     if (password.length < 6) {
-        setModalInfo('Password must contain at least 6 characters', '');
+        modalStore.setModal('Password must contain at least 6 characters', '');
         return false;
     }
     return true;
 }
 
-function loginUser() {
-    if (validateUsersInput(login.value, password.value)) {
-        console.log('LOGIN');
+async function createUser(currLogin, currPassword) {    
+    if (validateUsersInput(currLogin, currPassword)) {
+        try {
+            const {isCreate, error} = await signUp(currLogin, currPassword);
+            if (isCreate) {
+                modalStore.setModal('Account created. Log in to the account', '');
+                isLogin.value = true;
+                password.value = '';
+            } else {
+                modalStore.setModal(error, '');
+            }
+        } catch (error) {
+            console.log('Error when creating an account:', error);
+            modalStore.setModal('Error when creating an account:', '');
+        }
     }
 }
-async function createUser() {
-    if (validateUsersInput(login.value, password.value)) {
-        const response = await fetch('http://localhost:5000/api/auth/signup', {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json'},
-            credentials: 'include',
-            body: JSON.stringify({ 
-                login: login.value,
-                password: password.value 
-            })
-        })
-        console.log(response);
+async function loginUser(login, password) {
+    if (validateUsersInput(login, password)) {
+        try {
+            const userData = await logIn(login, password);            
+            userStore.setUser(userData);
+            isAuthForm.value = false;
+            if (userData.role === 'admin') {
+                router.push('/store/admin/all');
+            }
+        } catch (error) {
+            console.log('Error when logging in to the account:', error);
+            modalStore.setModal('Error when logging in to the account:', '');        
+        }
     }
 }
 </script>
@@ -71,7 +90,7 @@ async function createUser() {
                 <button v-if="isLogin" class="small-text forgot">Forgot password</button>
             </div>
             <button class="submit" 
-                @click="isLogin ? loginUser() : createUser()">
+                @click="isLogin ? loginUser(login, password) : createUser(login, password)">
                 {{ mainText }}
             </button>
             <div class="or">
@@ -89,11 +108,6 @@ async function createUser() {
                     {{ reverseMainText}}
                 </button>
             </p>
-            <ModalInfo v-if="modalInfo.show" 
-                v-model:isOpen="modalInfo.show"
-                :className="modalInfo.className">
-                {{modalInfo.text}}
-            </ModalInfo>
         </dialog>
     </div>
 </template>

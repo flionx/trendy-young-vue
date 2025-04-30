@@ -4,9 +4,7 @@ import useBasketStore from '@/app/store/basket';
 import EmptyList from '@/components/EmptyList.vue';
 import MiddleTitle from '@/components/text/MiddleTitle.vue';
 import RegularText from '@/components/text/RegularText.vue';
-import ModalInfo from '@/components/ui/ModalInfo.vue';
 import UserProductCard from '@/components/UserProductCard.vue';
-import { useModalInfo } from '@/hooks/useModalInfo';
 const basketStore = useBasketStore();
 
 const totalPrice = computed(() => 
@@ -15,7 +13,6 @@ const totalPrice = computed(() =>
   0)
 );
 const delivery = computed(() => totalPrice.value * 0.05);
-const {modalInfo, setModalInfo} = useModalInfo();
 </script>
 
 <template>
@@ -23,7 +20,6 @@ const {modalInfo, setModalInfo} = useModalInfo();
         <div class="container">
             <div class="list">
                 <UserProductCard v-for="card in basketStore.products" :key="card.product._id"
-                    :setModalInfo="setModalInfo"
                     :card="card.product"
                     :count="card.count"
                     :isBasket="true"
@@ -53,11 +49,6 @@ const {modalInfo, setModalInfo} = useModalInfo();
         </div>
     </template>
     <EmptyList v-else title="Cart"/>
-    <ModalInfo v-if="modalInfo.show" 
-        v-model:isOpen="modalInfo.show"
-        :className="modalInfo.className">
-        {{modalInfo.text}}
-    </ModalInfo>
 </template>
 
 <style scoped>
