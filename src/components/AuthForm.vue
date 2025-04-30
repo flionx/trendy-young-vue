@@ -7,8 +7,10 @@ import { useModalStore } from '@/app/store/modal';
 import { authApiUrl } from '@/constants/auth';
 import signUp from '@/utils/auth/signUp';
 import logIn from '@/utils/auth/logIn';
+import { useUserStore } from '@/app/store/user';
 const modalStore = useModalStore();
 const router = useRouter()
+const userStore = useUserStore();
 
 const isAuthForm = defineModel('isAuthForm');
 const isLogin = ref(true);
@@ -51,6 +53,8 @@ async function loginUser(login, password) {
     if (validateUsersInput(login, password)) {
         try {
             const userData = await logIn(login, password);
+            userStore.setUser(userData.user);
+            isAuthForm.value = false;
             if (userData.user.role === 'admin') {
                 router.push('/store/admin/all');
             }

@@ -13,7 +13,7 @@ const isAuthForm = ref(false);
 </script>
 
 <template>
-    <Header v-model:isAuthForm="isAuthForm"/>
+    <Header v-model:isAuthForm="isAuthForm" />
     <AuthForm v-if="isAuthForm"
         v-model:isAuthForm="isAuthForm" 
     />

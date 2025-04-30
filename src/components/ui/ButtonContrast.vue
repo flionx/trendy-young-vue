@@ -18,8 +18,10 @@ button {
     background: var(--bg-color) !important;
     color: var(--text-color) !important;
     transition: .3s all;
+    position: relative;
 }
 button:hover {
     background: var(--bg-color-hover) !important;
 }
+
 </style>

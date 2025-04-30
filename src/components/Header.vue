@@ -1,12 +1,22 @@
 <script setup>
+import { ref } from 'vue';
+import { getLocalStorage } from '@/utils/localStorageUtils';
 import BurgerNav from '../components/BurgerNav.vue'
 import ButtonContrast from '../components/ui/ButtonContrast.vue'
 import InputSearch from './InputSearch.vue';
 import ButtonOrange from './ui/ButtonOrange.vue';
+import RegularText from './text/RegularText.vue';
+import AdminHeader from './AdminHeader.vue';
+import ModalUserProfile from './ModalUserProfile.vue';
+import { useUserStore } from '@/app/store/user';
 const isAuthForm = defineModel('isAuthForm');
+const isModalProfile = ref(false);
+
+const userStore = useUserStore();
 </script>
 
 <template>
+    <AdminHeader />
     <header>
         <h1>Trendy Young</h1>
         <div class="desktop">
@@ -18,7 +28,19 @@ const isAuthForm = defineModel('isAuthForm');
                 <router-link to="/store/user/basket">
                     <ButtonOrange class="cart">Cart</ButtonOrange>
                 </router-link>
-                <ButtonContrast @click="() => isAuthForm = true">Log in/Sign up</ButtonContrast>
+                <template v-if="!userStore.user">
+                    <ButtonContrast @click="() => isAuthForm = true">Log in/Sign up</ButtonContrast>
+                </template>
+                <template v-if="userStore.user">
+                    <div class="user-container">
+                        <button class="user" @click="isModalProfile = !isModalProfile">
+                            <span></span>{{ userStore.user.role }}
+                        </button>
+                        <ModalUserProfile v-if="isModalProfile"
+                            v-model:isModalProfile="isModalProfile" 
+                        />
+                    </div>
+                </template>
             </nav>
         </div>
         <BurgerNav v-model="isAuthForm"/>
@@ -51,6 +73,48 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+.user-container {
+    position: relative;
+}
+.user {
+    display: flex;
+    column-gap: 12px;
+    align-items: center;
+    min-width: 48px;
+    height: 48px;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    background: var(--bg-color) !important;
+    color: var(--text-color) !important;
+    transition: .3s all;
+}
+.user span {
+    width: 30px;
+    height: 30px;
+    position: relative;
+}
+.user span::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    mask-image: var(--avatar-url);
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: cover;
+    background: var(--text-color);
+}
+.user:hover {
+    background: var(--bg-color-hover) !important;
 }
 
 @media (max-width: 1100px) {
