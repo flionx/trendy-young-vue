@@ -2,6 +2,7 @@
 import { setLocalStorage } from '@/utils/localStorageUtils';
 import RegularText from './text/RegularText.vue';
 import { useUserStore } from '@/app/store/user';
+import IconLogout from './ui/icons/IconLogout.vue';
 const isModalProfile = defineModel('isModalProfile');
 const userStore = useUserStore();
 
@@ -16,7 +17,7 @@ function logout() {
   <dialog open>
     <button class="logout" @click="logout">
         <RegularText>Log out</RegularText>
-        <span class="icon"></span>
+        <IconLogout />
     </button>
   </dialog>
 </template>
@@ -25,6 +26,7 @@ function logout() {
 dialog {
     width: 150px;
     position: absolute;
+    z-index: 5;
     top: calc(100% + 8px);
     left: 0;
     display: flex;
@@ -74,24 +76,5 @@ button:focus {
     align-items: center;
     justify-content: center;
     column-gap: 10px;
-}
-.logout .icon {
-    position: relative;
-    width: 15px;
-    height: 13.5px;
-}
-.logout .icon::after {
-    content: '';
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    mask-image: var(--logout-url);
-    mask-position: center;
-    mask-repeat: no-repeat;
-    mask-size: cover;
-    background: var(--bg-color);
 }
 </style>

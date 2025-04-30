@@ -9,6 +9,7 @@ import RegularText from './text/RegularText.vue';
 import AdminHeader from './AdminHeader.vue';
 import ModalUserProfile from './ModalUserProfile.vue';
 import { useUserStore } from '@/app/store/user';
+import IconUser from './ui/icons/IconUser.vue';
 const isAuthForm = defineModel('isAuthForm');
 const isModalProfile = ref(false);
 
@@ -34,7 +35,7 @@ const userStore = useUserStore();
                 <template v-if="userStore.user">
                     <div class="user-container">
                         <button class="user" @click="isModalProfile = !isModalProfile">
-                            <span></span>{{ userStore.user.role }}
+                            <IconUser />{{ userStore.user.role }}
                         </button>
                         <ModalUserProfile v-if="isModalProfile"
                             v-model:isModalProfile="isModalProfile" 
@@ -43,7 +44,7 @@ const userStore = useUserStore();
                 </template>
             </nav>
         </div>
-        <BurgerNav v-model="isAuthForm"/>
+        <BurgerNav v-model:isAuthForm="isAuthForm" />
     </header>
 </template>
 
@@ -93,25 +94,6 @@ nav {
     background: var(--bg-color) !important;
     color: var(--text-color) !important;
     transition: .3s all;
-}
-.user span {
-    width: 30px;
-    height: 30px;
-    position: relative;
-}
-.user span::after {
-    content: '';
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    mask-image: var(--avatar-url);
-    mask-position: center;
-    mask-repeat: no-repeat;
-    mask-size: cover;
-    background: var(--text-color);
 }
 .user:hover {
     background: var(--bg-color-hover) !important;
