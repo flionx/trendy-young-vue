@@ -7,7 +7,7 @@ import ProductInfo from './productCard/ProductInfo.vue';
 import useBasketStore from '@/app/store/basket';
 import EditProduct from './EditProduct.vue';
 import ButtonOption from './ui/ButtonOption.vue';
-import fetchDeleteProduct from '@/utils/fetchDeleteProduct';
+import fetchDeleteProduct from '@/utils/products/fetchDeleteProduct';
 import { useModalStore } from '@/app/store/modal';
 const props = defineProps({
     card: Object,

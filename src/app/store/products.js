@@ -1,4 +1,4 @@
-import { fetchProducts } from "@/utils/fetchProducts";
+import { fetchProducts } from "@/utils/products/fetchProducts";
 import { getLocalStorage, setLocalStorage } from "@/utils/localStorageUtils";
 import { defineStore } from "pinia";
 

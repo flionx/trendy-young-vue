@@ -1,14 +1,10 @@
 import { productApiUrl } from "@/constants/products";
-import { getLocalStorage } from "./localStorageUtils";
 
 const fetchUpdateProduct = async (id, newProduct) => {
-    const accessToken = getLocalStorage('accessToken');
     const updatedProduct = await fetch(`${productApiUrl}/${id}`, {
         method: 'PUT',
-        headers: { 
-            'Content-type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`,
-        },
+        headers: { 'Content-type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(newProduct),
     })
 

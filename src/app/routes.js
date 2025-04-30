@@ -61,18 +61,11 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-    const accessToken = getLocalStorage('accessToken');
     if (to.meta.isAdmin) {
-        if (!accessToken) {
-            return next('/');
-        }
         try {
             const response = await fetch(`${authApiUrl}/verify`, {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                }
+                credentials: 'include'
             })
-            console.log(response);
             
             if (!response.ok) {
                 throw Error('Access denied');

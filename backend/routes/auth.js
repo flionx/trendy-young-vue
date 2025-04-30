@@ -9,6 +9,11 @@ import checkIsAdmin from '../middleware/checkUserRole.js'
 
 const router = express.Router();
 export const JWT_SECRET = process.env.JWT_SECRET || 'trendy-young-key';
+const cookieOptions = {
+    httpOnly: true,
+    secure: true,
+    sameSite: true,
+}
 
 router.post('/signup', async (req, res) => {
     try {
@@ -46,15 +51,22 @@ router.post('/login', async (req, res) => {
             userId: user._id,
             expiresAt: refreshTokenExpires,
         })
-
-        res.status(200).json({ accessToken, refreshToken, user: {login: user.login, role: user.role} });
+        res.cookie('accessToken', accessToken, {
+            ...cookieOptions,
+            maxAge: 60 * 60 * 1000,
+        })
+        res.cookie('refreshToken', refreshToken, {
+            ...cookieOptions,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        })
+        res.status(200).json({ login: user.login, role: user.role });
     } catch (error) {
         res.status(400).json({error: error.message})
     }
 })
 
-router.post('/refresh', async (req, res) => {
-    const { refreshToken } = req.body;
+router.get('/refresh', async (req, res) => {
+    const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) return res.status(401).json({ message: 'Refresh token is not available' });
 
     const storedToken = await RefreshToken.findOne({ token: refreshToken });
@@ -70,7 +82,10 @@ router.post('/refresh', async (req, res) => {
         { expiresIn: '1h' }
     );
 
-    res.json({ accessToken: newAccessToken });
+    res.cookie('accessToken', newAccessToken, {
+        ...cookieOptions,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+    })
 });
 
 router.get('/verify', checkAuthToken, checkIsAdmin, async (req, res) => {

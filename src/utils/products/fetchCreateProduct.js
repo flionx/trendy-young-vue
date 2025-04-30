@@ -1,14 +1,10 @@
 import { productApiUrl } from "@/constants/products";
-import { getLocalStorage } from "./localStorageUtils";
 
 const fetchCreateProduct = async (currProduct) => {
-    const accessToken = getLocalStorage('accessToken');
     const createdProduct = await fetch(`${productApiUrl}/create`, {
         method: 'POST',
-        headers: { 
-            'Content-type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`,
-        },
+        headers: { 'Content-type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(currProduct),
     })
 

@@ -10,11 +10,9 @@ const logIn = async (login, password) => {
     })
     if (!response.status === 200) return false;
 
-    const userData = await response.json();
-    setLocalStorage('accessToken', userData.accessToken)
-    setLocalStorage('refreshToken', userData.refreshToken)
-    setLocalStorage('user', userData.user)
-    return userData;
+    const user = await response.json();
+    setLocalStorage('user', user)
+    return user;
 }
 
 export default logIn

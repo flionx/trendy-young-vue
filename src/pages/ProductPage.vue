@@ -8,7 +8,7 @@ import RegularText from '@/components/text/RegularText.vue';
 import ButtonOrange from '@/components/ui/ButtonOrange.vue';
 import { scrollToUp } from '@/utils/scrollToUp';
 import { shareLink } from '@/utils/shareLink';
-import fetchProductById from '@/utils/fetchProductById';
+import fetchProductById from '@/utils/products/fetchProductById';
 import SectionCards from '@/components/SectionCards.vue';
 const route = useRoute();
 const router = useRouter();
