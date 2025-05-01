@@ -8,6 +8,7 @@ export const useUserStore = defineStore('user', {
     actions: {
         setUser(user) {
             this.user = user
+            setLocalStorage('user', this.user);
         },
         resetUser() {
             this.user = null;

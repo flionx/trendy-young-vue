@@ -64,28 +64,38 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
     if (to.meta.isAdmin) {
         try {
-            const response = await fetch(`${authApiUrl}/verify`, {
-                credentials: 'include'
-            })
-            
-            if (!response.ok) {
-                if (response.status === 403) {
-                    const accessToken = await refreshAccessToken();
-                    if (!accessToken) throw Error('Access denied');
-                } else {
-                    throw Error('Access denied');
+            const verify = await fetch(`${authApiUrl}/verify`, {
+                credentials: 'include',
+            });
+
+            if (verify.ok) return next();
+
+            if (verify.status === 401) {
+                try {
+                    await refreshAccessToken(); 
+                    const retryVerify = await fetch(`${authApiUrl}/verify`, {
+                        credentials: 'include',
+                    });
+
+                    if (retryVerify.ok) {
+                        return next();
+                    } else {
+                        throw new Error('Access denied');
+                    }
+                } catch (refreshError) {
+                    console.error('Token refresh failed:', refreshError.message);
+                    throw new Error('Failed to refresh token');
                 }
             }
-            next();
+            
+            throw new Error('Access denied');
         } catch (error) {
+            console.error('Admin verification failed:', error.message);
             localStorage.clear();
-            location.reload();
-            console.log('Admin verification failed:', error);
-            next('/');
+            return next('/'); 
         }
-
     } else {
-        next();
+        next(); // other path
     }
 });
 

@@ -42,6 +42,7 @@
     --edit-url: url('/icons/edit.svg');
     --avatar-url: url('/icons/avatar.svg');
     --logout-url: url('/icons/logout.svg');
+    --copy-url: url('/icons/copy.svg');
     
     --men-url: url('/mainPage/men.jpg');
     --women-url: url('/mainPage/women.jpg');

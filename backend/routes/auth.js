@@ -45,7 +45,7 @@ router.post('/login', async (req, res) => {
         )
 
         const refreshToken = randomBytes(32).toString('hex');
-        const refreshTokenExpires = new Date(Date.now() + 7 * 24); // 7 * 24 * 60 * 60 * 1000  7 days
+        const refreshTokenExpires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000 ); //   7 days
 
         const tokenCount = await RefreshToken.countDocuments({ userId: user._id });
         if (tokenCount >= 3) {
@@ -82,22 +82,35 @@ router.get('/refresh', async (req, res) => {
     if (!storedToken || storedToken.expiresAt < new Date()) {
         return res.status(403).json({ message: 'Invalid or expired refresh token' });
     }
-
+    
     const user = await User.findById(storedToken.userId);
     const newAccessToken = jwt.sign(
         { userId: user._id, login: user.login, role: user.role },
         JWT_SECRET,
         { expiresIn: '1h' }
     );
-
+    
     res.cookie('accessToken', newAccessToken, {
         ...cookieOptions,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+        maxAge: 60 * 60 * 1000,
     })
+    return res.status(201).json({ message: 'AccessToken created' });
 });
 
-router.get('/verify', checkAuthToken, checkIsAdmin, async (req, res) => {
+router.get('/verify', checkAuthToken, checkIsAdmin, (req, res) => {
     res.json({ message: 'User is Admin' });
+})
+
+router.get('/logout', checkAuthToken, async (req, res) => {
+    try {
+        await RefreshToken.deleteOne({ token: req.cookies.refreshToken })
+    
+        res.clearCookie('accessToken', cookieOptions);
+        res.clearCookie('refreshToken', cookieOptions);
+        res.json({ message: 'User logged out' });
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
 })
 
 export default router

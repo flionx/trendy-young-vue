@@ -8,7 +8,7 @@ const logIn = async (login, password) => {
         credentials: 'include',
         body: JSON.stringify({ login, password })
     })
-    if (!response.status === 200) return false;
+    if (!response.ok) return false;
 
     const user = await response.json();
     setLocalStorage('user', user)

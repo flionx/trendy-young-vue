@@ -4,6 +4,7 @@ import ModalUserProfile from './ModalUserProfile.vue';
 import { useUserStore } from '@/app/store/user';
 import IconUser from './ui/icons/IconUser.vue';
 import IconLogout from './ui/icons/IconLogout.vue';
+import logOut from '@/utils/auth/logOut';
 
 const isAuthForm = defineModel('isAuthForm');
 const isOpen = ref(false);
@@ -13,10 +14,12 @@ function openAuthModal() {
     isOpen.value = false;
     isAuthForm.value = true;
 }
-function logout() {
+async function logout() {
     isOpen.value = false;
+    await logOut();
     userStore.resetUser();
     localStorage.clear();
+    // location.reload();
 }
 </script>
 

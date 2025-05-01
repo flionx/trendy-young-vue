@@ -37,6 +37,14 @@ button::after {
     background-size: cover;
     background-position: center;
 }
+.like-done::after {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-image: var(--likeDone-url);
+    background-size: cover;
+    background-position: center;
+}
 .cart {
     padding-left: 44px !important;
 }
