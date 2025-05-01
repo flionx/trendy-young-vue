@@ -3,13 +3,16 @@ import { setLocalStorage } from '@/utils/localStorageUtils';
 import RegularText from './text/RegularText.vue';
 import { useUserStore } from '@/app/store/user';
 import IconLogout from './ui/icons/IconLogout.vue';
+import logOut from '@/utils/auth/logOut';
 const isModalProfile = defineModel('isModalProfile');
 const userStore = useUserStore();
 
-function logout() {
+async function logout() {
     isModalProfile.value = false;
+    await logOut();
     userStore.resetUser();
     localStorage.clear();
+    // location.reload();
 }
 </script>
 

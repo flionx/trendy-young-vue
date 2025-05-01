@@ -1,36 +1,22 @@
 <script setup>
-import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import ProductPrice from './ProductPrice.vue';
 import RegularText from './text/RegularText.vue';
 import BoldText from './text/BoldText.vue';
+import { useAddToStore } from '@/hooks/useAddToStore';
+import { computed } from 'vue';
 import { useWishlistStore } from '@/app/store/wishlist';
-import useBasketStore from '@/app/store/basket';
-import { useModalStore } from '@/app/store/modal';
 const props = defineProps({
     product: Object,
 })
-const wishlistStore = useWishlistStore();
-const basketStore = useBasketStore();
 const router = useRouter();
-const modalStore = useModalStore();
-
+const wishlistStore = useWishlistStore();
 const isLike = computed(() => 
     wishlistStore.products.some(product => product._id === props.product._id)
 );
-function addToBasket(product) {
-    basketStore.addToBasket(product)
-    modalStore.setModal('Added to Cart', 'basket')
-}
-function toggleWishlist(product) {    
-    if (isLike.value) { 
-        wishlistStore.deleteFromWishlist(product._id);
-        modalStore.setModal('Removed from Wishlist', 'like');
-    } else {
-        wishlistStore.addToWishlist(product);
-        modalStore.setModal('Added to Wishlist', 'like');
-    }
-}
+
+const {addToBasket, toggleWishlist} = useAddToStore()
+
 function goToProductPage(product) {
     router.push(`/product/${product._id}`)
 }
@@ -40,7 +26,7 @@ function goToProductPage(product) {
     <div class="card">
         <button class="card__like" 
             :class="isLike ? 'like-done' : ''" 
-            @click="toggleWishlist(product)" 
+            @click="toggleWishlist(product, isLike)" 
             title="add to wishlist">
         </button>
         <button class="card__image" @click="goToProductPage(product)">
@@ -102,6 +88,16 @@ function goToProductPage(product) {
 }
 .card__brand {
     font-size: 12px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden; 
+}
+.card__type {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden; 
 }
 
 .card__add {

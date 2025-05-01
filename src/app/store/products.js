@@ -30,9 +30,7 @@ export const useProductsStore = defineStore('products', {
                     return;
                 }
                 
-                console.log('Fetching data using filters:', normalizedFilters);
                 const products = await fetchProducts(normalizedFilters);
-                
                 this.products = products;
                 this.lastFilters = normalizedFilters;
                 

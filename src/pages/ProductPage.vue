@@ -1,24 +1,36 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
-import { onMounted, ref, watchEffect } from 'vue';
+import { computed, ref, watch, watchEffect } from 'vue';
 import ProductPrice from '@/components/ProductPrice.vue';
 import BoldText from '@/components/text/BoldText.vue';
 import MiddleTitle from '@/components/text/MiddleTitle.vue';
 import RegularText from '@/components/text/RegularText.vue';
 import ButtonOrange from '@/components/ui/ButtonOrange.vue';
 import { scrollToUp } from '@/utils/scrollToUp';
-import { shareLink } from '@/utils/shareLink';
 import fetchProductById from '@/utils/products/fetchProductById';
 import SectionCards from '@/components/SectionCards.vue';
-const route = useRoute();
+import { useAddToStore } from '@/hooks/useAddToStore';
+import { useWishlistStore } from '@/app/store/wishlist';
+import useClipboard from '@/hooks/useClipboard';
+const wishlistStore = useWishlistStore();
 const router = useRouter();
-const product = ref({});
+const route = useRoute();
 
-watchEffect(async () => {
-    const currProduct = await fetchProductById(route.params.id) 
+const product = ref({});
+const productId = computed(() => route.params.id);
+const isLike = computed(() => 
+    wishlistStore.products.some(prod => prod._id === route.params.id)
+);
+
+watch(productId, async (newId) => {
+    isLike.value = wishlistStore.products.some(p => p._id === newId);
+    const currProduct = await fetchProductById(productId.value) 
     product.value = currProduct;
     scrollToUp();
-})
+}, { immediate: true })
+
+const {addToBasket, toggleWishlist} = useAddToStore();
+const {shareLink} = useClipboard();
 
 function shareOrCopy() {
     shareLink(window.location.href)
@@ -46,8 +58,13 @@ function shareOrCopy() {
                     <div class="teg">#{{ product.type }}</div>
                 </div>
                 <div class="row right">
-                    <ButtonOrange class="like"></ButtonOrange>
-                    <ButtonOrange>Add to Cart</ButtonOrange>
+                    <ButtonOrange :class="isLike ? 'like-done' : 'like'"
+                        @click="toggleWishlist(product, isLike)" 
+                        title="add to wishlist">
+                    </ButtonOrange>
+                    <ButtonOrange title="add to basket" 
+                        @click="addToBasket(product)">Add to Cart
+                    </ButtonOrange>
                 </div>
             </div>
             <div class="card__description">

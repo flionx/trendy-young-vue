@@ -45,14 +45,16 @@ async function createUser(currLogin, currPassword) {
             }
         } catch (error) {
             console.log('Error when creating an account:', error);
-            modalStore.setModal('Error when creating an account:', '');
+            modalStore.setModal('Error when creating an account', '');
         }
     }
 }
 async function loginUser(login, password) {
     if (validateUsersInput(login, password)) {
         try {
-            const userData = await logIn(login, password);            
+            const userData = await logIn(login, password);  
+            if (!userData) throw new Error("Unable to log in to account");
+                    
             userStore.setUser(userData);
             isAuthForm.value = false;
             if (userData.role === 'admin') {
@@ -60,7 +62,7 @@ async function loginUser(login, password) {
             }
         } catch (error) {
             console.log('Error when logging in to the account:', error);
-            modalStore.setModal('Error when logging in to the account:', '');        
+            modalStore.setModal('Error when logging in to the account', '');        
         }
     }
 }

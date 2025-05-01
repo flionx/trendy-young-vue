@@ -10,7 +10,7 @@
                 <MiddleTitle>{{ card.description }}</MiddleTitle>
                 <BigTitle>{{ card.sale }}</BigTitle>
             </template>
-            <router-link to='/'>
+            <router-link to='/store/all?type=casual'>
                 <RegularText>Learn more</RegularText>
             </router-link>
         </div>
