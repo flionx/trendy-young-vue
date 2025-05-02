@@ -16,6 +16,7 @@ app.use(cors({
     origin: [
         'http://localhost:5173',
         'http://localhost:5174',
+        'https://trendy-young.vercel.app/'
         // domain <----
     ],
     credentials: true,
@@ -25,11 +26,7 @@ app.use(cookieParser())
 app.use('/api/auth', registerRoute);
 app.use('/api/product', productRoute);
 
-// app.listen(PORT, (err) => {
-//     if (err) console.log(err);
-//     console.log('The server was running on port ' + PORT);
-// })
-
-export default (req, res) => {
-    return app(req, res);
-};
+app.listen(PORT, (err) => {
+    if (err) console.log(err);
+    console.log('The server was running on port ' + PORT);
+})
