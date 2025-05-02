@@ -23,10 +23,10 @@ const isLike = computed(() =>
 );
 
 watch(productId, async (newId) => {
+    scrollToUp();
     isLike.value = wishlistStore.products.some(p => p._id === newId);
     const currProduct = await fetchProductById(productId.value) 
     product.value = currProduct;
-    scrollToUp();
 }, { immediate: true })
 
 const {addToBasket, toggleWishlist} = useAddToStore();

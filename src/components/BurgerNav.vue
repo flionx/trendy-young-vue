@@ -19,8 +19,8 @@ async function logout() {
     await logOut();
     userStore.resetUser();
     localStorage.clear();
-    // location.reload();
 }
+
 </script>
 
 <template>
@@ -29,7 +29,8 @@ async function logout() {
         <span></span>
         <span></span>
     </button>
-    <nav class="menu" :class="{'menu-open': isOpen}">
+    <div v-if="isOpen" class="bg" @click="isOpen = false"></div>
+    <nav class="menu" ref="menuRef" :class="{'menu-open': isOpen}">
         <router-link to="/store/all">Catalog</router-link>
         <router-link to="/store/user/wishlist">Wishlist</router-link>
         <router-link to="/store/user/basket">Cart</router-link>
@@ -61,12 +62,17 @@ async function logout() {
     border-radius: 5px;
     background: #000;
 }
+.bg {
+    position: fixed;
+    inset: 0;
+    background: transparent;
+    z-index: 10;
+}
 .menu {
     width: 400px;
-    /* height: 250px; */
     display: none;
     transition: all .3s ease;
-    top: -100%;
+    top: 80px;
     left: 50%;
     transform: translate(-50%);
     flex-direction: column;
@@ -82,7 +88,6 @@ async function logout() {
 }
 .menu-open {
     display: flex; 
-    top: 50px;
 }
 .menu a {
     width: 100%;

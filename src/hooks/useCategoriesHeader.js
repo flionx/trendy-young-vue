@@ -1,5 +1,6 @@
 import { useProductsStore } from "@/app/store/products";
-import { computed, ref, watch, watchEffect } from "vue";
+import { scrollToUp } from "@/utils/scrollToUp";
+import { computed, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 // how terrible it looks...
 const useCategoriesHeader = () => {
@@ -38,6 +39,15 @@ const useCategoriesHeader = () => {
       },
       { deep: true, immediate: true }
     );
+    onMounted(async () => {
+      scrollToUp();
+      if (!productsStore.loading && productsStore.products.length === 0) {
+        await productsStore.loadProducts({
+          type: activeType.value,
+          target: route.params.category === 'all' ? '' : route.params.category,
+        });
+      }
+    })
     return { isCatalog, headerTitle, linkToPage, isActiveTarget, activeType }
 }
 
