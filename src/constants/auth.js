@@ -1,1 +1,1 @@
-export const authApiUrl = 'http://localhost:5000/api/auth';
+export const authApiUrl = import.meta.env.VITE_API_URL + '/api/auth';

@@ -25,7 +25,11 @@ app.use(cookieParser())
 app.use('/api/auth', registerRoute);
 app.use('/api/product', productRoute);
 
-app.listen(PORT, (err) => {
-    if (err) console.log(err);
-    console.log('The server was running on port ' + PORT);
-})
+// app.listen(PORT, (err) => {
+//     if (err) console.log(err);
+//     console.log('The server was running on port ' + PORT);
+// })
+
+export default (req, res) => {
+    return app(req, res);
+};
