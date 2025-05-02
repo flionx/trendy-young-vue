@@ -30,3 +30,4 @@ src/app/store/test.js
 *.sw?
 
 *.tsbuildinfo
+.vercel
