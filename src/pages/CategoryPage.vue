@@ -6,5 +6,5 @@ const productsStore = useProductsStore();
 </script>
 
 <template>
-    <RowCards :products="productsStore.products"></RowCards>
+    <RowCards :products="productsStore.products" :loading="productsStore.loading"></RowCards>
 </template>

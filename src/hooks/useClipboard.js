@@ -8,7 +8,7 @@ const useClipboard = () => {
             try {
                 await navigator.share({
                 title: 'Trendy Young',
-                text: 'Modern, Comfortable, Fashionable',
+                text: '',
                 url: href
             })   
             } catch (error) {

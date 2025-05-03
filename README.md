@@ -40,6 +40,12 @@ Trendy Young is a modern online fashion store for all ages and styles. The range
 
 - MongoDB - database for storing information about products, users and orders.
 
+## Hosting
+
+- Frontend - Vercel.
+
+- Server side - Render.
+
 ## License  
 
 This project is distributed under the MIT license. See the [LICENSE](LICENSE). file for details.

@@ -7,7 +7,9 @@ const popProductsStore = usePopProductsStore();
 
 const modalStore = useModalStore();
 onMounted(async () => {
+  if (popProductsStore.products.length < 4) {
     await popProductsStore.loadProducts();
+  }
 })
 </script>
 
