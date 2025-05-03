@@ -1,6 +1,6 @@
 <script setup>
 import SkeletonButton from './SkeletonButton.vue';
-import SkeletonLine from './skeletonLine.vue';
+import SkeletonLine from './SkeletonLine.vue';
 
 </script>
 
