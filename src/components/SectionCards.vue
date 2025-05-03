@@ -17,7 +17,10 @@ const popProductsStore = usePopProductsStore();
             <h3><MiddleTitle>{{ title }}</MiddleTitle></h3>
             <router-link to="/store/all">See all</router-link>
         </div>
-        <RowCards :products="popProductsStore.products" isPopular></RowCards>
+        <RowCards isPopular
+            :products="popProductsStore.products" 
+            :loading="popProductsStore.loading">
+        </RowCards>
     </section>
 </template>
 

@@ -53,6 +53,22 @@
     --formal-url: url('/mainPage/formal.jpg');
     --sport-url: url('/mainPage/sport.jpg');
     --sleep-url: url('/mainPage/sleep.jpg');
+
+    --skeleton-base: #F2F2F2; 
+    --skeleton-highlight: #ffffff; 
+    --skeleton-dark-base: #555555; 
+    --skeleton-dark-highlight: #777777;
+}
+.dark-theme {
+    --bg-color: white;
+    --text-color: #393737;
+    --gray-main: #555555;
+    --bg-color-hover: #dddddd;
+    --bg-hover: rgba(255, 255, 255, 0.05);
+    --bg-active-hover: rgba(255, 255, 255, 0.1);
+
+    --skeleton-base: var(--skeleton-dark-base);
+    --skeleton-highlight: var(--skeleton-dark-highlight);
 }
 
 * {
@@ -76,13 +92,4 @@ a {
 }
 input {
     border: none;
-}
-
-.dark-theme {
-    --bg-color: white;
-    --text-color: #393737;
-    --gray-main: #555555;
-    --bg-color-hover: #dddddd;
-    --bg-hover: rgba(255, 255, 255, 0.05);
-    --bg-active-hover: rgba(255, 255, 255, 0.1);
 }

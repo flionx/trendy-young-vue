@@ -1,15 +1,21 @@
 <template>
     <div class="row" :class="{'row-fit': isPopular}">
-        <ProductCard v-for="product in products" :product="product" :key="product._id"></ProductCard>
+        <template v-if="loading">
+            <LoadingProductCard v-for="i in 4"/>
+        </template>
+        <template v-else>
+            <ProductCard v-for="product in products" :product="product" :key="product._id"></ProductCard>
+        </template>
     </div>
 </template>
 
 <script setup>
+import LoadingProductCard from './loading/LoadingProductCard.vue';
 import ProductCard from './ProductCard.vue';
-
 const props = defineProps({
     products: Array,
     isPopular: Boolean,
+    loading: Boolean,
 })
 </script>
 
