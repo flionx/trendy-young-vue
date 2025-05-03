@@ -12,7 +12,7 @@ export const JWT_SECRET = process.env.JWT_SECRET || 'trendy-young-key';
 const cookieOptions = {
     httpOnly: true,
     secure: true,
-    sameSite: true,
+    sameSite: 'None',
 }
 
 router.post('/signup', async (req, res) => {

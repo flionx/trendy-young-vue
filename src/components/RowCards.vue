@@ -28,7 +28,7 @@ const props = defineProps({
         grid-template-columns: 1fr 1fr; 
     }
 }
-@media (max-width: 475px) {
+@media (max-width: 390px) {
     .row {
         grid-template-columns: 1fr; 
     }

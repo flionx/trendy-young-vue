@@ -49,7 +49,6 @@ function goToProductPage(product) {
 <style scoped>
 .card {
     flex: 1 1;
-    min-width: 220px;
     position: relative;
 }
 .card__image {
@@ -63,6 +62,11 @@ function goToProductPage(product) {
     z-index: 1;
     transition: .4s all;
 }
+@media (max-width: 545px) {
+    .card__image {
+        height: 250px;
+    }
+}
 .card__image:hover {
     transform: scale(1.02);
 }
@@ -74,7 +78,7 @@ function goToProductPage(product) {
 }
 .card__info {
     min-height: 101.5px;
-    padding: 25px 24px 10px 24px;
+    padding: var(--clamp24px) var(--clamp24px) var(--clamp12px) var(--clamp24px);
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -101,8 +105,8 @@ function goToProductPage(product) {
 }
 
 .card__add {
-    width: 48px;
-    height: 48px;
+    width: var(--clamp48px);
+    height: var(--clamp48px);
     position: relative;
     border-radius: 8px;
     background: var(--orange-bg);
