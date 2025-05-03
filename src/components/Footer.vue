@@ -21,10 +21,14 @@
 import ExternalLink from '@/components/ExternalLink.vue';
 import SwithCheck from './SwithCheck.vue';
 import { ref, watchEffect } from 'vue';
+import { getLocalStorage, setLocalStorage } from '@/utils/localStorageUtils';
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const preferUsersTheme = prefersDark ? 'dark' : 'light';
 
-const theme = ref('light');
+const theme = ref(getLocalStorage('theme') || preferUsersTheme);
 watchEffect(() => {
-    document.documentElement.classList.toggle('dark-theme', theme.value !== 'light')
+    setLocalStorage('theme', (theme.value))
+    document.documentElement.classList.toggle('dark-theme', theme.value !== 'light');
 })
 </script>
 
