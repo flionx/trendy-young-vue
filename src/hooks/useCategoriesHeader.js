@@ -24,8 +24,11 @@ const useCategoriesHeader = () => {
     
     watch(() => activeType.value, 
       () => {
-        if (!isOtherPage.value) {
-          router.push(`${linkToPage((route.params.category || 'all'))}?type=${activeType.value}`);
+        if (!isOtherPage.value && route.query.type !== activeType.value) {
+          router.push({ 
+            path: linkToPage(route.params.category || 'all'),
+            query: { type: activeType.value }
+          });
         }
       },{ deep: true}
     );

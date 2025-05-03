@@ -12,11 +12,13 @@ import SectionCards from '@/components/SectionCards.vue';
 import { useAddToStore } from '@/hooks/useAddToStore';
 import { useWishlistStore } from '@/app/store/wishlist';
 import useClipboard from '@/hooks/useClipboard';
+import LoadingProductPage from '@/components/loading/LoadingProductPage.vue';
 const wishlistStore = useWishlistStore();
 const router = useRouter();
 const route = useRoute();
 
 const product = ref({});
+const loading = ref(false);
 const productId = computed(() => route.params.id);
 const isLike = computed(() => 
     wishlistStore.products.some(prod => prod._id === route.params.id)
@@ -24,9 +26,11 @@ const isLike = computed(() =>
 
 watch(productId, async (newId) => {
     scrollToUp();
+    loading.value = true;
     isLike.value = wishlistStore.products.some(p => p._id === newId);
-    const currProduct = await fetchProductById(productId.value) 
+    const currProduct = await fetchProductById(productId.value);
     product.value = currProduct;
+    loading.value = false;
 }, { immediate: true })
 
 const {addToBasket, toggleWishlist} = useAddToStore();
@@ -38,7 +42,7 @@ function shareOrCopy() {
 </script>
 
 <template>
-    <section class="card" v-if="product.name">
+    <section class="card" v-if="product.name && !loading">
         <div class="card__img">
             <img :src="product.img" alt="product image">
             <router-link to="/" class="back"></router-link>
@@ -73,8 +77,8 @@ function shareOrCopy() {
             </div>
         </div>
     </section>
-    <!-- loading and error components -->
-     <template v-else>
+    <LoadingProductPage v-if="loading"/>
+     <template v-else-if="!product.name && !loading">
         <h1 class="error">ERROR</h1>
         <router-link to="/">{{ '<---GO HOME ^^' }}</router-link>
      </template>
@@ -213,7 +217,7 @@ function shareOrCopy() {
     padding: 8px 16px;
     background: var(--orange-bg);
     color: var(--orange-text);
-    border-radius: 32px;
+    border-radius: clamp(15px, 1.3vw, 32px);
     margin-bottom: 10px;
 }
 </style>

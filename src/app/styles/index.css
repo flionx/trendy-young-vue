@@ -93,3 +93,34 @@ a {
 input {
     border: none;
 }
+
+.skeleton-pulse {
+    position: relative;
+    overflow: hidden;
+    background: var(--gray-light-text);
+    animation: subtlePulse 2s infinite ease-in-out;
+}
+
+.skeleton-pulse::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        transparent 100%
+    );
+    animation: shimmer 1.5s infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes subtlePulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.5; } 
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-150%); }
+    100% { transform: translateX(150%); }
+}
