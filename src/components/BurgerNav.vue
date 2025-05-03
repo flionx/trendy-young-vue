@@ -60,7 +60,7 @@ async function logout() {
     width: 100%;
     height: 3px;
     border-radius: 5px;
-    background: #000;
+    background: var(--bg-color);
 }
 .bg {
     position: fixed;

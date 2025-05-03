@@ -58,8 +58,8 @@ function shareOrCopy() {
             </div>
             <div class="card__btns">
                 <div class="row">
-                    <div class="teg">#{{ product.target }}</div>
-                    <div class="teg">#{{ product.type }}</div>
+                    <router-link :to="`/store/${product.target}`" class="teg">#{{ product.target }}</router-link>
+                    <router-link :to="`/store/all?type=${product.type}`" class="teg">#{{ product.type }}</router-link>
                 </div>
                 <div class="row right">
                     <ButtonOrange :class="isLike ? 'like-done' : 'like'"

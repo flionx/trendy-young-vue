@@ -29,15 +29,14 @@ p {
 }
 .row {
     width: 100%;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));    
     gap: var(--column-gap);
 }
 .row a {
-    display: flex;
-    min-width: 220px;
-    height: 385px;
     flex: 1 1;
+    display: flex;
+    height: 385px;
     padding: 24px;
     color: black;
     border-radius: 16px;
@@ -45,6 +44,14 @@ p {
     background-repeat: no-repeat;
     background-size: cover;
     transition: .5s all;
+}
+@media (max-width: 545px) {
+    .row {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));    
+    }
+    .row a {
+        height: clamp(250px, 55vw, 300px);;
+    }
 }
 .row a:hover {
     transform: translateY(-2px);
