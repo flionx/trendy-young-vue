@@ -7,8 +7,9 @@ import { usePopProductsStore } from '@/app/store/popularProducts';
 import RowCards from './RowCards.vue';
 const props = defineProps({
     title: String,
+    products: Array,
+    loading: Boolean,
 })
-const popProductsStore = usePopProductsStore();
 </script>
 
 <template>
@@ -17,9 +18,9 @@ const popProductsStore = usePopProductsStore();
             <h3><MiddleTitle>{{ title }}</MiddleTitle></h3>
             <router-link to="/store/all">See all</router-link>
         </div>
-        <RowCards isPopular
-            :products="popProductsStore.products" 
-            :loading="popProductsStore.loading">
+        <RowCards isRowFit
+            :products="products" 
+            :loading="loading">
         </RowCards>
     </section>
 </template>

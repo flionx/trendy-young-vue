@@ -13,7 +13,9 @@ import { useAddToStore } from '@/hooks/useAddToStore';
 import { useWishlistStore } from '@/app/store/wishlist';
 import useClipboard from '@/hooks/useClipboard';
 import LoadingProductPage from '@/components/loading/LoadingProductPage.vue';
+import useSimilarStore from '@/app/store/similarProducts';
 const wishlistStore = useWishlistStore();
+const similarProducts = useSimilarStore();
 const router = useRouter();
 const route = useRoute();
 
@@ -30,7 +32,8 @@ watch(productId, async (newId) => {
     isLike.value = wishlistStore.products.some(p => p._id === newId);
     const currProduct = await fetchProductById(productId.value);
     product.value = currProduct;
-    loading.value = false;
+    loading.value = false;    
+    await similarProducts.loadProducts(currProduct._id);
 }, { immediate: true })
 
 const {addToBasket, toggleWishlist} = useAddToStore();
@@ -82,7 +85,10 @@ function shareOrCopy() {
         <h1 class="error">ERROR</h1>
         <router-link to="/">{{ '<---GO HOME ^^' }}</router-link>
      </template>
-    <SectionCards title="Similar products"/>
+    <SectionCards title="Similar products" 
+        :products="similarProducts.products"
+        :loading="loading || similarProducts.loading"
+    />
 </template>
 
 <style scoped>

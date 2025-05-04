@@ -11,7 +11,7 @@ export const useModalStore = defineStore('modal', {
     isHiding: false, 
   }),
   actions: {
-    async setModal(newText, newClass) {
+    async setModal(newText, newClass = '') {
       this.clearTimers();
       this.text = newText;
       this.className = newClass;

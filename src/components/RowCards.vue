@@ -1,5 +1,5 @@
 <template>
-    <div class="row" :class="{'row-fit': isPopular}">
+    <div class="row" :class="{'row-fit': isRowFit}">
         <template v-if="loading">
             <LoadingProductCard v-for="i in 4"/>
         </template>
@@ -14,7 +14,7 @@ import LoadingProductCard from './loading/LoadingProductCard.vue';
 import ProductCard from './ProductCard.vue';
 const props = defineProps({
     products: Array,
-    isPopular: Boolean,
+    isRowFit: Boolean,
     loading: Boolean,
 })
 </script>

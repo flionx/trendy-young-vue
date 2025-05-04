@@ -5,22 +5,19 @@ import { useUserStore } from '@/app/store/user';
 import IconUser from './ui/icons/IconUser.vue';
 import IconLogout from './ui/icons/IconLogout.vue';
 import logOut from '@/utils/auth/logOut';
-
+import useLogout from '@/hooks/useLogout';
 const isAuthForm = defineModel('isAuthForm');
 const isOpen = ref(false);
 const userStore = useUserStore();
 
 function openAuthModal() {
-    isOpen.value = false;
+    closeMenuModal();
     isAuthForm.value = true;
 }
-async function logout() {
+function closeMenuModal() {
     isOpen.value = false;
-    await logOut();
-    userStore.resetUser();
-    localStorage.clear();
 }
-
+const logout = useLogout(closeMenuModal);
 </script>
 
 <template>
