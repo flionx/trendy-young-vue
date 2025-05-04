@@ -32,6 +32,7 @@ defineProps({
 <style scoped>
 .card {
     overflow: hidden;
+    min-height: 190px;
     max-height: 352px;
     padding-left: 24px;
     width: 100%;

@@ -27,6 +27,16 @@ router.get('/find', async (req, res) => {
         return res.status(400).json({ error: 'Failed to fetch products', details: error.message });
     }
 });
+router.get('/random', async (req, res) => {
+    try {
+        const randomProducts = await Product.aggregate([ 
+            { $sample: { size: 4 } } 
+        ]);
+        return res.status(200).json({ products: randomProducts });
+    } catch (error) {
+        return res.status(400).json({ error: 'Failed to fetch random products', details: error.message });
+    }
+});
 
 router.get('/find/:id', async (req, res) => {
     const { id } = req.params;
@@ -36,6 +46,40 @@ router.get('/find/:id', async (req, res) => {
         return res.status(200).json({ product });
     } catch (error) {
         return res.status(400).json({ error: 'Failed to fetch product', details: error.message });
+    }
+});
+router.get('/:id/similar', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const product = await Product.findById(id);
+        if (!product) return res.status(404).json({ error: 'Product not found' });
+
+        let similarProducts = await Product.aggregate([
+            {$match: {
+                type: product.type,
+                target: product.target,
+                _id: { $ne: product._id },
+            }},
+            {$sample: { size: 4 }}
+        ]);
+
+        if (similarProducts.length < 4) {
+            const existingIds = similarProducts.map(prod => prod._id);
+            existingIds.push(product._id);
+
+            const needProducts = await Product.aggregate([
+                {$match: {
+                    target: product.target,
+                    _id: { $nin: existingIds },
+                }},
+                {$sample: {size: 4 - similarProducts.length}}
+            ]);
+            similarProducts = [...similarProducts, ...needProducts];
+        }
+
+        return res.status(200).json({ products: similarProducts });
+    } catch (error) {
+        return res.status(400).json({ error: 'Failed to fetch similar products', details: error.message });
     }
 });
 

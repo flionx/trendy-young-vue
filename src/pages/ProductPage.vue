@@ -13,7 +13,9 @@ import { useAddToStore } from '@/hooks/useAddToStore';
 import { useWishlistStore } from '@/app/store/wishlist';
 import useClipboard from '@/hooks/useClipboard';
 import LoadingProductPage from '@/components/loading/LoadingProductPage.vue';
+import useSimilarStore from '@/app/store/similarProducts';
 const wishlistStore = useWishlistStore();
+const similarProducts = useSimilarStore();
 const router = useRouter();
 const route = useRoute();
 
@@ -30,7 +32,8 @@ watch(productId, async (newId) => {
     isLike.value = wishlistStore.products.some(p => p._id === newId);
     const currProduct = await fetchProductById(productId.value);
     product.value = currProduct;
-    loading.value = false;
+    loading.value = false;    
+    await similarProducts.loadProducts(currProduct._id);
 }, { immediate: true })
 
 const {addToBasket, toggleWishlist} = useAddToStore();
@@ -58,8 +61,8 @@ function shareOrCopy() {
             </div>
             <div class="card__btns">
                 <div class="row">
-                    <div class="teg">#{{ product.target }}</div>
-                    <div class="teg">#{{ product.type }}</div>
+                    <router-link :to="`/store/${product.target}`" class="teg">#{{ product.target }}</router-link>
+                    <router-link :to="`/store/all?type=${product.type}`" class="teg">#{{ product.type }}</router-link>
                 </div>
                 <div class="row right">
                     <ButtonOrange :class="isLike ? 'like-done' : 'like'"
@@ -82,7 +85,10 @@ function shareOrCopy() {
         <h1 class="error">ERROR</h1>
         <router-link to="/">{{ '<---GO HOME ^^' }}</router-link>
      </template>
-    <SectionCards title="Similar products"/>
+    <SectionCards title="Similar products" 
+        :products="similarProducts.products"
+        :loading="loading || similarProducts.loading"
+    />
 </template>
 
 <style scoped>
@@ -206,6 +212,9 @@ function shareOrCopy() {
     padding: 5px 10px;
     background: var(--gray-main);
     color: var(--orange-text);
+}
+.teg:hover {
+    text-decoration: underline;
 }
 .card__description {
 }

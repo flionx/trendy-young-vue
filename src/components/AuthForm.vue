@@ -126,7 +126,7 @@ async function loginUser(login, password) {
 }
 dialog {
     position: relative;
-    width: 430px;
+    width: min(430px, 95%);
     top: 50%;
     left: 50%;
     z-index: 5;
@@ -134,7 +134,7 @@ dialog {
     background: white;
     border: 1px solid var(--gray-light-text);
     border-radius: 16px;
-    padding: 30px 60px;
+    padding: 30px clamp(15px, 4.1vw, 60px);
 }
 h2 {
     text-align: center;
@@ -157,6 +157,9 @@ input {
 .forgot {
     margin-left: auto;
     background: transparent;
+}
+.forgot:hover {
+   text-decoration: underline;
 }
 .small-text {
     font-weight: 400;

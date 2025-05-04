@@ -1,6 +1,6 @@
-import { fetchProducts } from "@/utils/products/fetchProducts";
-import { getLocalStorage } from "@/utils/localStorageUtils";
 import { defineStore } from "pinia";
+import { fetchRandomProducts } from "@/utils/products/fetchRandomProducts";
+import { getLocalStorage, setLocalStorage } from "@/utils/localStorageUtils";
 
 export const usePopProductsStore = defineStore('popProduct', {
     state: () => ({
@@ -16,9 +16,9 @@ export const usePopProductsStore = defineStore('popProduct', {
                     this.products = cashedProducts;
                     return;
                 }                
-                const products = await fetchProducts();   
-                const fourProducts = products.length > 4 ? products.slice(0, 4) : products;            
-                this.products = fourProducts;
+                const products = await fetchRandomProducts();   
+                this.products = products;
+                setLocalStorage('popular-products', this.products)
             } catch (error) {
                 console.log('Error when fetching items from the DB: ', error);
             } finally {

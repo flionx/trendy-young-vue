@@ -12,7 +12,6 @@ import { useUserStore } from '@/app/store/user';
 import IconUser from './ui/icons/IconUser.vue';
 const isAuthForm = defineModel('isAuthForm');
 const isModalProfile = ref(false);
-
 const userStore = useUserStore();
 </script>
 
