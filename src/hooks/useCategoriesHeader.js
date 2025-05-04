@@ -44,7 +44,7 @@ const useCategoriesHeader = () => {
     );
     onMounted(async () => {
       scrollToUp();
-      if (!productsStore.loading && productsStore.products.length === 0) {
+      if (!productsStore.loading) {
         await productsStore.loadProducts({
           type: activeType.value,
           target: route.params.category === 'all' ? '' : route.params.category,

@@ -213,6 +213,9 @@ function shareOrCopy() {
     background: var(--gray-main);
     color: var(--orange-text);
 }
+.teg:hover {
+    text-decoration: underline;
+}
 .card__description {
 }
 .card__description p {

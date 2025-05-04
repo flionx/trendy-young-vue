@@ -66,7 +66,7 @@ const logout = useLogout(closeMenuModal);
     z-index: 10;
 }
 .menu {
-    width: 400px;
+    width: min(400px, 95%);
     display: none;
     transition: all .3s ease;
     top: 80px;
