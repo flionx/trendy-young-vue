@@ -29,3 +29,7 @@ app.listen(PORT, (err) => {
     if (err) console.log(err);
     console.log('The server was running on port ' + PORT);
 })
+
+app.get('/ping', (req, res) => {
+  res.status(200).send('OK');
+});
